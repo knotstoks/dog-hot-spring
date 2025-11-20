@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace ProjectRuntime.Gameplay
+namespace ProjectRuntime.Managers
 {
     public class BattleManager : MonoBehaviour
     {
@@ -13,6 +13,9 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField, Header("Editor Cheats")]
         private int EditorIdToLoad { get; set; } = 1;
+
+        [field: SerializeField, Header("Scene References")]
+        public Transform PuzzleGridTransform { get; private set; }
 
         private void Awake()
         {
