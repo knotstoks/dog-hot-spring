@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc836d42b34d1c4c82917d3926bd134, type: 3}
+  m_Name: DWorld
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField:
+  - <WorldId>k__BackingField: LEVEL_1_1
+    <WorldName>k__BackingField: Audition
+    <RealmNumber>k__BackingField: 1
+    <StageNumber>k__BackingField: 1
+    <PrefabName>k__BackingField: level/level_1_1.prefab
+    <BronzeTime>k__BackingField: 16
+    <SilverTime>k__BackingField: 13
+    <GoldTime>k__BackingField: 10
+    <StartRotation>k__BackingField: 0,45,0
+  - <WorldId>k__BackingField: LEVEL_1_2
+    <WorldName>k__BackingField: Show me your moves!
+    <RealmNumber>k__BackingField: 1
+    <StageNumber>k__BackingField: 2
+    <PrefabName>k__BackingField: level/level_1_2.prefab
+    <BronzeTime>k__BackingField: 24
+    <SilverTime>k__BackingField: 20
+    <GoldTime>k__BackingField: 16
+    <StartRotation>k__BackingField: 
