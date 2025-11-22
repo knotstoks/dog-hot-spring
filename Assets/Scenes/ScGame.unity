@@ -172,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4873202006526866493, guid: 8cfa1a21b57e52e46a33998629492560, type: 3}
       propertyPath: <EditorTileColor>k__BackingField
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7439222321343710707, guid: 8cfa1a21b57e52e46a33998629492560, type: 3}
       propertyPath: m_Name
@@ -682,7 +682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4873202006526866493, guid: 18c5fdd0f98484758a510818bfa9901c, type: 3}
       propertyPath: <EditorTileColor>k__BackingField
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7439222321343710707, guid: 18c5fdd0f98484758a510818bfa9901c, type: 3}
       propertyPath: m_Name

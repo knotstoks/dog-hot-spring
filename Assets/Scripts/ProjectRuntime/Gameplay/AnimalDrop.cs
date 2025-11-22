@@ -31,8 +31,14 @@ namespace ProjectRuntime.Gameplay
             this.AnimalCollider.isTrigger = isTrigger;
         }
 
-        public async void Drop() //BathSlideTile bathSlideTile
+        public async void Drop(BathSlideTile bathSlideTile)
         {
+            if (bathSlideTile == null)
+            {
+                Debug.LogError("Dropped animal when CurrentlyDraggedTile is null");
+                return;
+            }
+
             // TODO: Communicate with Tile that it has dropped instantly
             GridManager.Instance.DeregisterAnimalDrop(this);
 

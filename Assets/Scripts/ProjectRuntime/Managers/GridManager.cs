@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
 using System.Collections.Generic;
 using UnityEngine;
@@ -161,7 +160,7 @@ namespace ProjectRuntime.Managers
                         this.Tiles[tileYX.y + rowY, tileYX.x + colX].HighlightTile(tile.TileColor);
                         if (this._animalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
                         {
-                            animalDrop.Drop();
+                            animalDrop.Drop(BathSlideTile.CurrentDraggedTile);
                         }
                     }
                 }
