@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -53,5 +51,7 @@ namespace ProjectRuntime.Managers
         {
             
         }
+
+        public Vector2Int GetNearestTileYX()
     }
 }

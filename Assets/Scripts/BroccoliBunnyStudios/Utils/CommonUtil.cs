@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BroccoliBunnyStudios.Pools;
+using ProjectRuntime.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -281,6 +282,32 @@ namespace BroccoliBunnyStudios.Utils
             {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(rt);
             }
+        }
+
+        public static Color32 GetHighlightTintFromTileColor(TileColor tileColor)
+        {
+            switch (tileColor)
+            {
+                case TileColor.RED:
+                    return Color.red;
+                case TileColor.BLUE:
+                    return Color.blue;
+                case TileColor.GREEN:
+                    return Color.green;
+                case TileColor.YELLOW:
+                    return Color.yellow;
+                case TileColor.ORANGE:
+                    return new Color32(255, 165, 0, 1);
+                case TileColor.WHITE:
+                    return Color.white;
+                case TileColor.BLACK:
+                    return Color.black;
+                default:
+
+                    break;
+            }
+
+            return Color.white;
         }
     }
 }
