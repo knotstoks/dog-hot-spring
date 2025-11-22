@@ -1,3 +1,7 @@
+using BroccoliBunnyStudios.Panel;
+using BroccoliBunnyStudios.Sound;
+using ProjectRuntime.Data;
+using ProjectRuntime.Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,6 +24,19 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField, Header("Scene References")]
         private float DragOffset { get; set; }
 
+        [field: SerializeField]
+        public Transform BottomLeftTransform { get; private set; }
+
+        [field: SerializeField]
+        private int TileShapeId { get; set; }
+
+        [field: SerializeField]
+        private TileColor EditorTileColor { get; set; }
+
+        public TileShape TileShape { get; private set; }
+
+        public TileColor TileColor { get; private set; }
+
         // Currently dragged tile, can be null
         public static BathSlideTile CurrentDraggedTile { get; private set; } = null;
 
@@ -30,6 +47,9 @@ namespace ProjectRuntime.Gameplay
         private ContactFilter2D _contactFilter;
         private bool _hasStartedDragging = false;
         private PointerEventData _currentEventData = null;
+        private readonly float _slowDownAmount = 0.1f;
+        private readonly float _dragSpeed = 0.2f;
+        private static Vector2Int s_lastDragTileYX; // Previous frame's tile position
 
         private List<BoxCollider2D> _myColliders;
 
@@ -41,6 +61,8 @@ namespace ProjectRuntime.Gameplay
             this._contactFilter.SetLayerMask(LayerMask.GetMask("Tiles"));
             this._contactFilter.useLayerMask = true;
             this._contactFilter.useTriggers = false;
+
+            this.Init(this.TileShapeId, TileColor.GREEN);
         }
 
         private void Update()
@@ -51,9 +73,10 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public void Init(string tileId)
+        public void Init(int tileId, TileColor tileColor)
         {
-
+            this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
+            this.TileColor = this.EditorTileColor; // TODO: TEMP
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -62,6 +85,8 @@ namespace ProjectRuntime.Gameplay
             {
                 s_currentPointerId = eventData.pointerId;
                 CurrentDraggedTile = this;
+
+                GridManager.Instance.ToggleDropColor(this.TileColor, true);
             }
         }
 
@@ -88,9 +113,9 @@ namespace ProjectRuntime.Gameplay
             {
                 return;
             }
-            if (castDirection.magnitude > 0.05f)
+            if (castDirection.magnitude > this._dragSpeed)
             {
-                castDirection = castDirection.normalized * 0.05f;
+                castDirection = castDirection.normalized * this._dragSpeed;
             }
             RaycastHit2D hit = new();
             hit.distance = float.MaxValue;
@@ -122,7 +147,7 @@ namespace ProjectRuntime.Gameplay
             }
             else
             {
-                var dist = Mathf.Max(hit.distance - 0.05f, 0f);
+                var dist = Mathf.Max(hit.distance - this._slowDownAmount, 0f);
                 var dragVector = castDirection.normalized * dist;
 
                 this.transform.position += dragVector;
@@ -164,10 +189,21 @@ namespace ProjectRuntime.Gameplay
                 }
                 else
                 {
-                    dist = Mathf.Max(hit.distance - 0.05f, 0f);
+                    dist = Mathf.Max(hit.distance - this._slowDownAmount, 0f);
                     dragVector = castDirection.normalized * dist;
                     this.transform.position += dragVector;
                 }
+            }
+
+            var gm = GridManager.Instance;
+            var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
+            var tileYX = gm.GetNearestTileYX(dragPos);
+
+            // Figure out if we are hovering over the grid and highlight tiles
+            if (tileYX != s_lastDragTileYX)
+            {
+                gm.HighlightBackgroundTilesForTile(this, tileYX);
+                s_lastDragTileYX = tileYX;
             }
         }
 
@@ -176,9 +212,16 @@ namespace ProjectRuntime.Gameplay
             if (CurrentDraggedTile != null && s_currentPointerId == eventData.pointerId)
             {
                 CurrentDraggedTile = null;
+                GridManager.Instance.ToggleDropColor(this.TileColor, false);
                 s_currentPointerId = InvalidPointerId;
                 this._hasStartedDragging = false;
                 this._currentEventData = null;
+
+                var gm = GridManager.Instance;
+                var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
+                var tileYX = gm.GetNearestTileYX(dragPos);
+
+                gm.SnapToGrid(this, tileYX);
             }
         }
 

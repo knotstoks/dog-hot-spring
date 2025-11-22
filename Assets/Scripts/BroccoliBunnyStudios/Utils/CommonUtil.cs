@@ -284,7 +284,7 @@ namespace BroccoliBunnyStudios.Utils
             }
         }
 
-        public static Color32 GetHighlightTintFromTileColor(TileColor tileColor)
+        public static Color GetHighlightTintFromTileColor(TileColor tileColor)
         {
             switch (tileColor)
             {
@@ -297,7 +297,7 @@ namespace BroccoliBunnyStudios.Utils
                 case TileColor.YELLOW:
                     return Color.yellow;
                 case TileColor.ORANGE:
-                    return new Color32(255, 165, 0, 1);
+                    return new Color(1, 0.65f, 0, 1);
                 case TileColor.WHITE:
                     return Color.white;
                 case TileColor.BLACK:

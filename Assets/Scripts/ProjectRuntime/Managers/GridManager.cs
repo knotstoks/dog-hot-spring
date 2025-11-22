@@ -1,7 +1,7 @@
+using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
-using ProjectRuntime.Managers;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace ProjectRuntime.Managers
 {
@@ -30,6 +30,9 @@ namespace ProjectRuntime.Managers
         public BackgroundTile BackgroundTilePrefab { get; private set; }
 
         [field: SerializeField]
+        public GameObject WallTilePrefab { get; private set; }
+
+        [field: SerializeField]
         public float TileWidth { get; private set; } = 1f;
 
         [field: SerializeField]
@@ -37,9 +40,6 @@ namespace ProjectRuntime.Managers
 
         [field: SerializeField]
         public float TileGap { get; private set; } = 0.1f;
-
-        [field: SerializeField]
-        public Vector2Int[] InitialUnlockedPositions { get; private set; }
 
         [field: SerializeField, Header("References")]
         public Transform TileContainer { get; private set; }
@@ -49,31 +49,60 @@ namespace ProjectRuntime.Managers
 
         // Internal variables
         private Vector3 _bottomLeftOffset;                      // Local offset from pivot of BackpackMainArea for bottomleft-most tile
+        private int _finalGridWidth;
+        private int _finalGridHeight;
+
+        // Animal Drop Tracking
+        private Dictionary<TileColor, List<AnimalDrop>> _animalDropDict;
+        private Dictionary<Vector2Int, AnimalDrop> _animalDropPositionDict;
 
         private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Debug.LogError("There are 2 or more GridManagers in the scene");
+            }
 
-            var totalWidth = this.GridWidth * this.TileWidth + (this.GridWidth - 1) * this.TileGap;
-            var totalHeight = this.GridHeight * this.TileHeight + (this.GridHeight - 1) * this.TileGap;
-            this._bottomLeftOffset = new Vector3(-totalWidth / 2, 0, -totalHeight / 2);
-            this._bottomLeftOffset += new Vector3(this.TileWidth / 2, 0, this.TileHeight / 2); // Offset as tile is anchored at center
+            this._animalDropDict = new();
+            this._animalDropPositionDict = new();
 
-            this.Tiles = new BackgroundTile[this.GridHeight, this.GridWidth];
+            this._finalGridWidth = this.GridWidth + 2;
+            this._finalGridHeight = this.GridHeight + 2;
+
+            var totalWidth = this._finalGridWidth * this.TileWidth + (this._finalGridWidth - 1) * this.TileGap;
+            var totalHeight = this._finalGridHeight * this.TileHeight + (this._finalGridHeight - 1) * this.TileGap;
+            this._bottomLeftOffset = new Vector3(-totalWidth / 2, -totalHeight / 2, 0);
+            this._bottomLeftOffset += new Vector3(this.TileWidth / 2, this.TileHeight / 2, 0); // Offset as tile is anchored at center
+
+            this.Tiles = new BackgroundTile[this._finalGridHeight, this._finalGridWidth];
 
             // Create the grid of tiles
-            for (var rowY = 0; rowY < this.GridHeight; rowY++)
+            for (var rowY = 0; rowY < _finalGridHeight; rowY++)
             {
-                for (var colX = 0; colX < this.GridWidth; colX++)
+                for (var colX = 0; colX < this._finalGridWidth; colX++)
                 {
-                    // Instantiate and initialize
-                    var tile = Instantiate(this.BackgroundTilePrefab, this.TileContainer);
-                    tile.transform.localPosition = this.GetTilePosition(rowY, colX);
-                    tile.SetHighlight(false, false);
-                    tile.TileYXPosition = new(colX, rowY);
+                    if (colX == 0 || colX == this._finalGridWidth - 1
+                        || rowY == 0 || rowY == this._finalGridHeight - 1)
+                    {
+                        // Spawn a wall tile
+                        var wallTile = Instantiate(this.WallTilePrefab, this.TileContainer);
+                        wallTile.transform.localPosition = this.GetTilePosition(rowY, colX);
+                    }
+                    else
+                    {
+                        // Instantiate and initialize
+                        var tile = Instantiate(this.BackgroundTilePrefab, this.TileContainer);
+                        tile.transform.localPosition = this.GetTilePosition(rowY, colX);
+                        tile.UnhighlightTile();
+                        tile.TileYXPosition = new(colX, rowY);
 
-                    // Store in array
-                    this.Tiles[rowY, colX] = tile;
+                        // Store in array
+                        this.Tiles[rowY, colX] = tile;
+                    }
                 }
             }
         }
@@ -88,7 +117,7 @@ namespace ProjectRuntime.Managers
         /// </summary>
         public Vector3 GetTilePosition(int rowY, int colX)
         {
-            return this._bottomLeftOffset + new Vector3(colX, 0, rowY) * (this.TileWidth + this.TileGap);
+            return this._bottomLeftOffset + new Vector3(colX, rowY, 0) * (this.TileWidth + this.TileGap);
         }
 
         /// <summary>
@@ -97,16 +126,80 @@ namespace ProjectRuntime.Managers
         public Vector2Int GetNearestTileYX(Vector3 pos)
         {
             var p = (pos - this._bottomLeftOffset) / (this.TileWidth + this.TileGap);
-            return new Vector2Int(Mathf.RoundToInt(p.x), Mathf.RoundToInt(p.z));
+            return new Vector2Int(Mathf.RoundToInt(p.x), Mathf.RoundToInt(p.y));
         }
 
-        private Vector3 GetWorldPosition(PointerEventData eventData)
+        public void SnapToGrid(BathSlideTile tile, Vector2Int tileYX)
         {
-            var mainCam = Camera.main;
-            var plane = new Plane(Vector3.up, this.transform.position);
-            var ray = mainCam.ScreenPointToRay(eventData.position);
-            plane.Raycast(ray, out var dist);
-            return ray.GetPoint(dist);
+            // Set position
+            var tilePos = this.GetTilePosition(tileYX.y, tileYX.x);
+            var offset = this.TileContainer.InverseTransformVector(tile.transform.position - tile.BottomLeftTransform.position);
+            tile.transform.localPosition = tilePos + offset;
+        }
+
+        public void HighlightBackgroundTilesForTile(BathSlideTile tile, Vector2Int tileYX)
+        {
+            // Remove highlight for everything
+            for (var rowY = 1; rowY < this._finalGridHeight - 1; rowY++)
+            {
+                for (var colX = 1; colX < this._finalGridWidth - 1; colX++)
+                {
+                    this.Tiles[rowY, colX].UnhighlightTile();
+                }
+            }
+
+            var tileShape = tile.TileShape;
+            // Highlight the positions the Tile would occupy
+            for (var rowY = 0; rowY < tileShape.Height; rowY++)
+            {
+                for (var colX = 0; colX < tileShape.Width; colX++)
+                {
+                    // Shape occupies this tile
+                    if (tileShape[rowY][colX])
+                    {
+                        // Highlight the unlocked tiles
+                        this.Tiles[tileYX.y + rowY, tileYX.x + colX].HighlightTile(tile.TileColor);
+                        if (this._animalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
+                        {
+                            animalDrop.Drop();
+                        }
+                    }
+                }
+            }
+            
+        }
+
+        public void RegisterAnimalDrop(AnimalDrop animalDrop)
+        {
+            if (!this._animalDropDict.ContainsKey(animalDrop.TileColor))
+            {
+                this._animalDropDict[animalDrop.TileColor] = new();
+            }
+
+            this._animalDropDict[animalDrop.TileColor].Add(animalDrop);
+            this._animalDropPositionDict[this.GetNearestTileYX(animalDrop.transform.position)] = animalDrop;
+            Debug.Log(this.GetNearestTileYX(animalDrop.transform.position));
+        }
+
+        public void DeregisterAnimalDrop(AnimalDrop animalDrop)
+        {
+            if (this._animalDropDict[animalDrop.TileColor].Contains(animalDrop))
+            {
+                this._animalDropDict[animalDrop.TileColor].Remove(animalDrop);
+            }
+
+            this._animalDropPositionDict.Remove(this.GetNearestTileYX(animalDrop.transform.position));
+        }
+
+        public void ToggleDropColor(TileColor tileColor, bool isDroppable)
+        {
+            if (this._animalDropDict.TryGetValue(tileColor, out var animalDropList))
+            {
+                foreach (var animalDrop in animalDropList)
+                {
+                    animalDrop.ToggleTriggerCollider(isDroppable);
+                }
+            }
         }
     }
 }

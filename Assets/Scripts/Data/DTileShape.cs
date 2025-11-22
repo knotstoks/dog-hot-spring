@@ -1,16 +1,16 @@
-/*
 using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using XiiRuntime.Application.Manager.Resource;
+using BroccoliBunnyStudios.Pools;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 namespace ProjectRuntime.Data
 {
-    [CreateAssetMenu(fileName = "DTileShape", menuName = "Catchef/DTileShape", order = 4)]
+    [CreateAssetMenu(fileName = "DTileShape", menuName = "Data/DTileShape", order = 4)]
     public class DTileShape : ScriptableObject
     {
         private static DTileShape s_loadedData;
@@ -31,12 +31,12 @@ namespace ProjectRuntime.Data
                 foreach (var dWeaponShape in s_loadedData.Data)
                 {
 #if UNITY_EDITOR
-                    if (s_cachedDataDict.ContainsKey(dWeaponShape.WeaponShapeId))
+                    if (s_cachedDataDict.ContainsKey(dWeaponShape.TileShapeId))
                     {
-                        Debug.LogError($"More than 1 WeaponShape has WeaponShapeID {dWeaponShape.WeaponShapeId}");
+                        Debug.LogError($"More than 1 WeaponShape has WeaponShapeID {dWeaponShape.TileShapeId}");
                     }
 #endif
-                    s_cachedDataDict[dWeaponShape.WeaponShapeId] = dWeaponShape;
+                    s_cachedDataDict[dWeaponShape.TileShapeId] = dWeaponShape;
                 }
             }
             return s_loadedData;
@@ -55,13 +55,13 @@ namespace ProjectRuntime.Data
         [Button("Toggle Weapon Shape Editing"), PropertyOrder(-10)]
         private void ToggleEditButtons()
         {
-            WeaponShape.ShowEditButtons = !WeaponShape.ShowEditButtons;
+            TileShape.ShowEditButtons = !TileShape.ShowEditButtons;
         }
 
         [Button(SdfIconType.CalendarPlus, "Add New WeaponShape", IconAlignment = IconAlignment.LeftEdge)]
         private void AddNewWeaponShape()
         {
-            var newId = (this.Data.Count > 0) ? this.Data[^1].WeaponShapeId + 1 : 1;
+            var newId = (this.Data.Count > 0) ? this.Data[^1].TileShapeId + 1 : 1;
             var dWeaponShape = new TileShapeData(newId);
             this.Data.Add(dWeaponShape);
         }
@@ -79,9 +79,9 @@ namespace ProjectRuntime.Data
             {
                 for (var index2 = index + 1; index2 < this.Data.Count; index2++)
                 {
-                    if (this.Data[index].WeaponShape.EqualShapeWith(this.Data[index2].WeaponShape))
+                    if (this.Data[index].Shape.EqualShapeWith(this.Data[index2].Shape))
                     {
-                        Debug.LogError($"WeaponShape Id {this.Data[index].WeaponShapeId} and {this.Data[index2].WeaponShapeId} have the same shape");
+                        Debug.LogError($"WeaponShape Id {this.Data[index].TileShapeId} and {this.Data[index2].TileShapeId} have the same shape");
                     }
                 }
             }
@@ -94,7 +94,7 @@ namespace ProjectRuntime.Data
             var usedIds = new Dictionary<int, int>();
             for (var index = 0; index < this.Data.Count; index++)
             {
-                var id = this.Data[index].WeaponShapeId;
+                var id = this.Data[index].TileShapeId;
                 if (usedIds.TryGetValue(id, out var prevIndex))
                 {
                     Debug.LogError($"WeaponShape at index {prevIndex} and {index} both specify ID {id}");
@@ -113,28 +113,20 @@ namespace ProjectRuntime.Data
     public struct TileShapeData
     {
         [field: SerializeField, Min(0), Header("WeaponShape data")]
-        public int WeaponShapeId { get; private set; }
+        public int TileShapeId { get; private set; }
 
         [field: SerializeField]
-        public string ShapeIcon { get; private set; }
-
-        [field: SerializeField]
-        public string BlueprintItemId { get; private set; }
-
-        [field: SerializeField]
-        public WeaponShape WeaponShape { get; private set; }
+        public TileShape Shape { get; private set; }
 
         public TileShapeData(int id)
         {
-            this.WeaponShapeId = id;
-            this.ShapeIcon = string.Empty;
-            this.BlueprintItemId = string.Empty;
-            this.WeaponShape = new(4, 4);
+            this.TileShapeId = id;
+            this.Shape = new(4, 4);
         }
 
         public static int CompareTo(TileShapeData lhs, TileShapeData rhs)
         {
-            return lhs.WeaponShapeId.CompareTo(rhs.WeaponShapeId);
+            return lhs.TileShapeId.CompareTo(rhs.TileShapeId);
         }
     }
 
@@ -164,7 +156,7 @@ namespace ProjectRuntime.Data
     /// This class represents a weapon shape
     /// </summary>
     [Serializable]
-    public struct WeaponShape
+    public struct TileShape
     {
         public static bool ShowEditButtons = false;
 
@@ -177,7 +169,7 @@ namespace ProjectRuntime.Data
         [field: SerializeField]
         public RowWrapper[] Rows { get; private set; }
 
-        public WeaponShape(int width, int height)
+        public TileShape(int width, int height)
         {
             this.Width = width;
             this.Height = height;
@@ -200,7 +192,7 @@ namespace ProjectRuntime.Data
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool EqualShapeWith(WeaponShape other)
+        public bool EqualShapeWith(TileShape other)
         {
             if (this.Width != other.Width || this.Height != other.Height)
             {
@@ -240,7 +232,7 @@ namespace ProjectRuntime.Data
     }
 
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(WeaponShape))]
+    [CustomPropertyDrawer(typeof(TileShape))]
     public class WeaponShapeInspector : PropertyDrawer
     {
         private GUIStyle _buttonStyle = null;
@@ -268,7 +260,7 @@ namespace ProjectRuntime.Data
             var heightProp = property.FindPropertyRelative("<Height>k__BackingField");
             var baseHeight = base.GetPropertyHeight(property, label);
             var additionalHeight = heightProp.intValue * GridSize + baseHeight;
-            if (!WeaponShape.ShowEditButtons)
+            if (!TileShape.ShowEditButtons)
             {
                 additionalHeight -= baseHeight;
             }
@@ -290,7 +282,7 @@ namespace ProjectRuntime.Data
             var height = heightProp.intValue;
 
             var rect = new Rect(position.x, position.y, 70f, 15f);
-            if (WeaponShape.ShowEditButtons && GUI.Button(rect, "Add row"))
+            if (TileShape.ShowEditButtons && GUI.Button(rect, "Add row"))
             {
                 heightProp.intValue += 1;
                 height += 1;
@@ -309,7 +301,7 @@ namespace ProjectRuntime.Data
             }
 
             rect = new Rect(position.x + 70f, position.y, 70f, 15f);
-            if (WeaponShape.ShowEditButtons && GUI.Button(rect, "Add col"))
+            if (TileShape.ShowEditButtons && GUI.Button(rect, "Add col"))
             {
                 widthProp.intValue += 1;
                 width += 1;
@@ -325,7 +317,7 @@ namespace ProjectRuntime.Data
             }
 
             rect = new Rect(position.x + 140f, position.y, 70f, 15f);
-            if (WeaponShape.ShowEditButtons && GUI.Button(rect, "Shrink"))
+            if (TileShape.ShowEditButtons && GUI.Button(rect, "Shrink"))
             {
                 // For each row from the bottom, check if it is completely empty
                 for (var x = 0; x < height; x++)
@@ -462,7 +454,7 @@ namespace ProjectRuntime.Data
             {
                 var offsetX = y * GridSize + RowLabelWidth;
                 var offsetY = EditorGUIUtility.singleLineHeight;
-                if (!WeaponShape.ShowEditButtons)
+                if (!TileShape.ShowEditButtons)
                 {
                     offsetY -= EditorGUIUtility.singleLineHeight;
                 }
@@ -475,7 +467,7 @@ namespace ProjectRuntime.Data
             {
                 var colsProp = rowProp2.FindPropertyRelative("<Cols>k__BackingField");
                 var offsetY = (height - x - 1) * GridSize + EditorGUIUtility.singleLineHeight * 2;
-                if (!WeaponShape.ShowEditButtons)
+                if (!TileShape.ShowEditButtons)
                 {
                     offsetY -= EditorGUIUtility.singleLineHeight;
                 }
@@ -489,7 +481,7 @@ namespace ProjectRuntime.Data
                 {
                     var offsetX = y * GridSize + RowLabelWidth;
                     rect = new Rect(position.x + offsetX, position.y + offsetY, GridSize - 1f, GridSize - 1f);
-                    if (WeaponShape.ShowEditButtons)
+                    if (TileShape.ShowEditButtons)
                     {
                         GUI.color = colProp.boolValue ? this._onColor : this._offColor;
                         if (GUI.Button(rect, "", this._buttonStyle))
@@ -510,4 +502,3 @@ namespace ProjectRuntime.Data
     }
 #endif
 }
-*/

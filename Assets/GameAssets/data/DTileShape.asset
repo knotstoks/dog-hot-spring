@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce416c34b90e4ffeb5d6ab1f60288a9, type: 3}
+  m_Name: DTileShape
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField:
+  - <TileShapeId>k__BackingField: 1
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 1
+      <Height>k__BackingField: 1
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 01
+  - <TileShapeId>k__BackingField: 2
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 3
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 000001
+      - <Cols>k__BackingField: 010101

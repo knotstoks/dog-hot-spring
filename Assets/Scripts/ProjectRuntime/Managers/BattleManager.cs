@@ -53,5 +53,8 @@ namespace ProjectRuntime.Managers
         }
 
         public Vector2Int GetNearestTileYX()
+        {
+            return Vector2Int.zero;
+        }
     }
 }
