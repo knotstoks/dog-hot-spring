@@ -178,7 +178,6 @@ namespace ProjectRuntime.Managers
 
             this._animalDropDict[animalDrop.TileColor].Add(animalDrop);
             this._animalDropPositionDict[this.GetNearestTileYX(animalDrop.transform.position)] = animalDrop;
-            Debug.Log(this.GetNearestTileYX(animalDrop.transform.position));
         }
 
         public void DeregisterAnimalDrop(AnimalDrop animalDrop)
