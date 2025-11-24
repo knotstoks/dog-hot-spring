@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ProjectRuntime.Level
 {
-    public class LevelSaveData
+    public struct LevelSaveData
     {
         [field: SerializeField]
         public int GridHeight { get; set; }
@@ -14,13 +14,22 @@ namespace ProjectRuntime.Level
         public int GridWidth { get; set; }
 
         [field: SerializeField]
-        public List<Vector2Int> UnlockedTiles { get; set; }
+        public List<Vector2Int> LockedTiles { get; set; }
 
         [field: SerializeField]
         public List<TileSaveData> TileSaveDatas { get; set; }
 
         [field: SerializeField]
         public List<AnimalSaveData> AnimalSaveDatas { get; set; }
+
+        public LevelSaveData(int gridHeight, int gridWidth, List<Vector2Int> lockedTiles, List<TileSaveData> tileSaveDatas, List<AnimalSaveData> animalSaveDatas)
+        {
+            this.GridHeight = gridHeight;
+            this.GridWidth = gridWidth;
+            this.LockedTiles = lockedTiles;
+            this.TileSaveDatas = tileSaveDatas;
+            this.AnimalSaveDatas = animalSaveDatas;
+        }
     }
 
     [Serializable]
@@ -35,11 +44,15 @@ namespace ProjectRuntime.Level
         [field: SerializeField]
         public Vector2Int TileYX { get; set; }
 
-        public TileSaveData(int tileId, TileColor tileColor, Vector2Int tileYX)
+        [field: SerializeField]
+        public int DropsLeft { get; set; }
+
+        public TileSaveData(int tileId, TileColor tileColor, Vector2Int tileYX, int dropsLeft)
         {
             this.TileId = tileId;
             this.TileColor = tileColor;
             this.TileYX = tileYX;
+            this.DropsLeft = dropsLeft;
         }
     }
 

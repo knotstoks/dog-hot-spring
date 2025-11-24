@@ -1,4 +1,5 @@
 using BroccoliBunnyStudios.Managers;
+using BroccoliBunnyStudios.Panel;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ namespace ProjectRuntime.Managers
             {
                 Debug.Log("There are 2 or more BattleManagers in the scene");
             }
+
+            PanelManager.Instance.FadeToBlackAsync(0f).Forget();
         }
 
         private void OnDestroy()
@@ -53,12 +56,13 @@ namespace ProjectRuntime.Managers
                 LevelIdToLoad = EditorIdToLoad;
             }
 
-            this.SetupLevel();
-        }
+            await UniTask.WaitUntil(() => GridManager.Instance != null);
+            if (!this) return;
 
-        private async UniTask SetupLevel()
-        {
-            
+            await GridManager.Instance.Init(LevelIdToLoad);
+            if (!this) return;
+
+            PanelManager.Instance.FadeFromBlack().Forget();
         }
 
         public Vector2Int GetNearestTileYX()

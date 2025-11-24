@@ -1,54 +1,52 @@
 using BroccoliBunnyStudios.Pools;
 using BroccoliBunnyStudios.Utils;
 using ProjectRuntime.Gameplay;
-using ProjectRuntime.Level;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DWorld", menuName = "Data/DWorld", order = 3)]
-public class DWorld : ScriptableObject, IDataImport
+[CreateAssetMenu(fileName = "DAnimal", menuName = "Data/DAnimal", order = 3)]
+public class DAnimal : ScriptableObject, IDataImport
 {
-    private static DWorld s_loadedData;
-    private static Dictionary<int, WorldData> s_cachedDataDict;
+    private static DAnimal s_loadedData;
+    private static Dictionary<TileColor, AnimalData> s_cachedDataDict;
 
     [field: SerializeField]
-    public List<WorldData> Data { get; private set; }
+    public List<AnimalData> Data { get; private set; }
 
-    public static DWorld GetAllData()
+    public static DAnimal GetAllData()
     {
         if (s_loadedData == null)
         {
             // Load and cache results
-            s_loadedData = ResourceLoader.Load<DWorld>("data/DWorld.asset", false);
+            s_loadedData = ResourceLoader.Load<DAnimal>("data/DAnimal.asset", false);
 
             // Calculate and cache some results
             s_cachedDataDict = new();
-            foreach (var worldData in s_loadedData.Data)
+            foreach (var animalData in s_loadedData.Data)
             {
 #if UNITY_EDITOR
-                if (s_cachedDataDict.ContainsKey(worldData.WorldId))
+                if (s_cachedDataDict.ContainsKey(animalData.AnimalColor))
                 {
-                    Debug.LogError($"Duplicate Id {worldData.WorldId}");
+                    Debug.LogError($"Duplicate Id {animalData.AnimalColor}");
                 }
 #endif
-                s_cachedDataDict[worldData.WorldId] = worldData;
+                s_cachedDataDict[animalData.AnimalColor] = animalData;
             }
         }
 
         return s_loadedData;
     }
 
-    public static WorldData? GetDataById(int id)
+    public static AnimalData? GetDataById(TileColor tileColor)
     {
         if (s_cachedDataDict == null)
         {
             GetAllData();
         }
 
-        return s_cachedDataDict.TryGetValue(id, out var result) ? result : null;
+        return s_cachedDataDict.TryGetValue(tileColor, out var result) ? result : null;
     }
 
 #if UNITY_EDITOR
@@ -106,11 +104,10 @@ public class DWorld : ScriptableObject, IDataImport
             }
 
             // New item
-            var worldData = new WorldData
+            var worldData = new AnimalData
             {
-                WorldId = CommonUtil.ConvertToInt32(paramList[1]),
-                WorldName = paramList[2],
-                ParsedLevel = paramList[3],
+                AnimalColor = Enum.TryParse(paramList[1], out TileColor tileColor) ? tileColor : TileColor.NONE,
+                PrefabPath = paramList[2],
             };
             s_loadedData.Data.Add(worldData);
         }
@@ -121,14 +118,11 @@ public class DWorld : ScriptableObject, IDataImport
 }
 
 [Serializable]
-public struct WorldData
+public struct AnimalData
 {
     [field: SerializeField]
-    public int WorldId { get; set; }
+    public TileColor AnimalColor { get; set; }
 
     [field: SerializeField]
-    public string WorldName { get; set; }
-
-    [field: SerializeField]
-    public string ParsedLevel { get; set; }
+    public string PrefabPath { get; set; }
 }

@@ -12,13 +12,8 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         public TileColor TileColor { get; private set; }
 
-        private void Awake()
-        {
-            this.Init();
-        }
-
-        // TODO: Init with tile color in level editor
-        private async void Init()
+        // Tile Color should be set in level editor
+        public async void Init()
         {
             await UniTask.WaitUntil(() => GridManager.Instance != null);
             if (!this) return;

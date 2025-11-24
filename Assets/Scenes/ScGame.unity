@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: tile_2
       objectReference: {fileID: 0}
+    - target: {fileID: 7439222321343710707, guid: 8cfa1a21b57e52e46a33998629492560, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -419,6 +423,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: animal_blue
       objectReference: {fileID: 0}
+    - target: {fileID: 8519314845707740764, guid: 6908a9a7814a3234ea75b8bc35d337d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8548558309343638012, guid: 6908a9a7814a3234ea75b8bc35d337d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -624,8 +632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d7c07f8f16c9473885607b6b7444a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GridWidth>k__BackingField: 5
-  <GridHeight>k__BackingField: 7
   <BackgroundTilePrefab>k__BackingField: {fileID: 180824280772228822, guid: f2e7bec2503839641883f1e09df4866e, type: 3}
   <WallTilePrefab>k__BackingField: {fileID: 4931604542624370029, guid: 653cc5fd50a8b8345824bf4bf0da7cb4, type: 3}
   <TileWidth>k__BackingField: 1
@@ -687,6 +693,10 @@ PrefabInstance:
     - target: {fileID: 7439222321343710707, guid: 18c5fdd0f98484758a510818bfa9901c, type: 3}
       propertyPath: m_Name
       value: tile_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439222321343710707, guid: 18c5fdd0f98484758a510818bfa9901c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,6 +10,7 @@ namespace ProjectRuntime.Gameplay
 {
     public enum TileColor
     {
+        NONE = 0,
         RED = 1,
         BLUE = 2,
         GREEN = 3,
@@ -17,6 +18,7 @@ namespace ProjectRuntime.Gameplay
         ORANGE = 5,
         WHITE = 6,
         BLACK = 7,
+        PURPLE = 8,
     }
 
     public class BathSlideTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler

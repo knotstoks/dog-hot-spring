@@ -1,6 +1,14 @@
+using BroccoliBunnyStudios.Pools;
+using BroccoliBunnyStudios.Utils;
+using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
+using ProjectRuntime.Level;
+using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace ProjectRuntime.Managers
 {
@@ -19,11 +27,8 @@ namespace ProjectRuntime.Managers
     {
         public static GridManager Instance { get; private set; }
 
-        [field: SerializeField, Header("Dimensions of grid")]
-        public int GridWidth { get; private set; } = 5;
-
-        [field: SerializeField]
-        public int GridHeight { get; private set; } = 7;
+        public int GridWidth { get; private set; }
+        public int GridHeight { get; private set; }
 
         [field: SerializeField, Header("Dimensions of a single tile in the grid")]
         public BackgroundTile BackgroundTilePrefab { get; private set; }
@@ -45,8 +50,11 @@ namespace ProjectRuntime.Managers
 
         // Accessible variables
         public BackgroundTile[,] Tiles { get; private set; }      // 2D Array of Tiles in the grid
+        public WorldData CurrentWorldData => this._dWorld;
 
         // Internal variables
+        private WorldData _dWorld;
+
         private Vector3 _bottomLeftOffset;                      // Local offset from pivot of BackpackMainArea for bottomleft-most tile
         private int _finalGridWidth;
         private int _finalGridHeight;
@@ -65,6 +73,20 @@ namespace ProjectRuntime.Managers
             {
                 Debug.LogError("There are 2 or more GridManagers in the scene");
             }
+        }
+
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
+
+        public async UniTask Init(int worldId)
+        {
+            this._dWorld = DWorld.GetDataById(worldId).Value;
+
+            var levelData = this.ParseLevelSaveData(this._dWorld.ParsedLevel);
+            this.GridHeight = levelData.GridHeight;
+            this.GridWidth = levelData.GridWidth;
 
             this._animalDropDict = new();
             this._animalDropPositionDict = new();
@@ -85,7 +107,8 @@ namespace ProjectRuntime.Managers
                 for (var colX = 0; colX < this._finalGridWidth; colX++)
                 {
                     if (colX == 0 || colX == this._finalGridWidth - 1
-                        || rowY == 0 || rowY == this._finalGridHeight - 1)
+                        || rowY == 0 || rowY == this._finalGridHeight - 1
+                        || this.IsLockedTile(levelData.LockedTiles, new Vector2Int(colX, rowY)))
                     {
                         // Spawn a wall tile
                         var wallTile = Instantiate(this.WallTilePrefab, this.TileContainer);
@@ -104,11 +127,90 @@ namespace ProjectRuntime.Managers
                     }
                 }
             }
+
+            // Create Bath Slide Tiles
+            foreach (var bathSlideTile in levelData.TileSaveDatas)
+            {
+                var dTile = DTile.GetDataById(bathSlideTile.TileId).Value;
+                var tileObject = await ResourceLoader.InstantiateAsync(dTile.PrefabPath, this.TileContainer);
+                if (!this) return;
+
+                var tilePos = this.GetTilePosition(bathSlideTile.TileYX.x, bathSlideTile.TileYX.y);
+                tileObject.transform.position = tilePos;
+                var tile = tileObject.GetComponent<BathSlideTile>();
+                tile.Init(bathSlideTile.TileId, bathSlideTile.TileColor, bathSlideTile.DropsLeft);
+            }
+
+            // Create Animals
+            foreach (var animalTile in levelData.AnimalSaveDatas)
+            {
+                var dAnimal = DAnimal.GetDataById(animalTile.AnimalColor).Value;
+                var animalObject = await ResourceLoader.InstantiateAsync(dAnimal.PrefabPath, this.TileContainer);
+                if (!this) return;
+
+                var animalTilePos = this.GetTilePosition(animalTile.TileYX.x, animalTile.TileYX.y);
+                animalTilePos.z = 0.01f;
+                animalObject.transform.position = animalTilePos;
+
+                var animal = animalObject.GetComponent<AnimalDrop>();
+                animal.Init();
+            }
         }
 
-        private void OnDestroy()
+        private bool IsLockedTile(List<Vector2Int> lockedTiles, Vector2Int tileYX)
         {
-            Instance = null;
+            foreach (var lockedTile in lockedTiles)
+            {
+                if (lockedTile.x == tileYX.x && lockedTile.y == tileYX.y)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private LevelSaveData ParseLevelSaveData(string s)
+        {
+            var stringSplit = s.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            var gridHeight = CommonUtil.ConvertToInt32(stringSplit[0]);
+            var gridWidth = CommonUtil.ConvertToInt32(stringSplit[1]);
+
+            var lockedTilesSplit = Regex.Matches(stringSplit[2], @"\((.*?)\)")
+                       .Select(m => m.Groups[1].Value)
+                       .ToList();
+            var lockedTiles = new List<Vector2Int>();
+            foreach (var lockedTile in lockedTilesSplit)
+            {
+                var lockedTileSplit = lockedTile.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                lockedTiles.Add(new Vector2Int(CommonUtil.ConvertToInt32(lockedTileSplit[0]), CommonUtil.ConvertToInt32(lockedTileSplit[1])));
+            }
+
+            var slideTileLocations = Regex.Matches(stringSplit[3], @"\((.*?)\)")
+                       .Select(m => m.Groups[1].Value)
+                       .ToList();
+            var slideTiles = new List<TileSaveData>();
+            foreach (var slideTile in slideTileLocations)
+            {
+                var slideTileSplit = slideTile.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                slideTiles.Add(new TileSaveData(CommonUtil.ConvertToInt32(slideTileSplit[0]),
+                    Enum.TryParse(slideTileSplit[1], out TileColor slideTileColor) ? slideTileColor : TileColor.NONE,
+                    new Vector2Int(CommonUtil.ConvertToInt32(slideTileSplit[2]), CommonUtil.ConvertToInt32(slideTileSplit[3])),
+                    CommonUtil.ConvertToInt32(slideTileSplit[4])));
+            }
+
+            var animalLocations = Regex.Matches(stringSplit[4], @"\((.*?)\)")
+                       .Select(m => m.Groups[1].Value)
+                       .ToList();
+            var animals = new List<AnimalSaveData>();
+            foreach (var animal in animalLocations)
+            {
+                var animalSplit = animal.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                animals.Add(new AnimalSaveData(Enum.TryParse(animalSplit[0], out TileColor animalTileColor) ? animalTileColor : TileColor.NONE,
+                    new Vector2Int(CommonUtil.ConvertToInt32(animalSplit[1]), CommonUtil.ConvertToInt32(animalSplit[2]))));
+            }
+
+            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals);
         }
 
         /// <summary>
@@ -148,7 +250,10 @@ namespace ProjectRuntime.Managers
             {
                 for (var colX = 1; colX < this._finalGridWidth - 1; colX++)
                 {
-                    this.Tiles[rowY, colX].UnhighlightTile();
+                    if (this.Tiles[rowY, colX])
+                    {
+                        this.Tiles[rowY, colX].UnhighlightTile();
+                    }
                 }
             }
 
@@ -179,7 +284,10 @@ namespace ProjectRuntime.Managers
             {
                 for (var colX = 1; colX < this._finalGridWidth - 1; colX++)
                 {
-                    this.Tiles[rowY, colX].UnhighlightTile();
+                    if (this.Tiles[rowY, colX])
+                    {
+                        this.Tiles[rowY, colX].UnhighlightTile();
+                    }
                 }
             }
         }

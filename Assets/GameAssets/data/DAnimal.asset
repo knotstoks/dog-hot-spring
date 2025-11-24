@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82428f4a293c484bade87f1e9d5aa23, type: 3}
+  m_Name: DAnimal
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField:
+  - <AnimalColor>k__BackingField: 1
+    <PrefabPath>k__BackingField: prefabs/animals/animal_red.prefab
+  - <AnimalColor>k__BackingField: 2
+    <PrefabPath>k__BackingField: prefabs/animals/animal_blue.prefab
+  - <AnimalColor>k__BackingField: 3
+    <PrefabPath>k__BackingField: prefabs/animals/animal_green.prefab
+  - <AnimalColor>k__BackingField: 4
+    <PrefabPath>k__BackingField: prefabs/animals/animal_yellow.prefab
+  - <AnimalColor>k__BackingField: 5
+    <PrefabPath>k__BackingField: prefabs/animals/animal_orange.prefab
+  - <AnimalColor>k__BackingField: 6
+    <PrefabPath>k__BackingField: prefabs/animals/animal_white.prefab
+  - <AnimalColor>k__BackingField: 7
+    <PrefabPath>k__BackingField: prefabs/animals/animal_black.prefab
+  - <AnimalColor>k__BackingField: 8
+    <PrefabPath>k__BackingField: prefabs/animals/animal_purple.prefab

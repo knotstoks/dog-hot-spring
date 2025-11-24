@@ -1,47 +1,44 @@
 using BroccoliBunnyStudios.Pools;
 using BroccoliBunnyStudios.Utils;
-using ProjectRuntime.Gameplay;
-using ProjectRuntime.Level;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DWorld", menuName = "Data/DWorld", order = 3)]
-public class DWorld : ScriptableObject, IDataImport
+[CreateAssetMenu(fileName = "DTile", menuName = "Data/DTile", order = 3)]
+public class DTile : ScriptableObject, IDataImport
 {
-    private static DWorld s_loadedData;
-    private static Dictionary<int, WorldData> s_cachedDataDict;
+    private static DTile s_loadedData;
+    private static Dictionary<int, TileData> s_cachedDataDict;
 
     [field: SerializeField]
-    public List<WorldData> Data { get; private set; }
+    public List<TileData> Data { get; private set; }
 
-    public static DWorld GetAllData()
+    public static DTile GetAllData()
     {
         if (s_loadedData == null)
         {
             // Load and cache results
-            s_loadedData = ResourceLoader.Load<DWorld>("data/DWorld.asset", false);
+            s_loadedData = ResourceLoader.Load<DTile>("data/DTile.asset", false);
 
             // Calculate and cache some results
             s_cachedDataDict = new();
-            foreach (var worldData in s_loadedData.Data)
+            foreach (var tileData in s_loadedData.Data)
             {
 #if UNITY_EDITOR
-                if (s_cachedDataDict.ContainsKey(worldData.WorldId))
+                if (s_cachedDataDict.ContainsKey(tileData.Id))
                 {
-                    Debug.LogError($"Duplicate Id {worldData.WorldId}");
+                    Debug.LogError($"Duplicate Id {tileData.Id}");
                 }
 #endif
-                s_cachedDataDict[worldData.WorldId] = worldData;
+                s_cachedDataDict[tileData.Id] = tileData;
             }
         }
 
         return s_loadedData;
     }
 
-    public static WorldData? GetDataById(int id)
+    public static TileData? GetDataById(int id)
     {
         if (s_cachedDataDict == null)
         {
@@ -106,11 +103,10 @@ public class DWorld : ScriptableObject, IDataImport
             }
 
             // New item
-            var worldData = new WorldData
+            var worldData = new TileData
             {
-                WorldId = CommonUtil.ConvertToInt32(paramList[1]),
-                WorldName = paramList[2],
-                ParsedLevel = paramList[3],
+                Id = CommonUtil.ConvertToInt32(paramList[1]),
+                PrefabPath = paramList[2],
             };
             s_loadedData.Data.Add(worldData);
         }
@@ -121,14 +117,11 @@ public class DWorld : ScriptableObject, IDataImport
 }
 
 [Serializable]
-public struct WorldData
+public struct TileData
 {
     [field: SerializeField]
-    public int WorldId { get; set; }
+    public int Id { get; set; }
 
     [field: SerializeField]
-    public string WorldName { get; set; }
-
-    [field: SerializeField]
-    public string ParsedLevel { get; set; }
+    public string PrefabPath { get; set; }
 }
