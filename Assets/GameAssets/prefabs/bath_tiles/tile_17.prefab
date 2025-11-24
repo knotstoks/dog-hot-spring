@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 4873202006526866493}
   - component: {fileID: 7033645038258998254}
   m_Layer: 6
-  m_Name: tile_2
+  m_Name: tile_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BottomLeftTransform>k__BackingField: {fileID: 8060971816393324422}
   <DropsLeftTMP>k__BackingField: {fileID: 8550360403752286889}
-  <EditorTileShapeId>k__BackingField: 2
+  <EditorTileShapeId>k__BackingField: 17
   <EditorTileColor>k__BackingField: 2
   <EditorDropsLeft>k__BackingField: 1
 --- !u!50 &7033645038258998254

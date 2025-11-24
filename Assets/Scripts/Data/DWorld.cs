@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using BroccoliBunnyStudios.Pools;
 using BroccoliBunnyStudios.Utils;
+using ProjectRuntime.Level;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DWorld", menuName = "Data/DWorld", order = 3)]
@@ -127,5 +128,5 @@ public struct WorldData
     public string WorldName { get; set; }
 
     [field: SerializeField]
-    public string ParsedLevel { get; set; }
+    public LevelSaveData Level { get; set; }
 }
