@@ -1,3 +1,4 @@
+using BroccoliBunnyStudios.Managers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -35,6 +36,14 @@ namespace ProjectRuntime.Managers
         private void Start()
         {
             this.Init();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
+            }
         }
 
         private async void Init()

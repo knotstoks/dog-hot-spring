@@ -40,6 +40,8 @@ namespace ProjectRuntime.Gameplay
             }
 
             // TODO: Communicate with Tile that it has dropped instantly
+            bathSlideTile.HandleAnimalDropped();
+
             GridManager.Instance.DeregisterAnimalDrop(this);
 
             await UniTask.WaitForSeconds(1f);

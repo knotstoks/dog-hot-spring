@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using ProjectRuntime.Data;
 using ProjectRuntime.Managers;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,16 +22,19 @@ namespace ProjectRuntime.Gameplay
     public class BathSlideTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         [field: SerializeField, Header("Scene References")]
-        private float DragOffset { get; set; }
-
-        [field: SerializeField]
         public Transform BottomLeftTransform { get; private set; }
 
         [field: SerializeField]
-        private int TileShapeId { get; set; }
+        private TextMeshProUGUI DropsLeftTMP { get; set; }
+
+        [field: SerializeField]
+        private int EditorTileShapeId { get; set; }
 
         [field: SerializeField]
         private TileColor EditorTileColor { get; set; }
+
+        [field: SerializeField]
+        private int EditorDropsLeft { get; set; }
 
         public TileShape TileShape { get; private set; }
 
@@ -50,6 +55,7 @@ namespace ProjectRuntime.Gameplay
         private static Vector2Int s_lastDragTileYX; // Previous frame's tile position
 
         private List<BoxCollider2D> _myColliders;
+        private int _dropsLeft;
 
         private void Awake()
         {
@@ -60,7 +66,7 @@ namespace ProjectRuntime.Gameplay
             this._contactFilter.useLayerMask = true;
             this._contactFilter.useTriggers = false;
 
-            this.Init(this.TileShapeId, TileColor.GREEN);
+            this.Init(this.EditorTileShapeId, this.EditorTileColor, this.EditorDropsLeft);
         }
 
         private void Update()
@@ -71,10 +77,18 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public void Init(int tileId, TileColor tileColor)
+        public void Init(int tileId, TileColor tileColor, int dropsLeft)
         {
             this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
-            this.TileColor = this.EditorTileColor; // TODO: TEMP
+            this.TileColor = tileColor;
+            this._dropsLeft = dropsLeft;
+
+            this.RefreshDropsLeftText();
+        }
+
+        private void RefreshDropsLeftText()
+        {
+            this.DropsLeftTMP.text = this._dropsLeft.ToString();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -231,6 +245,51 @@ namespace ProjectRuntime.Gameplay
             var ray = mainCam.ScreenPointToRay(eventData.position);
             plane.Raycast(ray, out var dist);
             return ray.GetPoint(dist);
+        }
+
+        public void ForceSnapToGrid()
+        {
+            CurrentDraggedTile = null;
+            s_currentPointerId = InvalidPointerId;
+            this._hasStartedDragging = false;
+            this._currentEventData = null;
+
+            var gm = GridManager.Instance;
+            var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
+            var tileYX = gm.GetNearestTileYX(dragPos);
+
+            gm.SnapToGrid(this, tileYX);
+        }
+
+        public void ToggleDrag(bool toggle)
+        {
+            foreach (var myCollider in this._myColliders)
+            {
+                myCollider.enabled = toggle;
+            }
+        }
+
+        public async void HandleAnimalDropped()
+        {
+            this._dropsLeft--;
+            this.RefreshDropsLeftText();
+
+            if (this._dropsLeft == 0)
+            {
+                this.ToggleDrag(false);
+                this.ForceSnapToGrid();
+
+                GridManager.Instance.ResetHighlightsForAllTiles();
+
+                await UniTask.WaitForSeconds(1f);
+                if (!this)
+                {
+                    Destroy(this.gameObject);
+                    return;
+                }
+
+                Destroy(this.gameObject);
+            }
         }
     }
 }

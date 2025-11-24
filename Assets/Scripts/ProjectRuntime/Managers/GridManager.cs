@@ -138,6 +138,11 @@ namespace ProjectRuntime.Managers
 
         public void HighlightBackgroundTilesForTile(BathSlideTile tile, Vector2Int tileYX)
         {
+            if (BathSlideTile.CurrentDraggedTile == null)
+            {
+                return;
+            }
+
             // Remove highlight for everything
             for (var rowY = 1; rowY < this._finalGridHeight - 1; rowY++)
             {
@@ -165,7 +170,18 @@ namespace ProjectRuntime.Managers
                     }
                 }
             }
-            
+        }
+
+        public void ResetHighlightsForAllTiles()
+        {
+            // Remove highlight for everything
+            for (var rowY = 1; rowY < this._finalGridHeight - 1; rowY++)
+            {
+                for (var colX = 1; colX < this._finalGridWidth - 1; colX++)
+                {
+                    this.Tiles[rowY, colX].UnhighlightTile();
+                }
+            }
         }
 
         public void RegisterAnimalDrop(AnimalDrop animalDrop)
