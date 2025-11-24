@@ -21,8 +21,153 @@ MonoBehaviour:
       - <Cols>k__BackingField: 01
   - <TileShapeId>k__BackingField: 2
     <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 1
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0101
+  - <TileShapeId>k__BackingField: 3
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 3
+      <Height>k__BackingField: 1
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 010101
+  - <TileShapeId>k__BackingField: 4
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 1
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 01
+      - <Cols>k__BackingField: 01
+  - <TileShapeId>k__BackingField: 5
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 1
+      <Height>k__BackingField: 3
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 01
+      - <Cols>k__BackingField: 01
+      - <Cols>k__BackingField: 01
+  - <TileShapeId>k__BackingField: 6
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0101
+      - <Cols>k__BackingField: 0101
+  - <TileShapeId>k__BackingField: 7
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0100
+      - <Cols>k__BackingField: 0101
+  - <TileShapeId>k__BackingField: 8
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0001
+      - <Cols>k__BackingField: 0101
+  - <TileShapeId>k__BackingField: 9
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0101
+      - <Cols>k__BackingField: 0100
+  - <TileShapeId>k__BackingField: 10
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0101
+      - <Cols>k__BackingField: 0001
+  - <TileShapeId>k__BackingField: 11
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 3
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0100
+      - <Cols>k__BackingField: 0100
+      - <Cols>k__BackingField: 0101
+  - <TileShapeId>k__BackingField: 12
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 3
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0001
+      - <Cols>k__BackingField: 0001
+      - <Cols>k__BackingField: 0101
+  - <TileShapeId>k__BackingField: 13
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 3
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 010101
+      - <Cols>k__BackingField: 010000
+  - <TileShapeId>k__BackingField: 14
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 3
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 010101
+      - <Cols>k__BackingField: 000001
+  - <TileShapeId>k__BackingField: 15
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 3
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0101
+      - <Cols>k__BackingField: 0001
+      - <Cols>k__BackingField: 0001
+  - <TileShapeId>k__BackingField: 16
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 3
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0101
+      - <Cols>k__BackingField: 0100
+      - <Cols>k__BackingField: 0100
+  - <TileShapeId>k__BackingField: 17
+    <Shape>k__BackingField:
       <Width>k__BackingField: 3
       <Height>k__BackingField: 2
       <Rows>k__BackingField:
       - <Cols>k__BackingField: 000001
+      - <Cols>k__BackingField: 010101
+  - <TileShapeId>k__BackingField: 18
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 3
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 010000
+      - <Cols>k__BackingField: 010101
+  - <TileShapeId>k__BackingField: 19
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 3
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 010101
+      - <Cols>k__BackingField: 000100
+  - <TileShapeId>k__BackingField: 20
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 3
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0100
+      - <Cols>k__BackingField: 0101
+      - <Cols>k__BackingField: 0100
+  - <TileShapeId>k__BackingField: 21
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 2
+      <Height>k__BackingField: 3
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 0001
+      - <Cols>k__BackingField: 0101
+      - <Cols>k__BackingField: 0001
+  - <TileShapeId>k__BackingField: 22
+    <Shape>k__BackingField:
+      <Width>k__BackingField: 3
+      <Height>k__BackingField: 2
+      <Rows>k__BackingField:
+      - <Cols>k__BackingField: 000100
       - <Cols>k__BackingField: 010101

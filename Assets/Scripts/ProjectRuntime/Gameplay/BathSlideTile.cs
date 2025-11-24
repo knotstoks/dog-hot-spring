@@ -252,7 +252,7 @@ namespace ProjectRuntime.Gameplay
             CurrentDraggedTile = null;
             s_currentPointerId = InvalidPointerId;
             this._hasStartedDragging = false;
-            this._currentEventData = null;
+            this._currentEventData = null; 
 
             var gm = GridManager.Instance;
             var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
@@ -279,15 +279,15 @@ namespace ProjectRuntime.Gameplay
                 this.ToggleDrag(false);
                 this.ForceSnapToGrid();
 
-                GridManager.Instance.ResetHighlightsForAllTiles();
-
-                await UniTask.WaitForSeconds(1f);
+                await UniTask.WaitForSeconds(0.5f);
                 if (!this)
                 {
+                    GridManager.Instance.ResetHighlightsForAllTiles();
                     Destroy(this.gameObject);
                     return;
                 }
 
+                GridManager.Instance.ResetHighlightsForAllTiles();
                 Destroy(this.gameObject);
             }
         }

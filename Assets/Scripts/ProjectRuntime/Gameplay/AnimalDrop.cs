@@ -44,7 +44,7 @@ namespace ProjectRuntime.Gameplay
 
             GridManager.Instance.DeregisterAnimalDrop(this);
 
-            await UniTask.WaitForSeconds(1f);
+            await UniTask.WaitForSeconds(0.5f);
             if (!this) return;
 
             Destroy(this.gameObject);
