@@ -104,8 +104,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8548558309343638012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -171,6 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8548558309343638012}
   - component: {fileID: 6431261320004275882}
+  - component: {fileID: 7223836140223724267}
   m_Layer: 6
   m_Name: animal_black
   m_TagString: Untagged
@@ -209,3 +210,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AnimalCollider>k__BackingField: {fileID: 9189052541543671631}
   <TileColor>k__BackingField: 7
+  <Animator>k__BackingField: {fileID: 7223836140223724267}
+--- !u!95 &7223836140223724267
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8519314845707740764}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 08fac943a0ecf0b4181b775203086002, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

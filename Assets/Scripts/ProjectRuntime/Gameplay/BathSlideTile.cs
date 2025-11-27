@@ -30,13 +30,7 @@ namespace ProjectRuntime.Gameplay
         private TextMeshProUGUI DropsLeftTMP { get; set; }
 
         [field: SerializeField]
-        private int EditorTileShapeId { get; set; }
-
-        [field: SerializeField]
-        private TileColor EditorTileColor { get; set; }
-
-        [field: SerializeField]
-        private int EditorDropsLeft { get; set; }
+        private List<Transform> DropTransforms { get; set; }
 
         public TileShape TileShape { get; private set; }
 
@@ -67,8 +61,6 @@ namespace ProjectRuntime.Gameplay
             this._contactFilter.SetLayerMask(LayerMask.GetMask("Tiles"));
             this._contactFilter.useLayerMask = true;
             this._contactFilter.useTriggers = false;
-
-            this.Init(this.EditorTileShapeId, this.EditorTileColor, this.EditorDropsLeft);
         }
 
         private void Update()
@@ -84,6 +76,8 @@ namespace ProjectRuntime.Gameplay
             this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
             this.TileColor = tileColor;
             this._dropsLeft = dropsLeft;
+
+            // TODO: Update Sprite for colors
 
             this.RefreshDropsLeftText();
         }
@@ -292,6 +286,23 @@ namespace ProjectRuntime.Gameplay
                 GridManager.Instance.ResetHighlightsForAllTiles();
                 Destroy(this.gameObject);
             }
+        }
+
+        public Transform GetNearestDropTransform(Vector3 position)
+        {
+            var minDistance = float.MaxValue;
+            var nearestTransform = this.DropTransforms[0]; // Will always have at least 1 drop transform
+            foreach (var t in this.DropTransforms)
+            {
+                var dist = Vector3.Distance(position, t.position);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    nearestTransform = t;
+                }
+            }
+
+            return nearestTransform;
         }
     }
 }

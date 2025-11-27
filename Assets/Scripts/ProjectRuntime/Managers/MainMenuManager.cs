@@ -15,11 +15,15 @@ namespace ProjectRuntime.Managers
         private Button PlayButton { get; set; }
 
         [field: SerializeField]
+        private Button OptionsButton { get; set; }
+
+        [field: SerializeField]
         private Button QuitButton { get; set; }
 
         private void Awake()
         {
             this.PlayButton.OnClick(this.OnPlayButtonClick);
+            this.OptionsButton.OnClick(this.OnOptionsButtonClick);
             this.QuitButton.OnClick(this.OnQuitButtonClick);
         }
 
@@ -28,6 +32,11 @@ namespace ProjectRuntime.Managers
             await PanelManager.Instance.FadeToBlackAsync();
 
             SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+        }
+
+        private void OnOptionsButtonClick()
+        {
+            // TODO
         }
 
         private void OnQuitButtonClick()

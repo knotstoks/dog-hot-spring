@@ -311,6 +311,11 @@ namespace ProjectRuntime.Managers
             }
 
             this._animalDropPositionDict.Remove(this.GetNearestTileYX(animalDrop.transform.position));
+
+            if (this._animalDropDict.Count == 0)
+            {
+                BattleManager.Instance.ShowVictoryPanel();
+            }
         }
 
         public void ToggleDropColor(TileColor tileColor, bool isDroppable)

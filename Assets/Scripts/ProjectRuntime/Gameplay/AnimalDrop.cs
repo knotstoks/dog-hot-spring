@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using ProjectRuntime.Managers;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         public TileColor TileColor { get; private set; }
+
+        [field: SerializeField]
+        private Animator Animator { get; set; }
 
         // Tile Color should be set in level editor
         public async void Init()
@@ -34,15 +38,40 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            // TODO: Communicate with Tile that it has dropped instantly
+            // Communicate with Tile that it has dropped instantly
             bathSlideTile.HandleAnimalDropped();
+            this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
+            await this.transform.DOLocalMove(Vector3.zero, 0.1f);
+            if (!this) return;
 
             GridManager.Instance.DeregisterAnimalDrop(this);
 
-            await UniTask.WaitForSeconds(0.5f);
+            // Animate it falling!
+            await this.PlayDropAnimation();
             if (!this) return;
 
             Destroy(this.gameObject);
+        }
+
+        private async UniTask PlayDropAnimation()
+        {
+            this.Animator.Play("drop");
+            var stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
+            while (!stateInfo.IsName("drop"))
+            {
+                await UniTask.Yield();
+                if (!this) return;
+
+                stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
+            }
+
+            while (stateInfo.normalizedTime < 1f)
+            {
+                await UniTask.Yield();
+                if (!this) return;
+
+                stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
+            }
         }
     }
 }
