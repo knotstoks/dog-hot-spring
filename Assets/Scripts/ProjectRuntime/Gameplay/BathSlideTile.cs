@@ -19,6 +19,7 @@ namespace ProjectRuntime.Gameplay
         WHITE = 6,
         BLACK = 7,
         PURPLE = 8,
+        PINK = 9,
     }
 
     public class BathSlideTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
