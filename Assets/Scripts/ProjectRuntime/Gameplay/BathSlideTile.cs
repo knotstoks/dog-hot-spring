@@ -1,3 +1,4 @@
+using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using ProjectRuntime.Data;
 using ProjectRuntime.Managers;
@@ -32,6 +33,9 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         private List<Transform> DropTransforms { get; set; }
+
+        [field: SerializeField]
+        private SpriteRenderer SpriteRenderer { get; set; }
 
         public TileShape TileShape { get; private set; }
 
@@ -78,7 +82,8 @@ namespace ProjectRuntime.Gameplay
             this.TileColor = tileColor;
             this._dropsLeft = dropsLeft;
 
-            // TODO: Update Sprite for colors
+            // Update the tile sprite
+            CommonUtil.UpdateSprite(this.SpriteRenderer, DTileSprite.GetSpritePath(tileId, tileColor));
 
             this.RefreshDropsLeftText();
         }

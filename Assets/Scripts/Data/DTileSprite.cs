@@ -6,47 +6,56 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DAnimal", menuName = "Data/DAnimal", order = 3)]
-public class DAnimal : ScriptableObject, IDataImport
+[CreateAssetMenu(fileName = "DTileSprite", menuName = "Data/DTileSprite", order = 3)]
+public class DTileSprite : ScriptableObject, IDataImport
 {
-    private static DAnimal s_loadedData;
-    private static Dictionary<TileColor, AnimalData> s_cachedDataDict;
+    private static DTileSprite s_loadedData;
+    private static Dictionary<TileColor, TileSpriteData> s_cachedDataDict;
 
     [field: SerializeField]
-    public List<AnimalData> Data { get; private set; }
+    public List<TileSpriteData> Data { get; private set; }
 
-    public static DAnimal GetAllData()
+    public static DTileSprite GetAllData()
     {
         if (s_loadedData == null)
         {
             // Load and cache results
-            s_loadedData = ResourceLoader.Load<DAnimal>("data/DAnimal.asset", false);
+            s_loadedData = ResourceLoader.Load<DTileSprite>("data/DTileSprite.asset", false);
 
             // Calculate and cache some results
             s_cachedDataDict = new();
-            foreach (var animalData in s_loadedData.Data)
+            foreach (var tileSpriteData in s_loadedData.Data)
             {
 #if UNITY_EDITOR
-                if (s_cachedDataDict.ContainsKey(animalData.AnimalColor))
+                if (s_cachedDataDict.ContainsKey(tileSpriteData.TileColor))
                 {
-                    Debug.LogError($"Duplicate Id {animalData.AnimalColor}");
+                    Debug.LogError($"Duplicate Id {tileSpriteData.TileColor}");
                 }
 #endif
-                s_cachedDataDict[animalData.AnimalColor] = animalData;
+
+                s_cachedDataDict[tileSpriteData.TileColor] = tileSpriteData;
             }
         }
 
         return s_loadedData;
     }
 
-    public static AnimalData? GetDataById(TileColor tileColor)
+    public static string GetSpritePath(int shapeId, TileColor tileColor)
     {
         if (s_cachedDataDict == null)
         {
             GetAllData();
         }
 
-        return s_cachedDataDict.TryGetValue(tileColor, out var result) ? result : null;
+        if (!s_cachedDataDict.ContainsKey(tileColor))
+        {
+            Debug.LogError($"Invalid color {tileColor}!");
+            return string.Empty;
+        }
+
+        return s_cachedDataDict.TryGetValue(tileColor, out var tileSpriteData)
+            ? string.Format(tileSpriteData.SpritePrefabPath, shapeId.ToString())
+            : string.Empty;
     }
 
 #if UNITY_EDITOR
@@ -73,7 +82,7 @@ public class DAnimal : ScriptableObject, IDataImport
         }
 
         // special handling for shape parameter and percentage
-        var pattern = @"[{}""]";
+        var pattern = @"[""]";
         text = text.Replace("\r\n", "\n");      // handle window line break
         text = text.Replace(",\n", ",");
         text = Regex.Replace(text, pattern, "");
@@ -104,12 +113,12 @@ public class DAnimal : ScriptableObject, IDataImport
             }
 
             // New item
-            var worldData = new AnimalData
+            var tileSpriteData = new TileSpriteData
             {
-                AnimalColor = Enum.TryParse(paramList[1], out TileColor tileColor) ? tileColor : TileColor.NONE,
-                PrefabPath = paramList[2],
+                TileColor = Enum.TryParse(paramList[1], out TileColor tileColor) ? tileColor : TileColor.NONE,
+                SpritePrefabPath = paramList[2],
             };
-            s_loadedData.Data.Add(worldData);
+            s_loadedData.Data.Add(tileSpriteData);
         }
 
         CommonUtil.SaveScriptableObject(s_loadedData);
@@ -118,11 +127,11 @@ public class DAnimal : ScriptableObject, IDataImport
 }
 
 [Serializable]
-public struct AnimalData
+public struct TileSpriteData
 {
     [field: SerializeField]
-    public TileColor AnimalColor { get; set; }
+    public TileColor TileColor { get; set; }
 
     [field: SerializeField]
-    public string PrefabPath { get; set; }
+    public string SpritePrefabPath { get; set; }
 }

@@ -131,21 +131,24 @@ namespace ProjectRuntime.Managers
             // Create Bath Slide Tiles
             foreach (var bathSlideTile in levelData.TileSaveDatas)
             {
-                var dTile = DTile.GetDataById(bathSlideTile.TileId).Value;
-                var tileObject = await ResourceLoader.InstantiateAsync(dTile.PrefabPath, this.TileContainer);
+                var tilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", bathSlideTile.TileId.ToString());
+                var tileObject = await ResourceLoader.InstantiateAsync(tilePrefabPath, this.TileContainer);
                 if (!this) return;
-
-                var tilePos = this.GetTilePosition(bathSlideTile.TileYX.x, bathSlideTile.TileYX.y);
-                tileObject.transform.position = tilePos;
                 var tile = tileObject.GetComponent<BathSlideTile>();
+
+                // Set position
+                var tilePos = this.GetTilePosition(bathSlideTile.TileYX.x, bathSlideTile.TileYX.y);
+                var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
+                tileObject.transform.localPosition = tilePos + offset;
+
                 tile.Init(bathSlideTile.TileId, bathSlideTile.TileColor, bathSlideTile.DropsLeft);
             }
 
             // Create Animals
             foreach (var animalTile in levelData.AnimalSaveDatas)
             {
-                var dAnimal = DAnimal.GetDataById(animalTile.AnimalColor).Value;
-                var animalObject = await ResourceLoader.InstantiateAsync(dAnimal.PrefabPath, this.TileContainer);
+                var animalPrefabPath = string.Format("prefabs/animals/animal_{0}.prefab", animalTile.AnimalColor.ToString().ToLowerInvariant());
+                var animalObject = await ResourceLoader.InstantiateAsync(animalPrefabPath, this.TileContainer);
                 if (!this) return;
 
                 var animalTilePos = this.GetTilePosition(animalTile.TileYX.x, animalTile.TileYX.y);
