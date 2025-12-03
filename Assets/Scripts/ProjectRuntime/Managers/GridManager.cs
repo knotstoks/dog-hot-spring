@@ -175,7 +175,7 @@ namespace ProjectRuntime.Managers
 
         private LevelSaveData ParseLevelSaveData(string s)
         {
-            var stringSplit = s.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            var stringSplit = s.Split(',');
             var gridHeight = CommonUtil.ConvertToInt32(stringSplit[0]);
             var gridWidth = CommonUtil.ConvertToInt32(stringSplit[1]);
 
