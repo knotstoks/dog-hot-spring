@@ -1,6 +1,7 @@
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
 using Cysharp.Threading.Tasks;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace ProjectRuntime.Managers
@@ -43,10 +44,18 @@ namespace ProjectRuntime.Managers
 
         private void Update()
         {
+#if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
             }
+
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                LevelIdToLoad++;
+                SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
+            }
+#endif
         }
 
         private async void Init()

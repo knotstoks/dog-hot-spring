@@ -83,9 +83,7 @@ namespace ProjectRuntime.Gameplay
             this._dropsLeft = dropsLeft;
 
             // Update the tile sprite
-            // TODO
-            //CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
-            CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", "1", tileColor.ToString().ToLowerInvariant()));
+            CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
 
             this.RefreshDropsLeftText();
         }

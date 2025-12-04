@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeaf1862a21084919b8749b136e01a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EditorIdToLoad>k__BackingField: 0
+  <EditorIdToLoad>k__BackingField: 1
   <PuzzleGridTransform>k__BackingField: {fileID: 887716548}
 --- !u!114 &2066283973
 MonoBehaviour:
