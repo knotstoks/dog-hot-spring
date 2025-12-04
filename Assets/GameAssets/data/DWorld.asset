@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DWorld
   m_EditorClassIdentifier: 
   <Data>k__BackingField:
-  - <WorldId>k__BackingField: 1
+  - <WorldId>k__BackingField: 0
     <WorldName>k__BackingField: Test
-    <ParsedLevel>k__BackingField: 8,6,(3:8)(4:8),(2:GREEN:1:3:2),(GREEN:1:6)(GREEN:1:5)
+    <ParsedLevel>k__BackingField: 6,5,,(2:ORANGE:6:1:2)(10:GREEN:4:2:4)(10:RED:2:3:4)(2:YELLOW:1:4:2),(ORANGE:6:4)(ORANGE:5:1)(GREEN:6:5)(GREEN:5:5)(GREEN:5:4)(GREEN:4:1)(RED:3:1)(RED:2:1)(RED:1:1)(RED:3:5)(YELLOW:2:5)(YELLOW:1:2)

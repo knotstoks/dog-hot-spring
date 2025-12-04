@@ -675,7 +675,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <BottomLeftTransform>k__BackingField: {fileID: 8060971816393324422}
   <DropsLeftTMP>k__BackingField: {fileID: 8550360403752286889}
-  <DropTransforms>k__BackingField: []
+  <DropTransforms>k__BackingField:
+  - {fileID: 7678024489565554426}
+  - {fileID: 2114334538652650633}
+  - {fileID: 1878006253513313331}
+  - {fileID: 86033098583137444}
   <SpriteRenderer>k__BackingField: {fileID: 8487386841303859769}
 --- !u!50 &7033645038258998254
 Rigidbody2D:

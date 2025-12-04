@@ -83,7 +83,9 @@ namespace ProjectRuntime.Gameplay
             this._dropsLeft = dropsLeft;
 
             // Update the tile sprite
-            CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
+            // TODO
+            //CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
+            CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", "1", tileColor.ToString().ToLowerInvariant()));
 
             this.RefreshDropsLeftText();
         }
@@ -234,6 +236,8 @@ namespace ProjectRuntime.Gameplay
                 var gm = GridManager.Instance;
                 var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
                 var tileYX = gm.GetNearestTileYX(dragPos);
+
+                gm.ResetHighlightsForAllTiles();
 
                 gm.SnapToGrid(this, tileYX);
             }

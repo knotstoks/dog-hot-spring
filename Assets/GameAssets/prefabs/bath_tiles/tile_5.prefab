@@ -617,6 +617,7 @@ MonoBehaviour:
   <DropTransforms>k__BackingField:
   - {fileID: 8767141103391643165}
   - {fileID: 2868284564166295569}
+  - {fileID: 9137822627859409232}
   <SpriteRenderer>k__BackingField: {fileID: 6256076766738612268}
 --- !u!50 &7033645038258998254
 Rigidbody2D:

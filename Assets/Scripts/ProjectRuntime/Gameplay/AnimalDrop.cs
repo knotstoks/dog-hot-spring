@@ -38,13 +38,14 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
+            // Remove immediately to prevent leaving and entering square bug
+            GridManager.Instance.DeregisterAnimalDrop(this);
+
             // Communicate with Tile that it has dropped instantly
             bathSlideTile.HandleAnimalDropped();
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
             await this.transform.DOLocalMove(Vector3.zero, 0.1f);
             if (!this) return;
-
-            GridManager.Instance.DeregisterAnimalDrop(this);
 
             // Animate it falling!
             await this.PlayDropAnimation();
