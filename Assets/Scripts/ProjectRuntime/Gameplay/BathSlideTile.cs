@@ -282,6 +282,7 @@ namespace ProjectRuntime.Gameplay
             {
                 this.ToggleDrag(false);
                 this.ForceSnapToGrid();
+                GridManager.Instance.ToggleDropColor(this.TileColor, false);
 
                 await UniTask.WaitForSeconds(0.5f);
                 if (!this)

@@ -25,3 +25,6 @@ MonoBehaviour:
   - <WorldId>k__BackingField: 4
     <WorldName>k__BackingField: Level 4
     <ParsedLevel>k__BackingField: 4,6,,(1:BLUE:4:1:1)(8:GREEN:3:1:2)(8:ORANGE:3:4:2)(2:RED:1:2:2)(2:YELLOW:1:4:2),(YELLOW:4:3)(YELLOW:2:6)(ORANGE:2:1)(ORANGE:1:1)(RED:2:2)(RED:2:4)(GREEN:4:2)(GREEN:1:6)(BLUE:2:5)
+  - <WorldId>k__BackingField: 5
+    <WorldName>k__BackingField: Level 5
+    <ParsedLevel>k__BackingField: 7,6,,(9:BLACK:5:1:2)(2:ORANGE:7:2:2)(1:RED:7:4:1)(10:GREEN:6:5:4)(2:RED:2:1:2)(3:PINK:2:4:2)(2:BLUE:2:5:2),(ORANGE:1:1)(BLACK:1:2)(RED:1:3)(BLACK:1:4)(GREEN:1:5)(PINK:1:6)(BLUE:4:1)(BLUE:3:6)(GREEN:4:2)(RED:4:4)(PINK:5:2)(RED:5:4)(GREEN:6:2)(GREEN:6:3)(ORANGE:6:4)
