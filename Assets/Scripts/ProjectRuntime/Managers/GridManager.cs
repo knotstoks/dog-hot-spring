@@ -108,7 +108,7 @@ namespace ProjectRuntime.Managers
                 {
                     if (colX == 0 || colX == this._finalGridWidth - 1
                         || rowY == 0 || rowY == this._finalGridHeight - 1
-                        || this.IsLockedTile(levelData.LockedTiles, new Vector2Int(colX, rowY)))
+                        || this.IsLockedTile(levelData.LockedTiles, new Vector2Int(rowY, colX)))
                     {
                         // Spawn a wall tile
                         var wallTile = Instantiate(this.WallTilePrefab, this.TileContainer);
