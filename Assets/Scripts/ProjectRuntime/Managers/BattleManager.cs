@@ -56,6 +56,8 @@ namespace ProjectRuntime.Managers
                 SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
             }
 #endif
+
+
         }
 
         private async void Init()
