@@ -1,3 +1,4 @@
+using BroccoliBunnyStudios.Sound;
 using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -7,6 +8,8 @@ namespace ProjectRuntime.Managers
     public class TimeManager
     {
         private static readonly Lazy<TimeManager> s_lazy = new(() => new TimeManager());
+
+        public static TimeManager Instance => s_lazy.Value;
 
         private DateTime _startTimeObject;
 

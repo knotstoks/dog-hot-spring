@@ -314,8 +314,7 @@ namespace ProjectRuntime.Managers
             }
 
             this._animalDropPositionDict.Remove(this.GetNearestTileYX(animalDrop.transform.position));
-
-            if (this._animalDropDict.Count == 0)
+            if (this._animalDropPositionDict.Count == 0)
             {
                 BattleManager.Instance.ShowVictoryPanel();
             }

@@ -22,16 +22,27 @@ namespace ProjectRuntime.Managers
 
         private void Awake()
         {
+            PanelManager.Instance.FadeToBlackAsync(0).Forget();
+
             this.PlayButton.OnClick(this.OnPlayButtonClick);
             this.OptionsButton.OnClick(this.OnOptionsButtonClick);
             this.QuitButton.OnClick(this.OnQuitButtonClick);
+
+            PanelManager.Instance.FadeFromBlack().Forget();
         }
 
         private async void OnPlayButtonClick()
         {
             await PanelManager.Instance.FadeToBlackAsync();
 
-            SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+            // TODO
+            //SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+
+            BattleManager.LevelIdToLoad = 1;
+            SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
+
+            // TEMP for playtesting
+            TimeManager.Instance.SetStartTime();
         }
 
         private void OnOptionsButtonClick()

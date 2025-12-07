@@ -1,6 +1,7 @@
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
 using Cysharp.Threading.Tasks;
+using ProjectRuntime.UI.Panels;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -28,8 +29,6 @@ namespace ProjectRuntime.Managers
             {
                 Debug.Log("There are 2 or more BattleManagers in the scene");
             }
-
-            PanelManager.Instance.FadeToBlackAsync(0f).Forget();
         }
 
         private void OnDestroy()
@@ -56,8 +55,6 @@ namespace ProjectRuntime.Managers
                 SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
             }
 #endif
-
-
         }
 
         private async void Init()
@@ -84,10 +81,25 @@ namespace ProjectRuntime.Managers
         public async void ShowVictoryPanel()
         {
             // This is to wait for the last animals to drop
-            await UniTask.WaitForSeconds(1f);
+            await UniTask.WaitForSeconds(0.5f);
             if (!this) return;
 
             //PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
+
+            var numberOfWorlds = DWorld.GetAllData().Data.Count;
+            if (LevelIdToLoad == numberOfWorlds)
+            {
+                PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
+            }
+            else
+            {
+                await PanelManager.Instance.FadeToBlackAsync();
+                if (!this) return;
+
+                // Continue the game
+                LevelIdToLoad++;
+                SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
+            }
         }
     }
 }
