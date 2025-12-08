@@ -284,7 +284,7 @@ namespace ProjectRuntime.Gameplay
                 this.ForceSnapToGrid();
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
 
-                await UniTask.WaitForSeconds(0.5f);
+                await UniTask.WaitForSeconds(0.8f); // Long to let the splash vfx to play
                 if (!this)
                 {
                     GridManager.Instance.ResetHighlightsForAllTiles();

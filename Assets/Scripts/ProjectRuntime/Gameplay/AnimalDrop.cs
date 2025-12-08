@@ -51,6 +51,9 @@ namespace ProjectRuntime.Gameplay
             await this.PlayDropAnimation();
             if (!this) return;
 
+            await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
+            if (!this) return;
+
             Destroy(this.gameObject);
         }
 

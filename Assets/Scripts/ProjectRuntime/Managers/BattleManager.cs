@@ -19,6 +19,9 @@ namespace ProjectRuntime.Managers
         [field: SerializeField, Header("Scene References")]
         public Transform PuzzleGridTransform { get; private set; }
 
+        [field: SerializeField, Header("Containers")]
+        public Transform VfxContainer { get; private set; }
+
         private void Awake()
         {
             if (Instance == null)
