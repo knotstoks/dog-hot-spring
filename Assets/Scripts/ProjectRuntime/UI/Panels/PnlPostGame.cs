@@ -22,8 +22,17 @@ namespace ProjectRuntime.UI.Panels
 
         private void Awake()
         {
+            // TEMP: For prototype
             this._inGameTimeSpan = TimeManager.Instance.GetTimeFromStart();
             this.TimeSpentTMP.text = $"{this._inGameTimeSpan.Minutes:00}:{this._inGameTimeSpan.Seconds:00}:{this._inGameTimeSpan.Milliseconds:000}";
+
+            var currentLevelId = BattleManager.LevelIdToLoad;
+            var usdm = UserSaveDataManager.Instance;
+            if (usdm.GetCurrentWorldProgress() < currentLevelId)
+            {
+                // Update to the current level
+                usdm.SetCurrentWorldProgress(currentLevelId);
+            }
 
             this.ReturnToMainMenuButton.OnClick(this.OnReturnToMainMenuButtonClick);
         }

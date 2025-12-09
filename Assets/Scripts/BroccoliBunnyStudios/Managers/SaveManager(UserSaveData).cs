@@ -4,41 +4,22 @@ namespace BroccoliBunnyStudios.Managers
 {
     public partial class SaveManager
     {
-        public enum GameDifficulty
+        public int CurrentLevelProgress
         {
-            Easy = 0,
-            Normal = 1,
-            Hard = 2,
+            get => this.SaveConfig.GetInt(nameof(this.CurrentLevelProgress), 0);
+            set => this.SaveConfig.SetInt(nameof(this.CurrentLevelProgress), value);
         }
 
-        public GameDifficulty DifficultySettings
+        public List<string> CompletedStories
         {
-            get => (GameDifficulty)this.SaveConfig.GetInt(nameof(this.DifficultySettings), (int)GameDifficulty.Easy);
-            set => this.SaveConfig.SetInt(nameof(this.DifficultySettings), (int)value);
+            get => this.SaveConfig.GetCollection<List<string>, string>(nameof(this.CompletedStories), new());
+            set => this.SaveConfig.SetCollection<List<string>, string>(nameof(this.CompletedStories), value);
         }
 
-        public int CurrentChapter
+        public List<string> CompletedTutorials
         {
-            get => this.SaveConfig.GetInt(nameof(this.CurrentChapter), 0);
-            set => this.SaveConfig.SetInt(nameof(this.CurrentChapter), value);
-        }
-
-        public string StoryFlags
-        {
-            get => this.SaveConfig.GetString(nameof(this.StoryFlags), string.Empty);
-            set => this.SaveConfig.SetString(nameof(this.StoryFlags), value);
-        }
-
-        public List<string> TaskList
-        {
-            get => this.SaveConfig.GetCollection<List<string>, string>(nameof(this.TaskList), new());
-            set => this.SaveConfig.SetCollection<List<string>, string>(nameof(this.TaskList), value);
-        }
-
-        public bool HasCompletedTutorial
-        {
-            get => this.SaveConfig.GetBool(nameof(this.HasCompletedTutorial), false);
-            set => this.SaveConfig.SetBool(nameof(this.HasCompletedTutorial), value);
+            get => this.SaveConfig.GetCollection<List<string>, string>(nameof(this.CompletedTutorials), new());
+            set => this.SaveConfig.SetCollection<List<string>, string>(nameof(this.CompletedTutorials), value);
         }
     }
 }

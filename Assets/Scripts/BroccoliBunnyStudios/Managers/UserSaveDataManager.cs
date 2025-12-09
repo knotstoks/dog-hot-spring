@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using static BroccoliBunnyStudios.Managers.SaveManager;
 
 namespace BroccoliBunnyStudios.Managers
 {
@@ -10,16 +8,23 @@ namespace BroccoliBunnyStudios.Managers
         private static readonly Lazy<UserSaveDataManager> s_lazy = new(() => new UserSaveDataManager());
         public static UserSaveDataManager Instance => s_lazy.Value;
 
-        private Dictionary<string, int> _storyFlagDict;
+        // Internal variables
+        private readonly List<string> _completedStories;
+        private readonly List<string> _completedTutorials;
 
-        public static Action<string> OnCurrentTasksChanged;
+        // Callbacks
+        public event Action<int> OnUserLevelProgressModified;
+        public event Action<string> OnUserStoryProgressModified;
+        public event Action<string> OnTutorialProgressModified;
 
         private UserSaveDataManager()
         {
             var sm = SaveManager.Instance;
 
-            this._storyFlagDict = JsonConvert.DeserializeObject<Dictionary<string, int>>(sm.StoryFlags) ?? new Dictionary<string, int>();
+            this._completedStories = sm.CompletedStories;
+            this._completedTutorials = sm.CompletedTutorials;
 
+            //JsonConvert.DeserializeObject<Dictionary<string, int>>(sm.StoryFlags) ?? new Dictionary<string, int>();
             // User Snails
             //this._userSnails = JsonConvert.DeserializeObject<Dictionary<string, UserSnail>>(sm.UserSnails) ?? new Dictionary<string, UserSnail>();
             //this._readOnlyUserSnails = new(this._userSnails);
@@ -27,84 +32,66 @@ namespace BroccoliBunnyStudios.Managers
             //this.InitUserSnails();
         }
 
-        public GameDifficulty GetGameDifficulty()
+        #region Progression
+        public int GetCurrentWorldProgress()
         {
-            return SaveManager.Instance.DifficultySettings;
+            return SaveManager.Instance.CurrentLevelProgress;
         }
 
-        public void SetGameDifficulty(GameDifficulty gameDifficulty)
+        public void SetCurrentWorldProgress(int levelNumber)
         {
-            SaveManager.Instance.DifficultySettings = gameDifficulty;
+            SaveManager.Instance.CurrentLevelProgress = levelNumber;
+            this.OnUserLevelProgressModified?.Invoke(levelNumber);
+        }
+        #endregion
+
+        #region Stories
+        public void RegisterStory(string storyId)
+        {
+            this._completedStories.Add(storyId);
+            this.SaveStories();
         }
 
-        public int GetCurrentChapter()
+        public bool HasSeenStory(string storyId)
         {
-            return SaveManager.Instance.CurrentChapter;
+            return this._completedStories.Contains(storyId);
         }
 
-        public void SetCurrentChapter(int chapter)
+        public void ResetAllStories()
         {
-            SaveManager.Instance.CurrentChapter = chapter;
+            this._completedStories.Clear();
+            this.SaveStories();
         }
 
-        public bool CheckFlag(string flag, int value)
+        private void SaveStories()
         {
-            if (this._storyFlagDict.ContainsKey(flag))
-            {
-                return value == this._storyFlagDict[flag];
-            }
-            else
-            {
-                return value == 0;
-            }
+            SaveManager.Instance.CompletedStories = this._completedStories;
+        }
+        #endregion
+
+        #region Tutorials
+        public void RegisterTutorial(string tutorialId)
+        {
+            this._completedStories.Add(tutorialId);
+            this.SaveTutorials();
         }
 
-        public int GetFlag(string flag)
+        public bool HasCompletedTutorial(string tutorialId)
         {
-            if (this._storyFlagDict.ContainsKey(flag))
-            {
-                return this._storyFlagDict[flag];
-            }
-
-            return 0;
+            return this._completedTutorials.Contains(tutorialId);
         }
 
-        public void SaveFlag(string flag, int value)
+        public void ResetAllTutorials()
         {
-            this._storyFlagDict[flag] = value;
-            SaveManager.Instance.StoryFlags = JsonConvert.SerializeObject(this._storyFlagDict);
+            this._completedTutorials.Clear();
+            this.SaveTutorials();
         }
 
-        public List<string> GetTasks()
+        private void SaveTutorials()
         {
-            return SaveManager.Instance.TaskList;
+            SaveManager.Instance.CompletedStories = this._completedStories;
         }
-
-        public void AddTask(string task)
-        {
-            var lst = SaveManager.Instance.TaskList;
-            lst.Add(task);
-            SaveManager.Instance.TaskList = lst;
-
-            OnCurrentTasksChanged?.Invoke(task);
-        }
-
-        public void RemoveTask(string task)
-        {
-            var lst = SaveManager.Instance.TaskList;
-            lst.Remove(task);
-            SaveManager.Instance.TaskList = lst;
-
-            OnCurrentTasksChanged?.Invoke(task);
-        }
-
-        public void ClearStoryData()
-        {
-            SaveManager.Instance.CurrentChapter = 0;
-            SaveManager.Instance.StoryFlags = string.Empty;
-            SaveManager.Instance.TaskList = new();
-            this._storyFlagDict = new();
-        }
+        #endregion
 
         public void ClearAllData()
         {
@@ -113,7 +100,7 @@ namespace BroccoliBunnyStudios.Managers
 
         public bool HasAnySaveData()
         {
-            return SaveManager.Instance.CurrentChapter > 0;
+            return SaveManager.Instance.CurrentLevelProgress > 0;
         }
     }
 }
