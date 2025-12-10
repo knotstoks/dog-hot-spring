@@ -54,6 +54,8 @@ namespace ProjectRuntime.Gameplay
             await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
             if (!this) return;
 
+            GridManager.Instance.DetectForVictory();
+
             Destroy(this.gameObject);
         }
 

@@ -22,15 +22,20 @@ namespace ProjectRuntime.Level
         [field: SerializeField]
         public List<AnimalSaveData> AnimalSaveDatas { get; set; }
 
-        public LevelSaveData(int gridHeight, int gridWidth, List<Vector2Int> lockedTiles, List<TileSaveData> tileSaveDatas, List<AnimalSaveData> animalSaveDatas)
+        [field: SerializeField]
+        public List<QueueSaveData> QueueTileSaveDatas { get; set; }
+
+        public LevelSaveData(int gridHeight, int gridWidth, List<Vector2Int> lockedTiles, List<TileSaveData> tileSaveDatas, List<AnimalSaveData> animalSaveDatas, List<QueueSaveData> queueSaveDatas)
         {
             this.GridHeight = gridHeight;
             this.GridWidth = gridWidth;
             this.LockedTiles = lockedTiles;
             this.TileSaveDatas = tileSaveDatas;
             this.AnimalSaveDatas = animalSaveDatas;
+            this.QueueTileSaveDatas = queueSaveDatas;
         }
     }
+    
 
     [Serializable]
     public struct TileSaveData
@@ -70,5 +75,31 @@ namespace ProjectRuntime.Level
             this.AnimalColor = tileColor;
             this.TileYX = tileYX;
         }
+    }
+
+    [Serializable]
+    public struct QueueSaveData
+    {
+        public QueueSaveData(int queueTileId, Vector2Int tileYX, QueueTileDirection facingDirection, Queue<TileColor> queueColours)
+        {
+            this.QueueTileId = queueTileId;
+            this.TileYX = tileYX;
+            this.FacingDirection = facingDirection;
+            this.QueueColours = queueColours;
+        }
+
+        [field: SerializeField]
+        public int QueueTileId { get; set; }
+
+        [field: SerializeField]
+        public Vector2Int TileYX { get; set; }
+        [field: SerializeField]
+        public QueueTileDirection FacingDirection { get; set; }
+
+        [field: SerializeField]
+        public Queue<TileColor> QueueColours { get; set; }
+
+
+       
     }
 }

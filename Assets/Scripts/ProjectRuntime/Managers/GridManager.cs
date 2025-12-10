@@ -4,11 +4,12 @@ using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
 using ProjectRuntime.Level;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using System.Runtime.InteropServices.WindowsRuntime;
+using static ProjectRuntime.Level.QueueSaveData;
 
 namespace ProjectRuntime.Managers
 {
@@ -58,10 +59,13 @@ namespace ProjectRuntime.Managers
         private Vector3 _bottomLeftOffset;                      // Local offset from pivot of BackpackMainArea for bottomleft-most tile
         private int _finalGridWidth;
         private int _finalGridHeight;
+        private bool _alreadyPlayingVictory;
 
         // Animal Drop Tracking
         private Dictionary<TileColor, List<AnimalDrop>> _animalDropDict;
         private Dictionary<Vector2Int, AnimalDrop> _animalDropPositionDict;
+
+        private Dictionary<Vector2Int, QueueTile> _queueDropPositionDict;
 
         private void Awake()
         {
@@ -87,9 +91,10 @@ namespace ProjectRuntime.Managers
             var levelData = this.ParseLevelSaveData(this._dWorld.ParsedLevel);
             this.GridHeight = levelData.GridHeight;
             this.GridWidth = levelData.GridWidth;
-
+            this._alreadyPlayingVictory = false;
             this._animalDropDict = new();
             this._animalDropPositionDict = new();
+            this._queueDropPositionDict = new();
 
             this._finalGridWidth = this.GridWidth + 2;
             this._finalGridHeight = this.GridHeight + 2;
@@ -160,7 +165,19 @@ namespace ProjectRuntime.Managers
             }
 
             // Create Queue Tiles:
+            foreach (var queueTile in levelData.QueueTileSaveDatas)
+            {
+                var queuePrefabPath = string.Format("prefabs/queue_tiles/queue_{0}.prefab", queueTile.QueueTileId);
+                var queueObject = await ResourceLoader.InstantiateAsync(queuePrefabPath, this.TileContainer);
+                if (!this) return;
 
+                var queueTilePos = this.GetTilePosition(queueTile.TileYX.x, queueTile.TileYX.y);
+                queueTilePos.z = 0.01f;
+                queueObject.transform.position = queueTilePos;
+
+                var queue = queueObject.GetComponent<QueueTile>();
+                queue.Init(queueTile.QueueTileId, queueTile.FacingDirection, queueTile.QueueColours, TileHeight, TileWidth);
+            }
         }
 
         private bool IsLockedTile(List<Vector2Int> lockedTiles, Vector2Int tileYX)
@@ -215,8 +232,61 @@ namespace ProjectRuntime.Managers
                 animals.Add(new AnimalSaveData(Enum.TryParse(animalSplit[0], out TileColor animalTileColor) ? animalTileColor : TileColor.NONE,
                     new Vector2Int(CommonUtil.ConvertToInt32(animalSplit[1]), CommonUtil.ConvertToInt32(animalSplit[2]))));
             }
+            var queueTiles = new List<QueueSaveData>();
 
-            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals);
+            if (stringSplit.Length > 5)
+            {
+                var queueTileLocations = Regex.Matches(stringSplit[5], @"\((.*?)\)")
+                    .Select(m => m.Groups[1].Value)
+                    .ToList();
+                foreach (var queue in queueTileLocations)
+                {
+                    var queueSplit = queue.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                    var queueId = CommonUtil.ConvertToInt32(queueSplit[0]);
+                    var row_y = CommonUtil.ConvertToInt32(queueSplit[1]);
+                    var col_x = CommonUtil.ConvertToInt32(queueSplit[2]);
+                    var direction = ParseQueueTileDirectionString(queueSplit[3]);
+
+                    var queueColorsList = new Queue<TileColor>();
+
+                    for (var i = 4; i < queueSplit.Length; i += 2)
+                    {
+                        var dropColour = Enum.TryParse<TileColor>(queueSplit[i], true, out var resultColour) ? resultColour : TileColor.NONE;
+                        var dropsLeft = CommonUtil.ConvertToInt32(queueSplit[i + 1]);
+
+                        for (global::System.Int32 j = 0; j < dropsLeft; j++)
+                        {
+                            queueColorsList.Enqueue(dropColour);
+                        }
+                        
+                    }
+
+                    queueTiles.Add(new QueueSaveData(queueId, new Vector2Int(col_x, row_y), direction, queueColorsList));
+                }
+            }
+
+            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles);
+        }
+
+        public QueueTileDirection ParseQueueTileDirectionString(string s)
+        {
+            switch (s)
+            {
+                case "N":
+                    return QueueTileDirection.NORTH;
+                case "S":
+                    return QueueTileDirection.SOUTH;
+                case "E":
+                    return QueueTileDirection.EAST;
+                case "W":
+                    return QueueTileDirection.WEST;
+
+
+                default:
+                    break;
+            }
+
+            return QueueTileDirection.NONE;
         }
 
         /// <summary>
@@ -278,9 +348,24 @@ namespace ProjectRuntime.Managers
                         {
                             animalDrop.Drop(BathSlideTile.CurrentDraggedTile);
                         }
+
+                        if (this._queueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
+                        {
+                            queueDrop.Drop(BathSlideTile.CurrentDraggedTile);
+                        }
                     }
                 }
             }
+        }
+
+        public void DetectForVictory()
+        {
+            if (this._animalDropPositionDict.Count != 0) return;
+            if (this._queueDropPositionDict.Count != 0) return;
+            if (_alreadyPlayingVictory) return;
+
+            _alreadyPlayingVictory = true;
+            BattleManager.Instance.ShowVictoryPanel();
         }
 
         public void ResetHighlightsForAllTiles()
@@ -309,6 +394,11 @@ namespace ProjectRuntime.Managers
             this._animalDropPositionDict[this.GetNearestTileYX(animalDrop.transform.position)] = animalDrop;
         }
 
+        public void RegisterQueueTile(QueueTile queueTile)
+        {
+            this._queueDropPositionDict[this.GetNearestTileYX(queueTile.TileDetectionPosition)] = queueTile;
+        }
+
         public void DeregisterAnimalDrop(AnimalDrop animalDrop)
         {
             if (this._animalDropDict[animalDrop.TileColor].Contains(animalDrop))
@@ -317,10 +407,12 @@ namespace ProjectRuntime.Managers
             }
 
             this._animalDropPositionDict.Remove(this.GetNearestTileYX(animalDrop.transform.position));
-            if (this._animalDropPositionDict.Count == 0)
-            {
-                BattleManager.Instance.ShowVictoryPanel();
-            }
+           
+        }
+
+        public void DeregisterQueueDrop(QueueTile queueTile)
+        {
+            this._queueDropPositionDict.Remove(this.GetNearestTileYX(queueTile.TileDetectionPosition));
         }
 
         public void ToggleDropColor(TileColor tileColor, bool isDroppable)
