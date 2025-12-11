@@ -232,37 +232,34 @@ namespace ProjectRuntime.Managers
                 animals.Add(new AnimalSaveData(Enum.TryParse(animalSplit[0], out TileColor animalTileColor) ? animalTileColor : TileColor.NONE,
                     new Vector2Int(CommonUtil.ConvertToInt32(animalSplit[1]), CommonUtil.ConvertToInt32(animalSplit[2]))));
             }
+
             var queueTiles = new List<QueueSaveData>();
-
-            if (stringSplit.Length > 5)
+            var queueTileLocations = Regex.Matches(stringSplit[5], @"\((.*?)\)")
+                .Select(m => m.Groups[1].Value)
+                .ToList();
+            foreach (var queue in queueTileLocations)
             {
-                var queueTileLocations = Regex.Matches(stringSplit[5], @"\((.*?)\)")
-                    .Select(m => m.Groups[1].Value)
-                    .ToList();
-                foreach (var queue in queueTileLocations)
+                var queueSplit = queue.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                var queueId = CommonUtil.ConvertToInt32(queueSplit[0]);
+                var row_y = CommonUtil.ConvertToInt32(queueSplit[1]);
+                var col_x = CommonUtil.ConvertToInt32(queueSplit[2]);
+                var direction = ParseQueueTileDirectionString(queueSplit[3]);
+
+                var queueColorsList = new Queue<TileColor>();
+
+                for (var i = 4; i < queueSplit.Length; i += 2)
                 {
-                    var queueSplit = queue.Split(':', StringSplitOptions.RemoveEmptyEntries);
-                    var queueId = CommonUtil.ConvertToInt32(queueSplit[0]);
-                    var row_y = CommonUtil.ConvertToInt32(queueSplit[1]);
-                    var col_x = CommonUtil.ConvertToInt32(queueSplit[2]);
-                    var direction = ParseQueueTileDirectionString(queueSplit[3]);
+                    var dropColour = Enum.TryParse<TileColor>(queueSplit[i], true, out var resultColour) ? resultColour : TileColor.NONE;
+                    var dropsLeft = CommonUtil.ConvertToInt32(queueSplit[i + 1]);
 
-                    var queueColorsList = new Queue<TileColor>();
-
-                    for (var i = 4; i < queueSplit.Length; i += 2)
+                    for (var j = 0; j < dropsLeft; j++)
                     {
-                        var dropColour = Enum.TryParse<TileColor>(queueSplit[i], true, out var resultColour) ? resultColour : TileColor.NONE;
-                        var dropsLeft = CommonUtil.ConvertToInt32(queueSplit[i + 1]);
-
-                        for (global::System.Int32 j = 0; j < dropsLeft; j++)
-                        {
-                            queueColorsList.Enqueue(dropColour);
-                        }
-                        
+                        queueColorsList.Enqueue(dropColour);
                     }
-
-                    queueTiles.Add(new QueueSaveData(queueId, new Vector2Int(col_x, row_y), direction, queueColorsList));
+                        
                 }
+
+                queueTiles.Add(new QueueSaveData(queueId, new Vector2Int(col_x, row_y), direction, queueColorsList));
             }
 
             return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles);

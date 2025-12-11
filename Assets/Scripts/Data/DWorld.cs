@@ -1,11 +1,8 @@
-using BroccoliBunnyStudios.Pools;
-using BroccoliBunnyStudios.Utils;
-using ProjectRuntime.Gameplay;
-using ProjectRuntime.Level;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using BroccoliBunnyStudios.Pools;
+using BroccoliBunnyStudios.Utils;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DWorld", menuName = "Data/DWorld", order = 3)]
@@ -77,11 +74,12 @@ public class DWorld : ScriptableObject, IDataImport
         // special handling for shape parameter and percentage
         var pattern = @"[{}""]";
         text = text.Replace("\r\n", "\n");      // handle window line break
-        text = text.Replace(",\n", ",");
+        text = text.Replace(",\n", "|");
         text = Regex.Replace(text, pattern, "");
 
         // Split data into lines
-        var lines = text.Split(new char[] { '\r', '\n' }, System.StringSplitOptions.None);
+        var lines = text.Split(new char[] { '\r', '|' }, StringSplitOptions.None);
+
         for (var i = 0; i < lines.Length; i++)
         {
             // Comment and Header
