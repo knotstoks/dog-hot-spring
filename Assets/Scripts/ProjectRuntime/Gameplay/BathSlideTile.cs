@@ -37,6 +37,12 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         private SpriteRenderer SpriteRenderer { get; set; }
 
+        [field: SerializeField, Header("Ice Block Logic")]
+        private TextMeshProUGUI IceCracksLeftTMP { get; set; }
+
+        [field: SerializeField]
+        private SpriteRenderer IceSpriteRenderer { get; set; }
+
         public TileShape TileShape { get; private set; }
 
         public TileColor TileColor { get; private set; }
@@ -58,6 +64,9 @@ namespace ProjectRuntime.Gameplay
         private List<BoxCollider2D> _myColliders;
         private int _dropsLeft;
 
+        private bool CanMove => this._iceCracksLeft == 0;
+        private int _iceCracksLeft;
+
         private void Awake()
         {
             this._myColliders = new(this.GetComponentsInChildren<BoxCollider2D>(true));
@@ -76,7 +85,7 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public void Init(int tileId, TileColor tileColor, int dropsLeft)
+        public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft = 0)
         {
             this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
             this.TileColor = tileColor;
@@ -85,7 +94,28 @@ namespace ProjectRuntime.Gameplay
             // Update the tile sprite
             CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
 
+            // Logic for ice blocks
+            this._iceCracksLeft = iceCracksLeft;
+            if (iceCracksLeft > 0)
+            {
+                this.IceSpriteRenderer.gameObject.SetActive(true);
+                this.IceCracksLeftTMP.gameObject.SetActive(true);
+                this.RefreshIceCracksLeftText();
+                this.DropsLeftTMP.gameObject.SetActive(false);
+                CommonUtil.UpdateSprite(this.IceSpriteRenderer, string.Format("images/tiles/ice_tile_{0}", tileId.ToString()));
+            }
+            else
+            {
+                this.IceCracksLeftTMP.gameObject.SetActive(false);
+                this.IceSpriteRenderer.gameObject.SetActive(false);
+            }
+
             this.RefreshDropsLeftText();
+        }
+
+        private void RefreshIceCracksLeftText()
+        {
+            this.IceCracksLeftTMP.text = this._iceCracksLeft.ToString();
         }
 
         private void RefreshDropsLeftText()
@@ -95,6 +125,11 @@ namespace ProjectRuntime.Gameplay
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (!this.CanMove)
+            {
+                return;
+            }
+
             if (s_currentPointerId == InvalidPointerId)
             {
                 s_currentPointerId = eventData.pointerId;
@@ -106,6 +141,11 @@ namespace ProjectRuntime.Gameplay
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (!this.CanMove)
+            {
+                return;
+            }
+
             if (CurrentDraggedTile != null && s_currentPointerId == eventData.pointerId)
             {
                 if (!this._hasStartedDragging)
@@ -121,6 +161,11 @@ namespace ProjectRuntime.Gameplay
 
         private void OnStartAndUpdateDrag()
         {
+            if (!this.CanMove)
+            {
+                return;
+            }
+
             // Do overlap tests
             var castDirection = this.GetWorldPosition(this._currentEventData) - this.transform.position + this._dragOffset;
             if (castDirection.magnitude == 0)
@@ -223,6 +268,11 @@ namespace ProjectRuntime.Gameplay
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (!this.CanMove)
+            {
+                return;
+            }
+
             if (CurrentDraggedTile != null && s_currentPointerId == eventData.pointerId)
             {
                 CurrentDraggedTile = null;
