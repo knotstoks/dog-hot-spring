@@ -167,7 +167,7 @@ namespace ProjectRuntime.Managers
             // Create Queue Tiles:
             foreach (var queueTile in levelData.QueueTileSaveDatas)
             {
-                var queuePrefabPath = string.Format("prefabs/queue_tiles/queue_{0}.prefab", queueTile.QueueTileId);
+                var queuePrefabPath = "prefabs/queue_tiles/queue_tile.prefab";
                 var queueObject = await ResourceLoader.InstantiateAsync(queuePrefabPath, this.TileContainer);
                 if (!this) return;
 
@@ -176,7 +176,7 @@ namespace ProjectRuntime.Managers
                 queueObject.transform.position = queueTilePos;
 
                 var queue = queueObject.GetComponent<QueueTile>();
-                queue.Init(queueTile.QueueTileId, queueTile.FacingDirection, queueTile.QueueColours, TileHeight, TileWidth);
+                queue.Init(queueTile.FacingDirection, queueTile.QueueColours, TileHeight, TileWidth);
             }
         }
 

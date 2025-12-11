@@ -50,7 +50,7 @@ namespace ProjectRuntime.Gameplay
 
 
         // Tile Color should be set in level editor
-        public async void Init(int queueTileId, QueueTileDirection tileDirection, Queue<TileColor> queueColors, float tileHeight, float tileWidth)
+        public async void Init(QueueTileDirection tileDirection, Queue<TileColor> queueColors, float tileHeight, float tileWidth)
         {
             await UniTask.WaitUntil(() => GridManager.Instance != null);
             if (!this) return;
@@ -133,8 +133,6 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-
-
         public void ToggleTriggerCollider(bool isTrigger)
         {
             this.AnimalCollider.isTrigger = isTrigger;
@@ -148,14 +146,9 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            // Remove immediately to prevent leaving and entering square bug
-            // GridManager.Instance.DeregisterAnimalDrop(this);
-
             // Communicate with Tile that it has dropped instantly
-
             while (TileQueueColours.TryPeek(out var tileColor))
             {
-                print(tileColor);
                 if (tileColor != bathSlideTile.TileColor)
                 {
                     break;
@@ -163,7 +156,7 @@ namespace ProjectRuntime.Gameplay
                 bathSlideTile.HandleAnimalDropped();
                 TileQueueColours.Dequeue();
                 UpdateVisual();
-                await UniTask.WaitForSeconds(DropDelay, true);
+                await UniTask.WaitForSeconds(this.DropDelay, true);
                 if (!this) return;
             }
 
