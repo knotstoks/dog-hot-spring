@@ -1,15 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using BroccoliBunnyStudios.Pools;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
 using ProjectRuntime.Level;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using static ProjectRuntime.Level.QueueSaveData;
 
 namespace ProjectRuntime.Managers
 {
@@ -66,6 +64,9 @@ namespace ProjectRuntime.Managers
         private Dictionary<Vector2Int, AnimalDrop> _animalDropPositionDict;
 
         private Dictionary<Vector2Int, QueueTile> _queueDropPositionDict;
+
+        // Events
+        public event Action OnBathTileCompleted;
 
         private void Awake()
         {
@@ -359,9 +360,9 @@ namespace ProjectRuntime.Managers
         {
             if (this._animalDropPositionDict.Count != 0) return;
             if (this._queueDropPositionDict.Count != 0) return;
-            if (_alreadyPlayingVictory) return;
+            if (this._alreadyPlayingVictory) return;
 
-            _alreadyPlayingVictory = true;
+            this._alreadyPlayingVictory = true;
             BattleManager.Instance.ShowVictoryPanel();
         }
 
@@ -404,7 +405,6 @@ namespace ProjectRuntime.Managers
             }
 
             this._animalDropPositionDict.Remove(this.GetNearestTileYX(animalDrop.transform.position));
-           
         }
 
         public void DeregisterQueueDrop(QueueTile queueTile)
@@ -421,6 +421,11 @@ namespace ProjectRuntime.Managers
                     animalDrop.ToggleTriggerCollider(isDroppable);
                 }
             }
+        }
+
+        public void OnBathTileComplete()
+        {
+            this.OnBathTileCompleted?.Invoke();
         }
     }
 }

@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using ProjectRuntime.Data;
 using ProjectRuntime.Managers;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -103,6 +103,8 @@ namespace ProjectRuntime.Gameplay
                 this.RefreshIceCracksLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(false);
                 CommonUtil.UpdateSprite(this.IceSpriteRenderer, string.Format("images/tiles/ice_tile_{0}", tileId.ToString()));
+
+                GridManager.Instance.OnBathTileCompleted += this.OnBathTileCompleted;
             }
             else
             {
@@ -333,6 +335,7 @@ namespace ProjectRuntime.Gameplay
                 this.ToggleDrag(false);
                 this.ForceSnapToGrid();
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
+                GridManager.Instance.OnBathTileComplete();
 
                 await UniTask.WaitForSeconds(0.8f); // Long to let the splash vfx to play
                 if (!this)
@@ -362,6 +365,24 @@ namespace ProjectRuntime.Gameplay
             }
 
             return nearestTransform;
+        }
+
+        public void OnBathTileCompleted()
+        {
+            if (this._iceCracksLeft == 0)
+            {
+                return;
+            }
+
+            this._iceCracksLeft--;
+            this.RefreshIceCracksLeftText();
+
+            // TODO: Spawn vfx
+
+            if (this._iceCracksLeft == 0)
+            {
+                GridManager.Instance.OnBathTileCompleted -= this.OnBathTileCompleted;
+            }
         }
     }
 }

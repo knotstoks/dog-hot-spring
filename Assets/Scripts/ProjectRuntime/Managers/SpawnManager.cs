@@ -10,6 +10,7 @@ namespace ProjectRuntime.Managers
         public static SpawnManager Instance { get; private set; }
 
         private const string VFX_SPLASH = "vfx/vfx_splash.prefab";
+        private const string VFX_ICESHATTER = "vfx/vfx_iceshatter.prefab";
 
         private void Awake()
         {
@@ -35,6 +36,15 @@ namespace ProjectRuntime.Managers
             splashVfx.transform.position = vfxPosition;
             splashVfx.Init();
             splashVfx.gameObject.SetActive(true);
+        }
+
+        public async UniTask SpawnShatterVfx(Vector3 vfxPosition)
+        {
+            var shatterVfx = await ResourcePool.FetchAsync<VisualFX>(VFX_ICESHATTER);
+            shatterVfx.transform.SetParent(BattleManager.Instance.VfxContainer);
+            shatterVfx.transform.position = vfxPosition;
+            shatterVfx.Init();
+            shatterVfx.gameObject.SetActive(true);
         }
     }
 }
