@@ -25,7 +25,11 @@ namespace ProjectRuntime.Level
         [field: SerializeField]
         public List<QueueSaveData> QueueTileSaveDatas { get; set; }
 
-        public LevelSaveData(int gridHeight, int gridWidth, List<Vector2Int> lockedTiles, List<TileSaveData> tileSaveDatas, List<AnimalSaveData> animalSaveDatas, List<QueueSaveData> queueSaveDatas)
+        [field: SerializeField]
+        public List<IceTileSaveData> IceTileSaveDatas { get; set; }
+
+        public LevelSaveData(int gridHeight, int gridWidth, List<Vector2Int> lockedTiles, List<TileSaveData> tileSaveDatas, List<AnimalSaveData> animalSaveDatas,
+            List<QueueSaveData> queueSaveDatas, List<IceTileSaveData> iceSaveDatas)
         {
             this.GridHeight = gridHeight;
             this.GridWidth = gridWidth;
@@ -33,9 +37,9 @@ namespace ProjectRuntime.Level
             this.TileSaveDatas = tileSaveDatas;
             this.AnimalSaveDatas = animalSaveDatas;
             this.QueueTileSaveDatas = queueSaveDatas;
+            this.IceTileSaveDatas = iceSaveDatas;
         }
     }
-    
 
     [Serializable]
     public struct TileSaveData
@@ -98,8 +102,33 @@ namespace ProjectRuntime.Level
 
         [field: SerializeField]
         public Queue<TileColor> QueueColours { get; set; }
+    }
 
+    [Serializable]
+    public struct IceTileSaveData
+    {
+        [field: SerializeField]
+        public int TileId { get; set; }
 
-       
+        [field: SerializeField]
+        public TileColor TileColor { get; set; }
+
+        [field: SerializeField]
+        public Vector2Int TileYX { get; set; }
+
+        [field: SerializeField]
+        public int DropsLeft { get; set; }
+
+        [field: SerializeField]
+        public int IceCracksLeft { get; set; }
+
+        public IceTileSaveData(int tileId, TileColor tileColor, Vector2Int tileYX, int dropsLeft, int iceCracksLeft)
+        {
+            this.TileId = tileId;
+            this.TileColor = tileColor;
+            this.TileYX = tileYX;
+            this.DropsLeft = dropsLeft;
+            this.IceCracksLeft = iceCracksLeft;
+        }
     }
 }

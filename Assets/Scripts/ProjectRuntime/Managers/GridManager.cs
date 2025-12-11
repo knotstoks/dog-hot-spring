@@ -165,7 +165,7 @@ namespace ProjectRuntime.Managers
                 animal.Init();
             }
 
-            // Create Queue Tiles:
+            // Create Queue Tiles
             foreach (var queueTile in levelData.QueueTileSaveDatas)
             {
                 var queuePrefabPath = "prefabs/queue_tiles/queue_tile.prefab";
@@ -178,6 +178,22 @@ namespace ProjectRuntime.Managers
 
                 var queue = queueObject.GetComponent<QueueTile>();
                 queue.Init(queueTile.FacingDirection, queueTile.QueueColours, TileHeight, TileWidth);
+            }
+
+            // Create Ice Tiles
+            foreach (var iceTile in levelData.IceTileSaveDatas)
+            {
+                var iceTilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", iceTile.TileId.ToString());
+                var tileObject = await ResourceLoader.InstantiateAsync(iceTilePrefabPath, this.TileContainer);
+                if (!this) return;
+                var tile = tileObject.GetComponent<BathSlideTile>();
+
+                // Set position
+                var tilePos = this.GetTilePosition(iceTile.TileYX.x, iceTile.TileYX.y);
+                var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
+                tileObject.transform.localPosition = tilePos + offset;
+
+                tile.Init(iceTile.TileId, iceTile.TileColor, iceTile.DropsLeft, iceTile.IceCracksLeft);
             }
         }
 
@@ -234,10 +250,10 @@ namespace ProjectRuntime.Managers
                     new Vector2Int(CommonUtil.ConvertToInt32(animalSplit[1]), CommonUtil.ConvertToInt32(animalSplit[2]))));
             }
 
-            var queueTiles = new List<QueueSaveData>();
             var queueTileLocations = Regex.Matches(stringSplit[5], @"\((.*?)\)")
                 .Select(m => m.Groups[1].Value)
                 .ToList();
+            var queueTiles = new List<QueueSaveData>();
             foreach (var queue in queueTileLocations)
             {
                 var queueSplit = queue.Split(':', StringSplitOptions.RemoveEmptyEntries);
@@ -257,13 +273,24 @@ namespace ProjectRuntime.Managers
                     {
                         queueColorsList.Enqueue(dropColour);
                     }
-                        
                 }
-
                 queueTiles.Add(new QueueSaveData(queueId, new Vector2Int(col_x, row_y), direction, queueColorsList));
             }
 
-            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles);
+            var iceTileLocations = Regex.Matches(stringSplit[6], @"\((.*?)\)")
+                .Select(m => m.Groups[1].Value)
+                .ToList();
+            var iceTiles = new List<IceTileSaveData>();
+            foreach (var iceTile in iceTileLocations)
+            {
+                var iceTileSplit = iceTile.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                iceTiles.Add(new IceTileSaveData(CommonUtil.ConvertToInt32(iceTileSplit[0]),
+                    Enum.TryParse(iceTileSplit[1], out TileColor slideTileColor) ? slideTileColor : TileColor.NONE,
+                    new Vector2Int(CommonUtil.ConvertToInt32(iceTileSplit[2]), CommonUtil.ConvertToInt32(iceTileSplit[3])),
+                    CommonUtil.ConvertToInt32(iceTileSplit[4]), CommonUtil.ConvertToInt32(iceTileSplit[5])));
+            }
+
+            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles, iceTiles);
         }
 
         public QueueTileDirection ParseQueueTileDirectionString(string s)

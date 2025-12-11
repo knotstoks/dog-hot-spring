@@ -74,7 +74,7 @@ public class DWorld : ScriptableObject, IDataImport
         // special handling for shape parameter and percentage
         var pattern = @"[{}""]";
         text = text.Replace("\r\n", "\n");      // handle window line break
-        text = text.Replace(",\n", "|");
+        text = text.Replace("\n", "|");
         text = Regex.Replace(text, pattern, "");
 
         // Split data into lines

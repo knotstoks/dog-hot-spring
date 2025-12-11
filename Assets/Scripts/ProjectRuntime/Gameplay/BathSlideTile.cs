@@ -102,7 +102,7 @@ namespace ProjectRuntime.Gameplay
                 this.IceCracksLeftTMP.gameObject.SetActive(true);
                 this.RefreshIceCracksLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(false);
-                CommonUtil.UpdateSprite(this.IceSpriteRenderer, string.Format("images/tiles/ice_tile_{0}", tileId.ToString()));
+                CommonUtil.UpdateSprite(this.IceSpriteRenderer, string.Format("images/tiles/tile_1_black.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant())); //images/ice_tiles/ice_tile_{0}
 
                 GridManager.Instance.OnBathTileCompleted += this.OnBathTileCompleted;
             }
@@ -377,11 +377,16 @@ namespace ProjectRuntime.Gameplay
             this._iceCracksLeft--;
             this.RefreshIceCracksLeftText();
 
-            // TODO: Spawn vfx
+            // TODO: Play sfx
+            SpawnManager.Instance.SpawnShatterVfx(this.transform.position).Forget();
 
             if (this._iceCracksLeft == 0)
             {
                 GridManager.Instance.OnBathTileCompleted -= this.OnBathTileCompleted;
+                this.IceSpriteRenderer.gameObject.SetActive(false);
+                this.IceCracksLeftTMP.gameObject.SetActive(false);
+                this.RefreshDropsLeftText();
+                this.DropsLeftTMP.gameObject.SetActive(true);
             }
         }
     }
