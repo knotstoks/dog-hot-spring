@@ -84,19 +84,16 @@ namespace ProjectRuntime.Level
     [Serializable]
     public struct QueueSaveData
     {
-        public QueueSaveData(int queueTileId, Vector2Int tileYX, QueueTileDirection facingDirection, Queue<TileColor> queueColours)
+        public QueueSaveData(Vector2Int tileYX, QueueTileDirection facingDirection, Queue<TileColor> queueColours)
         {
-            this.QueueTileId = queueTileId;
             this.TileYX = tileYX;
             this.FacingDirection = facingDirection;
             this.QueueColours = queueColours;
         }
 
         [field: SerializeField]
-        public int QueueTileId { get; set; }
-
-        [field: SerializeField]
         public Vector2Int TileYX { get; set; }
+
         [field: SerializeField]
         public QueueTileDirection FacingDirection { get; set; }
 

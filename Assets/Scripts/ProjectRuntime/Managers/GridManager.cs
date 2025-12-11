@@ -257,14 +257,14 @@ namespace ProjectRuntime.Managers
             foreach (var queue in queueTileLocations)
             {
                 var queueSplit = queue.Split(':', StringSplitOptions.RemoveEmptyEntries);
-                var queueId = CommonUtil.ConvertToInt32(queueSplit[0]);
-                var row_y = CommonUtil.ConvertToInt32(queueSplit[1]);
-                var col_x = CommonUtil.ConvertToInt32(queueSplit[2]);
-                var direction = ParseQueueTileDirectionString(queueSplit[3]);
+
+                var rowY = CommonUtil.ConvertToInt32(queueSplit[0]);
+                var colX = CommonUtil.ConvertToInt32(queueSplit[1]);
+                var direction = ParseQueueTileDirectionString(queueSplit[2]);
 
                 var queueColorsList = new Queue<TileColor>();
 
-                for (var i = 4; i < queueSplit.Length; i += 2)
+                for (var i = 3; i < queueSplit.Length; i += 2)
                 {
                     var dropColour = Enum.TryParse<TileColor>(queueSplit[i], true, out var resultColour) ? resultColour : TileColor.NONE;
                     var dropsLeft = CommonUtil.ConvertToInt32(queueSplit[i + 1]);
@@ -274,7 +274,7 @@ namespace ProjectRuntime.Managers
                         queueColorsList.Enqueue(dropColour);
                     }
                 }
-                queueTiles.Add(new QueueSaveData(queueId, new Vector2Int(col_x, row_y), direction, queueColorsList));
+                queueTiles.Add(new QueueSaveData(new Vector2Int(rowY, colX), direction, queueColorsList));
             }
 
             var iceTileLocations = Regex.Matches(stringSplit[6], @"\((.*?)\)")
