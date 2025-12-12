@@ -304,6 +304,8 @@ namespace BroccoliBunnyStudios.Utils
                     return Color.black;
                 case TileColor.PINK:
                     return new Color(1, 0.75f, 0.8f);
+                case TileColor.PURPLE:
+                    return new Color(0.494f, 0.106f, 0.494f);
                 default:
                     break;
             }

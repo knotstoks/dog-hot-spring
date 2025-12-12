@@ -332,6 +332,7 @@ namespace ProjectRuntime.Gameplay
 
             if (this._dropsLeft == 0)
             {
+                s_currentPointerId = InvalidPointerId;
                 this.ToggleDrag(false);
                 this.ForceSnapToGrid();
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
