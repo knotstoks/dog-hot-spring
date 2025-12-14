@@ -43,6 +43,11 @@ namespace BroccoliBunnyStudios.Managers
             SaveManager.Instance.CurrentLevelProgress = levelNumber;
             this.OnUserLevelProgressModified?.Invoke(levelNumber);
         }
+
+        public bool IsWorldRequirementMet(int worldNumber)
+        {
+            return worldNumber >= SaveManager.Instance.CurrentLevelProgress;
+        }
         #endregion
 
         #region Stories

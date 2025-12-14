@@ -4,6 +4,9 @@ namespace BroccoliBunnyStudios.Managers
 {
     public partial class SaveManager
     {
+        /// <summary>
+        /// This returns the latest world the player has completed
+        /// </summary>
         public int CurrentLevelProgress
         {
             get => this.SaveConfig.GetInt(nameof(this.CurrentLevelProgress), 0);
