@@ -23,4 +23,7 @@ MonoBehaviour:
   - <Key>k__BackingField: LOC_QUIT
     <Value>k__BackingField: Quit
   - <Key>k__BackingField: LOC_TUTORIAL_MOVE
-    <Value>k__BackingField: Swipe to Move
+    <Value>k__BackingField: 'Swipe to Move
+
+      Animals only enter baths the same
+      colour as them!'
