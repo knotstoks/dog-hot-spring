@@ -77,7 +77,7 @@ namespace BroccoliBunnyStudios.Managers
         #region Tutorials
         public void RegisterTutorial(string tutorialId)
         {
-            this._completedStories.Add(tutorialId);
+            this._completedTutorials.Add(tutorialId);
             this.SaveTutorials();
         }
 
@@ -94,7 +94,7 @@ namespace BroccoliBunnyStudios.Managers
 
         private void SaveTutorials()
         {
-            SaveManager.Instance.CompletedStories = this._completedStories;
+            SaveManager.Instance.CompletedTutorials = this._completedTutorials;
         }
         #endregion
 

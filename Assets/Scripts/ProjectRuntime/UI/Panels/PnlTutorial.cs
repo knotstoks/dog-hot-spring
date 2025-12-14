@@ -2,6 +2,7 @@ using BroccoliBunnyStudios.Extensions;
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
 using BroccoliBunnyStudios.Util;
+using BroccoliBunnyStudios.Utils;
 using DG.Tweening;
 using ProjectRuntime.Tutorial;
 using System;
@@ -115,6 +116,7 @@ namespace ProjectRuntime.UI
             {
                 this.TutorialTextBackingRT.gameObject.SetActive(true);
                 this.SetRectPosition(this.TutorialTextBackingRT, stepData.TutorialTextPosition);
+                this.TutorialTMP.text = LocalizationManager.Instance[stepData.TutorialText];
             }
             else
             {
@@ -329,7 +331,17 @@ namespace ProjectRuntime.UI
 
         private void OnLocalizationChanged()
         {
-            // TODO
+            if (this._stepData.ShowTutorialTextbox)
+            {
+                var lm = LocalizationManager.Instance;
+                this.TutorialTMP.text = lm[this._stepData.TutorialText];
+
+                CommonUtil.ForceRebuildLayoutImmediateRecursive(this.transform as RectTransform);
+                this.TutorialTMP.ForceMeshUpdate(true);
+                //this.TutorialTMP.horizontalAlignment = this._stepData.ShowNpc && this.TutorialText.textInfo.lineCount > 1
+                //    ? HorizontalAlignmentOptions.Left
+                //    : HorizontalAlignmentOptions.Center;
+            }
         }
 
         private void OnFullscreenButtonClick()

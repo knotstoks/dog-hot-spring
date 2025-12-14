@@ -22,3 +22,5 @@ MonoBehaviour:
     <Value>k__BackingField: Credits
   - <Key>k__BackingField: LOC_QUIT
     <Value>k__BackingField: Quit
+  - <Key>k__BackingField: LOC_TUTORIAL_MOVE
+    <Value>k__BackingField: Swipe to Move

@@ -67,6 +67,11 @@ namespace ProjectRuntime.Managers
                 LevelIdToLoad++;
                 SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
             }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                UserSaveDataManager.Instance.ResetAllTutorials();
+            }
 #endif
         }
 

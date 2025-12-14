@@ -121,8 +121,8 @@ namespace ProjectRuntime.Tutorial
             // Get the step data
             if (this._currentStep < this.TutorialSteps.Count)
             {
-                Debug.Log($"Performing step {this._currentStep}");
                 var stepData = this.TutorialSteps[this._currentStep];
+                //Debug.Log($"Performing step {this._currentStep}");
 
                 // Perform step
                 switch (stepData.StepType)
@@ -166,7 +166,7 @@ namespace ProjectRuntime.Tutorial
                 this._pnlTutorial.Init(new PnlTutorialData(stepData));
             }
 
-            await this.GoToNextStep(stepData, false);
+            await this.GoToNextStep(stepData, true);
         }
 
         private async UniTask PauseGame(TutorialGameStepData stepData)
