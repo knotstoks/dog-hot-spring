@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
+using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
+using ProjectRuntime.Tutorial;
 using ProjectRuntime.UI.Panels;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ProjectRuntime.Managers
@@ -13,11 +17,17 @@ namespace ProjectRuntime.Managers
 
         public static int LevelIdToLoad { get; set; } = -1; // Set outside ScGame
 
+        public bool IsPaused => this._pauseType != PauseType.None;
+        private PauseType _pauseType;
+
         [field: SerializeField, Header("Editor Cheats")]
         private int EditorIdToLoad { get; set; } = 1;
 
         [field: SerializeField, Header("Scene References")]
         public Transform PuzzleGridTransform { get; private set; }
+
+        [field: SerializeField]
+        private List<TutorialGame> TutorialGameControllers { get; set; }
 
         [field: SerializeField, Header("Containers")]
         public Transform VfxContainer { get; private set; }
@@ -73,6 +83,20 @@ namespace ProjectRuntime.Managers
             await GridManager.Instance.Init(LevelIdToLoad);
             if (!this) return;
 
+            foreach (var tutorialController in this.TutorialGameControllers)
+            {
+                if (LevelIdToLoad == tutorialController.WorldId)
+                {
+                    // Only activate at most 1 tutorial
+                    var activated = tutorialController.CheckAndActivate();
+                    if (activated)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // Fade out
             PanelManager.Instance.FadeFromBlack().Forget();
         }
 
@@ -104,5 +128,33 @@ namespace ProjectRuntime.Managers
                 SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
             }
         }
+
+        #region Pause Logic
+        [Flags]
+        public enum PauseType
+        {
+            None = 0,
+            PnlPause = 1 << 0,
+            PnlTutorial = 1 << 1,
+        }
+
+        public void PauseGame(PauseType pauseType)
+        {
+            this._pauseType |= pauseType;
+            if (this.IsPaused)
+            {
+                Time.timeScale = 0f;
+            }
+        }
+
+        public void ResumeGame(PauseType pauseType)
+        {
+            this._pauseType &= ~pauseType;
+            if (!this.IsPaused)
+            {
+                Time.timeScale = 1f;
+            }
+        }
+        #endregion
     }
 }

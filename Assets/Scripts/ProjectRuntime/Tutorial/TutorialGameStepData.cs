@@ -7,7 +7,7 @@ namespace ProjectRuntime.Tutorial
     [Serializable]
     public enum TutorialGameStepType
     {
-        ShowVideoAndTextOnly = 0,
+        ShowImageAndTextOnly = 0,
         PauseGame = 1,
         UnpauseGame = 2,
     }
@@ -66,15 +66,18 @@ namespace ProjectRuntime.Tutorial
         [ShowIf("@StepDurationType", TutorialGameStepDurationType.GoToNextStepAfterSeconds)]
         public bool IgnoreTimeScale;
 
-        [Header("Tutorial Video"), ShowIf("ShowTutorialVideo")]
-        public bool ShowTutorialVideo;
-        [ShowIf("ShowIfInteractionAndShowTutorialVideo")]
+        public bool ShowGrayBackground;
+        public bool ShowTutorialTextbox;
+
+        [Header("Tutorial Image"), ShowIf("ShowTutorialImage")]
+        public bool ShowTutorialImage;
+        [ShowIf("ShowIfInteractionAndShowTutorialImage")]
+        public string TutorialImagePath;
+        [ShowIf("ShowIfTutorialTextBox")]
         public Transform TutorialTextPosition;
-        [ShowIf("ShowIfInteractionAndShowTutorialVideo")]
-        public string TutorialVideoPath;
-        [ShowIf("ShowIfInteractionAndShowTutorialVideo"), TextArea]
+        [ShowIf("ShowIfTutorialTextBox"), TextArea]
         public string TutorialText;
-        [ShowIf("ShowIfInteractionAndShowTutorialVideo")]
+        [ShowIf("ShowIfInteractionAndShowTutorialImage")]
         public bool ShowNpc;
         public bool KeepPnlTutorialForNextStep;
 
@@ -113,12 +116,17 @@ namespace ProjectRuntime.Tutorial
         private bool ShowIfInteraction()
         {
             // Interaction type tutorial steps
-            return this.StepType == TutorialGameStepType.ShowVideoAndTextOnly;
+            return this.StepType == TutorialGameStepType.ShowImageAndTextOnly;
         }
 
-        private bool ShowIfInteractionAndShowTutorialVideo()
+        private bool ShowIfInteractionAndShowTutorialImage()
         {
-            return this.ShowIfInteraction() && this.ShowTutorialVideo;
+            return this.ShowIfInteraction() && this.ShowTutorialImage;
+        }
+
+        private bool ShowIfTutorialTextBox()
+        {
+            return this.ShowTutorialTextbox;
         }
 
         private bool ShowIfInteractionAndHandPointer()

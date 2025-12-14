@@ -210,46 +210,25 @@ MonoBehaviour:
   <ActivateIfWorldCompleted>k__BackingField: 0
   <WorldIdsCompleted>k__BackingField: 
   <TutorialSteps>k__BackingField:
-  - DesignComment: Overlay screen to show dragging
-    StepType: 0
-    StepDurationType: 0
-    NextStepAfterSeconds: 0
-    IgnoreTimeScale: 0
-    ShowTutorialVideo: 0
-    TutorialTextPosition: {fileID: 0}
-    TutorialVideoPath: 
-    TutorialText: 
-    ShowNpc: 0
-    KeepPnlTutorialForNextStep: 0
-    ShowHandPointer: 0
-    RotateHandDegrees: 0
-    HandPointerType: 0
-    PointerPositionType: 1
-    PointerPosition: {fileID: 0}
-    PointerPosition2: {fileID: 0}
-    PointerPositionPath: 
-    PointerPositionPath2: 
-    PointerStartStationaryTime: 0
-    PointerMoveTime: 0
-    PointerEndStationaryTime: 0
-    IsClickThrough: 0
   - DesignComment: Show pointer sliding from 1 position to another
     StepType: 0
     StepDurationType: 0
     NextStepAfterSeconds: 0
     IgnoreTimeScale: 0
-    ShowTutorialVideo: 0
-    TutorialTextPosition: {fileID: 0}
-    TutorialVideoPath: 
-    TutorialText: 
+    ShowGrayBackground: 0
+    ShowTutorialTextbox: 1
+    ShowTutorialImage: 0
+    TutorialImagePath: 
+    TutorialTextPosition: {fileID: 952467930}
+    TutorialText: Test text
     ShowNpc: 0
     KeepPnlTutorialForNextStep: 0
     ShowHandPointer: 1
     RotateHandDegrees: 0
     HandPointerType: 1
     PointerPositionType: 0
-    PointerPosition: {fileID: 0}
-    PointerPosition2: {fileID: 0}
+    PointerPosition: {fileID: 2028369977}
+    PointerPosition2: {fileID: 1411000941}
     PointerPositionPath: 
     PointerPositionPath2: 
     PointerStartStationaryTime: 0.2
@@ -282,6 +261,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1765824998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &952467929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 952467930}
+  m_Layer: 0
+  m_Name: TutorialTextBoxPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &952467930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952467929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -503,6 +513,37 @@ Transform:
   - {fileID: 320266356}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1411000940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1411000941}
+  m_Layer: 0
+  m_Name: TutorialDragTransformTo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1411000941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411000940}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1765824998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1504199243
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +642,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 887716548}
+  - {fileID: 952467930}
+  - {fileID: 2028369977}
+  - {fileID: 1411000941}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971864057
@@ -633,6 +677,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 199336453}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2028369976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2028369977}
+  m_Layer: 0
+  m_Name: TutorialDragTransformFrom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2028369977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028369976}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1765824998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2051406343
 GameObject:
@@ -782,8 +857,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeaf1862a21084919b8749b136e01a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EditorIdToLoad>k__BackingField: 0
+  <EditorIdToLoad>k__BackingField: 1
   <PuzzleGridTransform>k__BackingField: {fileID: 887716548}
+  <TutorialGameControllers>k__BackingField:
+  - {fileID: 320266357}
   <VfxContainer>k__BackingField: {fileID: 1971864058}
 --- !u!114 &2066283973
 MonoBehaviour:
