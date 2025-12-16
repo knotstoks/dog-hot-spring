@@ -163,7 +163,7 @@ namespace ProjectRuntime.Gameplay
 
         private void OnStartAndUpdateDrag()
         {
-            if (!this.CanMove)
+            if (!this.CanMove || this._dropsLeft == 0)
             {
                 return;
             }
@@ -388,6 +388,24 @@ namespace ProjectRuntime.Gameplay
                 this.IceCracksLeftTMP.gameObject.SetActive(false);
                 this.RefreshDropsLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(true);
+            }
+        }
+
+        private void ForceStopDrag()
+        {
+            if (CurrentDraggedTile == this)
+            {
+                CurrentDraggedTile = null;
+                s_currentPointerId = InvalidPointerId;
+            }
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (!focus)
+            {
+                this.ForceStopDrag();
+                this.ForceSnapToGrid();
             }
         }
     }
