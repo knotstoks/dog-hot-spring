@@ -90,6 +90,10 @@ namespace ProjectRuntime.Managers
             this._dWorld = DWorld.GetDataById(worldId).Value;
 
             var levelData = this.ParseLevelSaveData(this._dWorld.ParsedLevel);
+
+            await UniTask.WaitUntil(() => CameraManager.Instance != null);
+            CameraManager.Instance.SetCameraScale(levelData.GridHeight);
+
             this.GridHeight = levelData.GridHeight;
             this.GridWidth = levelData.GridWidth;
             this._alreadyPlayingVictory = false;
