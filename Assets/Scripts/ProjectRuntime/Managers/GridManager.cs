@@ -68,7 +68,9 @@ namespace ProjectRuntime.Managers
         // Events
         public event Action OnBathTileCompleted;
 
-        private void Awake()
+        // Currently Held Tile 
+        DropInterfaces.IDroppableTile CurrentlyHeldTile = null;
+		private void Awake()
         {
             if (Instance == null)
             {
@@ -377,8 +379,11 @@ namespace ProjectRuntime.Managers
                 return;
             }
 
-            // Remove highlight for everything
-            for (var rowY = 1; rowY < this._finalGridHeight - 1; rowY++)
+            CurrentlyHeldTile?.CancelDrop();
+            CurrentlyHeldTile = null;
+
+			// Remove highlight for everything
+			for (var rowY = 1; rowY < this._finalGridHeight - 1; rowY++)
             {
                 for (var colX = 1; colX < this._finalGridWidth - 1; colX++)
                 {
@@ -402,12 +407,14 @@ namespace ProjectRuntime.Managers
                         this.Tiles[tileYX.y + rowY, tileYX.x + colX].HighlightTile(tile.TileColor);
                         if (this._animalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
                         {
+                            CurrentlyHeldTile = animalDrop;
                             animalDrop.Drop(BathSlideTile.CurrentDraggedTile);
                         }
 
                         if (this._queueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
                         {
-                            queueDrop.Drop(BathSlideTile.CurrentDraggedTile);
+							CurrentlyHeldTile = queueDrop;
+							queueDrop.Drop(BathSlideTile.CurrentDraggedTile);
                         }
                     }
                 }
