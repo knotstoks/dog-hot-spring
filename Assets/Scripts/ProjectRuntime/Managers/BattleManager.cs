@@ -116,22 +116,23 @@ namespace ProjectRuntime.Managers
             await UniTask.WaitForSeconds(0.5f);
             if (!this) return;
 
-            //PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
+            PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
 
-            var numberOfWorlds = DWorld.GetAllData().Data.Count;
-            if (LevelIdToLoad == numberOfWorlds)
-            {
-                PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
-            }
-            else
-            {
-                await PanelManager.Instance.FadeToBlackAsync();
-                if (!this) return;
+            // For prototyping
+            //var numberOfWorlds = DWorld.GetAllData().Data.Count;
+            //if (LevelIdToLoad == numberOfWorlds)
+            //{
+            //    PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
+            //}
+            //else
+            //{
+            //    await PanelManager.Instance.FadeToBlackAsync();
+            //    if (!this) return;
 
-                // Continue the game
-                LevelIdToLoad++;
-                SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
-            }
+            //    // Continue the game
+            //    LevelIdToLoad++;
+            //    SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
+            //}
         }
 
         #region Pause Logic
