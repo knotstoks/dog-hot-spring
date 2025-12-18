@@ -41,7 +41,7 @@ namespace ProjectRuntime.Gameplay
         private TextMeshProUGUI IceCracksLeftTMP { get; set; }
 
         [field: SerializeField]
-        private SpriteRenderer IceSpriteRenderer { get; set; }
+        private SpriteRenderer OverlayedSpriteRenderer { get; set; }
 
         public TileShape TileShape { get; private set; }
 
@@ -85,31 +85,41 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft = 0)
+        public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft = 0, bool isEmptyTile = false)
         {
             this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
             this.TileColor = tileColor;
             this._dropsLeft = dropsLeft;
 
             // Update the tile sprite
-            CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
+            if (!isEmptyTile)
+            {
+                CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
+            }
 
             // Logic for ice blocks
             this._iceCracksLeft = iceCracksLeft;
-            if (iceCracksLeft > 0)
+            if (isEmptyTile)
             {
-                this.IceSpriteRenderer.gameObject.SetActive(true);
+                this.OverlayedSpriteRenderer.gameObject.SetActive(true);
+                this.IceCracksLeftTMP.gameObject.SetActive(false);
+                this.DropsLeftTMP.gameObject.SetActive(false);
+                CommonUtil.UpdateSprite(this.OverlayedSpriteRenderer, string.Format("images/tiles/tile_{0}_black.png", tileId.ToString())); //images/empty_tiles/empty_tile_{0}
+            }
+            else if (iceCracksLeft > 0)
+            {
+                this.OverlayedSpriteRenderer.gameObject.SetActive(true);
                 this.IceCracksLeftTMP.gameObject.SetActive(true);
                 this.RefreshIceCracksLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(false);
-                CommonUtil.UpdateSprite(this.IceSpriteRenderer, string.Format("images/tiles/tile_1_black.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant())); //images/ice_tiles/ice_tile_{0}
+                CommonUtil.UpdateSprite(this.OverlayedSpriteRenderer, string.Format("images/tiles/tile_1_black.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant())); //images/ice_tiles/ice_tile_{0}
 
                 GridManager.Instance.OnBathTileCompleted += this.OnBathTileCompleted;
             }
             else
             {
                 this.IceCracksLeftTMP.gameObject.SetActive(false);
-                this.IceSpriteRenderer.gameObject.SetActive(false);
+                this.OverlayedSpriteRenderer.gameObject.SetActive(false);
             }
 
             this.RefreshDropsLeftText();
@@ -163,7 +173,7 @@ namespace ProjectRuntime.Gameplay
 
         private void OnStartAndUpdateDrag()
         {
-            if (!this.CanMove || this._dropsLeft == 0)
+            if (this.TileColor != TileColor.NONE && (!this.CanMove || this._dropsLeft == 0))
             {
                 return;
             }
@@ -384,7 +394,7 @@ namespace ProjectRuntime.Gameplay
             if (this._iceCracksLeft == 0)
             {
                 GridManager.Instance.OnBathTileCompleted -= this.OnBathTileCompleted;
-                this.IceSpriteRenderer.gameObject.SetActive(false);
+                this.OverlayedSpriteRenderer.gameObject.SetActive(false);
                 this.IceCracksLeftTMP.gameObject.SetActive(false);
                 this.RefreshDropsLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(true);

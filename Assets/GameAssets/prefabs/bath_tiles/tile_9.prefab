@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 1035384312171466922}
   - component: {fileID: 8924801467483971044}
   m_Layer: 6
-  m_Name: ice_sprite
+  m_Name: overlay_sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -762,7 +762,7 @@ MonoBehaviour:
   - {fileID: 8568529260714460734}
   <SpriteRenderer>k__BackingField: {fileID: 6256076766738612268}
   <IceCracksLeftTMP>k__BackingField: {fileID: 666696967276156373}
-  <IceSpriteRenderer>k__BackingField: {fileID: 8924801467483971044}
+  <OverlayedSpriteRenderer>k__BackingField: {fileID: 8924801467483971044}
 --- !u!50 &7033645038258998254
 Rigidbody2D:
   serializedVersion: 4

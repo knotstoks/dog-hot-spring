@@ -199,6 +199,22 @@ namespace ProjectRuntime.Managers
 
                 tile.Init(iceTile.TileId, iceTile.TileColor, iceTile.DropsLeft, iceTile.IceCracksLeft);
             }
+
+            // Create Empty Tiles
+            foreach (var emptyTile in levelData.EmptyTileSaveDatas)
+            {
+                var emptyTilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", emptyTile.TileId.ToString());
+                var tileObject = await ResourceLoader.InstantiateAsync(emptyTilePrefabPath, this.TileContainer);
+                if (!this) return;
+                var tile = tileObject.GetComponent<BathSlideTile>();
+
+                // Set position
+                var tilePos = this.GetTilePosition(emptyTile.TileYX.x, emptyTile.TileYX.y);
+                var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
+                tileObject.transform.localPosition = tilePos + offset;
+
+                tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true);
+            }
         }
 
         private bool IsLockedTile(List<Vector2Int> lockedTiles, Vector2Int tileYX)
@@ -294,7 +310,18 @@ namespace ProjectRuntime.Managers
                     CommonUtil.ConvertToInt32(iceTileSplit[4]), CommonUtil.ConvertToInt32(iceTileSplit[5])));
             }
 
-            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles, iceTiles);
+            var emptyTileLocations = Regex.Matches(stringSplit[7], @"\((.*?)\)")
+                .Select(m => m.Groups[1].Value)
+                .ToList();
+            var emptyTiles = new List<EmptyTileSaveData>();
+            foreach (var emptyTile in emptyTileLocations)
+            {
+                var emptyTileSplit = emptyTile.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                emptyTiles.Add(new EmptyTileSaveData(CommonUtil.ConvertToInt32(emptyTileSplit[0]),
+                    new Vector2Int(CommonUtil.ConvertToInt32(emptyTileSplit[1]), CommonUtil.ConvertToInt32(emptyTileSplit[2]))));
+            }
+
+            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles, iceTiles, emptyTiles);
         }
 
         public QueueTileDirection ParseQueueTileDirectionString(string s)

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections.Generic;
 using BroccoliBunnyStudios.Extensions;
 using BroccoliBunnyStudios.Managers;
@@ -16,7 +17,7 @@ namespace ProjectRuntime.UI.Panels
         public static PnlHome Instance { get; private set; }
 
         [field: SerializeField, Header("Scene References")]
-        private Animator AreaAnimator { get; set; }
+        private CinemachineVirtualCamera DollyCamera { get; set; }
 
         [field: SerializeField]
         private Button SettingsButton { get; set; }
@@ -42,8 +43,12 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField]
         private Sprite GrayButtonSprite { get; set; }
 
+        // Internal Variables
+        private int _numberOfWorlds; // Set only once in init
         private bool _isTransitioningScene;
         private int _currentAreaIdx;
+
+        private const float DOLLY_DURATION = 1f;
 
         private void Awake()
         {
@@ -56,12 +61,15 @@ namespace ProjectRuntime.UI.Panels
                 Debug.LogError("There are 2 or more PnlHomes in the scene");
             }
 
+            this._numberOfWorlds = DWorld.GetAllData().Data.Count;
             this.SettingsButton.OnClick(this.OnSettingsButtonClick);
             for (var i = 0; i < this.LevelSelectButtons.Count; i++)
             {
                 var temp = i + 1; // Neccessary to create temp variable for the closure function
                 this.LevelSelectButtons[i].OnClick(() => this.OnLevelSelectButtonClick(temp));
             }
+            this.PreviousAreaButton.OnClick(this.OnPreviousAreaButtonClick);
+            this.NextAreaButton.OnClick(this.OnNextAreaButtonClick);
         }
 
         private void Start()
@@ -103,7 +111,19 @@ namespace ProjectRuntime.UI.Panels
                 this.LevelSelectTMPs[i].text = (firstLevelNumber + i).ToString();
             }
 
-            // TODO: Move the camera using dolly?
+            // Move the camera using dolly
+            var initialValue = this.DollyCamera.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition;
+            var finalValue = (float)this._currentAreaIdx / (this._numberOfWorlds / 10 - 1);
+            var elapsed = 0f;
+            while (elapsed < DOLLY_DURATION)
+            {
+                elapsed += Time.deltaTime;
+
+                this.DollyCamera.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = Mathf.Lerp(initialValue, finalValue, elapsed / DOLLY_DURATION);
+
+                await UniTask.Yield();
+                if (!this) return;
+            }
 
             this.ToggleAllButtonsShow(true);
         }
@@ -113,12 +133,10 @@ namespace ProjectRuntime.UI.Panels
             this.SettingsButton.gameObject.SetActive(toggle);
             this.LevelSelectButtonParent.SetActive(toggle);
 
-            var numberOfWorlds = DWorld.GetAllData().Data.Count;
-            var numberOfPages = numberOfWorlds % 10 == 0
-                ? numberOfWorlds / 10
-                : numberOfWorlds / 10 + 1;
+            var currentWorldProgress = UserSaveDataManager.Instance.GetCurrentWorldProgress();
+            var maxAreaIdx = currentWorldProgress / 10;
             this.PreviousAreaButton.gameObject.SetActive(toggle && this._currentAreaIdx != 0);
-            this.NextAreaButton.gameObject.SetActive(toggle && this._currentAreaIdx < numberOfPages - 1);
+            this.NextAreaButton.gameObject.SetActive(toggle && this._currentAreaIdx < maxAreaIdx);
         }
 
         #region Button Click
@@ -147,7 +165,7 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = true;
             this.ToggleAllButtonsShow(false);
 
-            await this.RefreshUI(this._currentAreaIdx);
+            await this.RefreshUI(this._currentAreaIdx + 1);
             if (!this) return;
 
             this._isTransitioningScene = false;
@@ -163,7 +181,7 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = true;
             this.ToggleAllButtonsShow(false);
 
-            await this.RefreshUI(this._currentAreaIdx);
+            await this.RefreshUI(this._currentAreaIdx - 1);
             if (!this) return;
 
             this._isTransitioningScene = false;
