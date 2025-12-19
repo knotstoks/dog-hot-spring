@@ -30,13 +30,16 @@ namespace ProjectRuntime.UI.Panels
         private Image BackgroundImage { get; set; }
 
         [field: SerializeField]
-        private float BackgroundFinalAlphaValue { get; set; } = 200f;
+        private float BackgroundFinalAlphaValue { get; set; } = 0.78f;
 
         [field: SerializeField]
-        private float BackgroundFadeDuration { get; set; } = 0.5f;
+        private float BackgroundFadeDuration { get; set; } = 1f;
 
         [field: SerializeField]
-        private GameObject ButtonParent { get; set; }
+        private Button CinematicNextButton { get; set; }
+
+        [field: SerializeField]
+        private GameObject NormalButtonParent { get; set; }
 
         [field: SerializeField]
         private Button NextStageButton { get; set; }
@@ -56,7 +59,8 @@ namespace ProjectRuntime.UI.Panels
 
         private void Awake()
         {
-            this.ButtonParent.SetActive(false);
+            this.NormalButtonParent.SetActive(false);
+            this.CinematicNextButton.gameObject.SetActive(false);
             this.Init().Forget();
             this.NextStageButton.OnClick(this.OnNextStageButtonClick);
             this.ReturnToMainMenuButton.OnClick(this.OnReturnToMainMenuButtonClick);
@@ -69,23 +73,23 @@ namespace ProjectRuntime.UI.Panels
             await this.BackgroundImage.DOFade(this.BackgroundFinalAlphaValue, this.BackgroundFadeDuration);
             if (!this) return;
 
-            //var stateInfo = this.BathAnimator.GetCurrentAnimatorStateInfo(0);
-            //this.BathAnimator.Play(BATH_IN_ANIM);
-            //while (!stateInfo.IsName(BATH_IN_ANIM))
-            //{
-            //    await UniTask.Yield();
-            //    if (!this) return;
+            var stateInfo = this.BathAnimator.GetCurrentAnimatorStateInfo(0);
+            this.BathAnimator.Play(BATH_IN_ANIM);
+            while (!stateInfo.IsName(BATH_IN_ANIM))
+            {
+                await UniTask.Yield();
+                if (!this) return;
 
-            //    stateInfo = this.BathAnimator.GetCurrentAnimatorStateInfo(0);
-            //}
+                stateInfo = this.BathAnimator.GetCurrentAnimatorStateInfo(0);
+            }
 
-            //while (stateInfo.IsName(BATH_IN_ANIM) && stateInfo.normalizedTime < 1f)
-            //{
-            //    await UniTask.Yield();
-            //    if (!this) return;
+            while (stateInfo.IsName(BATH_IN_ANIM) && stateInfo.normalizedTime < 1f)
+            {
+                await UniTask.Yield();
+                if (!this) return;
 
-            //    stateInfo = this.BathAnimator.GetCurrentAnimatorStateInfo(0);
-            //}
+                stateInfo = this.BathAnimator.GetCurrentAnimatorStateInfo(0);
+            }
 
             //var randomizedAnimalAnim = RANDOM_ANIMAL_ANIM[Random.Range(0, RANDOM_ANIMAL_ANIM.Length)];
             //stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
@@ -106,7 +110,8 @@ namespace ProjectRuntime.UI.Panels
             //    stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             //}
 
-            this.ButtonParent.SetActive(true);
+            this.NormalButtonParent.SetActive(true);
+            //this.CinematicNextButton.gameObject.SetActive(true);
         }
 
         private async void OnNextStageButtonClick()
