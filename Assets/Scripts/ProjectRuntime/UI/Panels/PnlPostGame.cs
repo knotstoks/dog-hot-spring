@@ -127,6 +127,8 @@ namespace ProjectRuntime.UI.Panels
 
             BattleManager.LevelIdToLoad++;
             SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
+
+            this.Close();
         }
 
         private async void OnReturnToMainMenuButtonClick()
