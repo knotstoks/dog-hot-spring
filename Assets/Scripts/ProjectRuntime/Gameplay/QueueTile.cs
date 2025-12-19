@@ -18,7 +18,7 @@ namespace ProjectRuntime.Gameplay
     }
 
     public class QueueTile : MonoBehaviour, IDroppableTile
-	{
+    {
         [field: SerializeField]
         private float DropDelay { get; set; } = 0.5f;
 
@@ -33,6 +33,9 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         private SpriteRenderer CurrentColourIndicator { get; set; }
+
+        [field: SerializeField]
+        private SpriteRenderer NextColourIndicator { get; set; }
 
         [field: SerializeField]
         public TileColor TileColor { get; private set; }
@@ -51,6 +54,8 @@ namespace ProjectRuntime.Gameplay
 
         private bool isCurrentlyDeducting = true;
 
+        private TileColor CurrentTileColour;
+
         // Tile Color should be set in level editor
         public async void Init(QueueTileDirection tileDirection, Queue<TileColor> queueColors, float tileHeight, float tileWidth)
         {
@@ -60,7 +65,7 @@ namespace ProjectRuntime.Gameplay
             var tileDetectionPosition = transform.position;
             this.TileDirection = tileDirection;
             this.TileQueueColours = queueColors;
-            
+
 
             switch (TileDirection)
             {
@@ -100,15 +105,39 @@ namespace ProjectRuntime.Gameplay
 
         public void UpdateColour()
         {
-            if (TileQueueColours.TryPeek(out var currentColour))
+            if (TileQueueColours.TryDequeue(out var dequeuedColour))
             {
-                CurrentColourIndicator.color = CommonUtil.GetHighlightTintFromTileColor(currentColour);
+				DropsLeftText.text = $"{TileQueueColours.Count + 1}";
+				CurrentTileColour = dequeuedColour;
+                CurrentColourIndicator.color = CommonUtil.GetHighlightTintFromTileColor(dequeuedColour);
+
+            }
+            else
+            {
+				DropsLeftText.text = $"{TileQueueColours.Count}";
+				CurrentTileColour = TileColor.NONE;
+				CurrentColourIndicator.gameObject.SetActive(false);
+				GridManager.Instance.DeregisterQueueDrop(this);
+			}
+
+            if (TileQueueColours.TryPeek(out var nextColour))
+            {	
+				NextColourIndicator.color = CommonUtil.GetHighlightTintFromTileColor(nextColour);
+            }
+            else
+            {
+				NextColourIndicator.gameObject.SetActive(false);
             }
         }
 
         public void UpdateDropsText()
         {
-            DropsLeftText.text = TileQueueColours.Count.ToString();
+           
+        }
+
+        public void Update()
+        {
+            // print($"{gameObject.name}: {isCurrentlyDeducting}");
         }
 
         public void UpdateFacingDirection(QueueTileDirection direction)
@@ -148,29 +177,19 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            // Communicate with Tile that it has dropped instantly
-            while (TileQueueColours.TryPeek(out var tileColor))
+			// Communicate with Tile that it has dropped instantly
+			while (CurrentTileColour == bathSlideTile.TileColor)
             {
-                if (!isCurrentlyDeducting) 
-                {
-                    isCurrentlyDeducting = true;
-					break;
-                }
-
-                if (tileColor != bathSlideTile.TileColor)
-                {
-                    break;
-                }
-                bathSlideTile.HandleAnimalDropped();
-                TileQueueColours.Dequeue();
+                isCurrentlyDeducting = true;
+				bathSlideTile.HandleAnimalDropped();
                 UpdateVisual();
                 await UniTask.WaitForSeconds(this.DropDelay, true);
                 if (!this) return;
-            }
 
-            if (TileQueueColours.Count == 0)
-            {
-                GridManager.Instance.DeregisterQueueDrop(this);
+                if (!isCurrentlyDeducting)
+                {
+                    break;
+                }
             }
 
             GridManager.Instance.DetectForVictory();

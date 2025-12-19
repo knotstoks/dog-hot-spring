@@ -379,8 +379,8 @@ namespace ProjectRuntime.Managers
                 return;
             }
 
-            CurrentlyHeldTile?.CancelDrop();
-            CurrentlyHeldTile = null;
+			CurrentlyHeldTile?.CancelDrop();
+			CurrentlyHeldTile = null;
 
 			// Remove highlight for everything
 			for (var rowY = 1; rowY < this._finalGridHeight - 1; rowY++)
@@ -419,7 +419,9 @@ namespace ProjectRuntime.Managers
                     }
                 }
             }
-        }
+
+			
+		}
 
         public void DetectForVictory()
         {
