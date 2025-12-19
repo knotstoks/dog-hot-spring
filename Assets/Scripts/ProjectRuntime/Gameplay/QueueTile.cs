@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using ProjectRuntime.Managers;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static DropInterfaces;
 
 namespace ProjectRuntime.Gameplay
 {
@@ -16,8 +17,8 @@ namespace ProjectRuntime.Gameplay
         WEST,
     }
 
-    public class QueueTile : MonoBehaviour
-    {
+    public class QueueTile : MonoBehaviour, IDroppableTile
+	{
         [field: SerializeField]
         private float DropDelay { get; set; } = 0.5f;
 
@@ -48,6 +49,7 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         private Animator Animator { get; set; }
 
+        private bool isCurrentlyDeducting = true;
 
         // Tile Color should be set in level editor
         public async void Init(QueueTileDirection tileDirection, Queue<TileColor> queueColors, float tileHeight, float tileWidth)
@@ -149,6 +151,12 @@ namespace ProjectRuntime.Gameplay
             // Communicate with Tile that it has dropped instantly
             while (TileQueueColours.TryPeek(out var tileColor))
             {
+                if (!isCurrentlyDeducting) 
+                {
+                    isCurrentlyDeducting = true;
+					break;
+                }
+
                 if (tileColor != bathSlideTile.TileColor)
                 {
                     break;
@@ -187,6 +195,11 @@ namespace ProjectRuntime.Gameplay
 
                 stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
             }
+        }
+
+        public void CancelDrop()
+        {
+            isCurrentlyDeducting = false;
         }
     }
 }

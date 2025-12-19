@@ -2,11 +2,12 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Managers;
 using UnityEngine;
+using static DropInterfaces;
 
 namespace ProjectRuntime.Gameplay
 {
-    public class AnimalDrop : MonoBehaviour
-    {
+    public class AnimalDrop : MonoBehaviour, IDroppableTile
+	{
         [field: SerializeField, Header("Scene References")]
         private BoxCollider2D AnimalCollider { get; set; }
 
@@ -78,6 +79,11 @@ namespace ProjectRuntime.Gameplay
 
                 stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
             }
+        }
+
+        public void CancelDrop()
+        {
+            
         }
     }
 }
