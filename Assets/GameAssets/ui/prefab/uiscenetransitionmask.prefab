@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98db0987ef4b7498986f1929df712f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StartScale>k__BackingField: 35
+  <StartScale>k__BackingField: 500
   <EndScale>k__BackingField: 0.01
   <MaskImage>k__BackingField: {fileID: 2407493147153474650}
 --- !u!1 &5404972036778522736

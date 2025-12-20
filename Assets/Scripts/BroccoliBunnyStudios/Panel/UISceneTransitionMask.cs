@@ -28,7 +28,7 @@ namespace BroccoliBunnyStudios.Panel
             this.gameObject.SetActive(true);
             this.MaskImage.transform.localScale = new Vector3(this.StartScale, this.StartScale, this.StartScale);
             await this.MaskImage.transform.DOScale(new Vector3(this.EndScale, this.EndScale, this.EndScale), duration)
-                .SetEase(Ease.InQuart)
+                .SetEase(Ease.OutQuart)
                 .SetUpdate(true)
                 .ToUniTask();
             this.MaskImage.transform.localScale = new Vector3(this.EndScale, this.EndScale, this.EndScale);
