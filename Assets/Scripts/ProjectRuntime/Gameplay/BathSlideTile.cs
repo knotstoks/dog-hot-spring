@@ -44,8 +44,8 @@ namespace ProjectRuntime.Gameplay
         private SpriteRenderer OverlayedSpriteRenderer { get; set; }
 
         public TileShape TileShape { get; private set; }
-
         public TileColor TileColor { get; private set; }
+        public int DropsLeft => this._dropsLeft;
 
         // Currently dragged tile, can be null
         public static BathSlideTile CurrentDraggedTile { get; private set; } = null;

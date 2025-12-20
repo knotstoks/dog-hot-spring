@@ -33,9 +33,20 @@ namespace ProjectRuntime.Gameplay
 
         public async void Drop(BathSlideTile bathSlideTile)
         {
+            // Removing this null check error for now
+            //if (bathSlideTile == null)
+            //{
+            //    Debug.LogError("Dropped animal when CurrentlyDraggedTile is null");
+            //    return;
+            //}
+
             if (bathSlideTile == null)
             {
-                Debug.LogError("Dropped animal when CurrentlyDraggedTile is null");
+                return;
+            }
+
+            if (bathSlideTile.DropsLeft == 0)
+            {
                 return;
             }
 
