@@ -338,6 +338,12 @@ namespace ProjectRuntime.Gameplay
         public async void HandleAnimalDropped()
         {
             this._dropsLeft--;
+
+            if (this._dropsLeft < 0)
+            {
+                return;
+            }
+
             this.RefreshDropsLeftText();
 
             if (this._dropsLeft == 0)
