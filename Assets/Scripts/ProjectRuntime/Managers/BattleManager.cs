@@ -112,6 +112,11 @@ namespace ProjectRuntime.Managers
 
         public async void ShowVictoryPanel()
         {
+            foreach (var emptyTile in GridManager.Instance.EmptySlideTileList)
+            {
+                emptyTile.ForceSnapToGrid();
+            }
+
             // This is to wait for the last animals to drop
             await UniTask.WaitForSeconds(0.5f);
             if (!this) return;

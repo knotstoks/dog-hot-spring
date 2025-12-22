@@ -64,6 +64,7 @@ namespace ProjectRuntime.Managers
         private Dictionary<Vector2Int, AnimalDrop> _animalDropPositionDict;
 
         private Dictionary<Vector2Int, QueueTile> _queueDropPositionDict;
+        public List<BathSlideTile> EmptySlideTileList { get; private set; } = new();
 
         // Events
         public event Action OnBathTileCompleted;
@@ -89,6 +90,7 @@ namespace ProjectRuntime.Managers
 
         public async UniTask Init(int worldId)
         {
+            this.EmptySlideTileList.Clear();
             this._dWorld = DWorld.GetDataById(worldId).Value;
 
             var levelData = this.ParseLevelSaveData(this._dWorld.ParsedLevel);
@@ -214,6 +216,9 @@ namespace ProjectRuntime.Managers
                 var tilePos = this.GetTilePosition(emptyTile.TileYX.x, emptyTile.TileYX.y);
                 var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
                 tileObject.transform.localPosition = tilePos + offset;
+
+                // Add to the empty tile list
+                this.EmptySlideTileList.Add(tile);
 
                 tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true);
             }
