@@ -1,9 +1,8 @@
 using BroccoliBunnyStudios.Extensions;
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
+using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +19,11 @@ namespace ProjectRuntime.Managers
         [field: SerializeField]
         private Button QuitButton { get; set; }
 
+        [field: SerializeField, Header("Sfxes")]
+        private AudioPlaybackInfo ButtonClickSfx { get; set; }
+
+        private bool _isTransitioningScene;
+
         private void Awake()
         {
             PanelManager.Instance.FadeToBlackAsync(0).Forget();
@@ -33,6 +37,14 @@ namespace ProjectRuntime.Managers
 
         private async void OnPlayButtonClick()
         {
+            if (this._isTransitioningScene)
+            {
+                return;
+            }
+            this._isTransitioningScene = true;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
             await PanelManager.Instance.FadeToBlackAsync();
 
             // TODO
@@ -52,6 +64,12 @@ namespace ProjectRuntime.Managers
 
         private void OnQuitButtonClick()
         {
+            if (this._isTransitioningScene)
+            {
+                return;
+            }
+            this._isTransitioningScene = true;
+
             Application.Quit();
         }
     }

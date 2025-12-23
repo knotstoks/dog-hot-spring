@@ -211,6 +211,7 @@ MonoBehaviour:
   <AnimalCollider>k__BackingField: {fileID: 9189052541543671631}
   <TileColor>k__BackingField: 7
   <Animator>k__BackingField: {fileID: 7223836140223724267}
+  <SplashSfx>k__BackingField: {fileID: 11400000, guid: 6f9746881ea884a8e975252a9f1208d6, type: 2}
 --- !u!95 &7223836140223724267
 Animator:
   serializedVersion: 5

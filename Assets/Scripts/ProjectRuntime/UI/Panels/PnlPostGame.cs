@@ -68,7 +68,7 @@ namespace ProjectRuntime.UI.Panels
 
         private async UniTaskVoid Init()
         {
-            //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.VictorySfx, false, Vector3.zero).Forget();
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.VictorySfx, false, Vector3.zero).Forget();
 
             await this.BackgroundImage.DOFade(this.BackgroundFinalAlphaValue, this.BackgroundFadeDuration);
             if (!this) return;

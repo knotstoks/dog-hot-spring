@@ -19,7 +19,7 @@ namespace ProjectRuntime.Gameplay
         private Animator Animator { get; set; }
 
         [field: SerializeField, Header("Sfx")]
-        private AudioPlaybackInfo DropSfx { get; set; }
+        private AudioPlaybackInfo SplashSfx { get; set; }
 
         // Tile Color should be set in level editor
         public async void Init()
@@ -69,6 +69,8 @@ namespace ProjectRuntime.Gameplay
 
             await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
             if (!this) return;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.SplashSfx, false, Vector3.zero).Forget();
 
             GridManager.Instance.DetectForVictory();
 
