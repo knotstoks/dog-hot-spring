@@ -1,3 +1,4 @@
+using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Managers;
@@ -16,6 +17,9 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         private Animator Animator { get; set; }
+
+        [field: SerializeField, Header("Sfx")]
+        private AudioPlaybackInfo DropSfx { get; set; }
 
         // Tile Color should be set in level editor
         public async void Init()

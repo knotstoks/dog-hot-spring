@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BroccoliBunnyStudios.Sound;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using ProjectRuntime.Data;
@@ -42,6 +43,15 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         private SpriteRenderer OverlayedSpriteRenderer { get; set; }
+
+        [field: SerializeField, Header("Sfxes")]
+        private AudioPlaybackInfo DragSfx { get; set; }
+
+        [field: SerializeField]
+        private AudioPlaybackInfo ReleaseSfx { get; set; }
+
+        [field: SerializeField]
+        private AudioPlaybackInfo IceShatterSfx { get; set; }
 
         public TileShape TileShape { get; private set; }
         public TileColor TileColor { get; private set; }
@@ -394,8 +404,8 @@ namespace ProjectRuntime.Gameplay
             this._iceCracksLeft--;
             this.RefreshIceCracksLeftText();
 
-            // TODO: Play sfx
             SpawnManager.Instance.SpawnShatterVfx(this.transform.position).Forget();
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.IceShatterSfx, false, Vector3.zero).Forget();
 
             if (this._iceCracksLeft == 0)
             {

@@ -819,6 +819,9 @@ MonoBehaviour:
   <SpriteRenderer>k__BackingField: {fileID: 8487386841303859769}
   <IceCracksLeftTMP>k__BackingField: {fileID: 2514131794291811468}
   <OverlayedSpriteRenderer>k__BackingField: {fileID: 6862317654042073252}
+  <DragSfx>k__BackingField: {fileID: 0}
+  <ReleaseSfx>k__BackingField: {fileID: 0}
+  <IceShatterSfx>k__BackingField: {fileID: 11400000, guid: 5809fa742c3ce427aaf583422959b86f, type: 2}
 --- !u!50 &7033645038258998254
 Rigidbody2D:
   serializedVersion: 4

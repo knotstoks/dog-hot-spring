@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
-using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using ProjectRuntime.Tutorial;
 using ProjectRuntime.UI.Panels;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ProjectRuntime.Managers
