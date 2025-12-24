@@ -50,6 +50,9 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField, Header("Sfxes")]
         private AudioPlaybackInfo VictorySfx { get; set; }
 
+        [field: SerializeField]
+        private AudioPlaybackInfo ButtonSfx { get; set; }
+
         // Constant Variables
         private const string BATH_IN_ANIM = "in";
         private static readonly string[] RANDOM_ANIMAL_ANIM = { "red", "blue", "green", "yellow", "orange", "white", "black", "purple", "pink" };
@@ -122,6 +125,8 @@ namespace ProjectRuntime.UI.Panels
             }
             this._isTransitioningScene = true;
 
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonSfx, false, Vector3.zero).Forget();
+
             await PanelManager.Instance.FadeToBlackAsync();
             if (!this) return;
 
@@ -138,6 +143,8 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonSfx, false, Vector3.zero).Forget();
 
             await PanelManager.Instance.FadeToBlackAsync();
             if (!this) return;

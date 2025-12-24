@@ -449,6 +449,7 @@ MonoBehaviour:
   <NextStageButton>k__BackingField: {fileID: 520203427009649552}
   <ReturnToMainMenuButton>k__BackingField: {fileID: 3493045763357524478}
   <VictorySfx>k__BackingField: {fileID: 11400000, guid: 53552a97c2083454c845f9587f1ff420, type: 2}
+  <ButtonSfx>k__BackingField: {fileID: 11400000, guid: 85f1912fbd2dd42ada4b4c91fe10b27b, type: 2}
 --- !u!1 &6767017405949504220
 GameObject:
   m_ObjectHideFlags: 0

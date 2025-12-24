@@ -154,6 +154,8 @@ namespace ProjectRuntime.Gameplay
 
             if (s_currentPointerId == InvalidPointerId)
             {
+                SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.DragSfx, false, Vector3.zero).Forget();
+
                 s_currentPointerId = eventData.pointerId;
                 CurrentDraggedTile = this;
 
@@ -297,6 +299,8 @@ namespace ProjectRuntime.Gameplay
 
             if (CurrentDraggedTile != null && s_currentPointerId == eventData.pointerId)
             {
+                SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ReleaseSfx, false, Vector3.zero).Forget();
+
                 CurrentDraggedTile = null;
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
                 s_currentPointerId = InvalidPointerId;

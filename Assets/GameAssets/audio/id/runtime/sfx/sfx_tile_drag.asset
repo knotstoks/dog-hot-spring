@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fadb33322132148e582b72b0b60112ba, type: 3}
-  m_Name: sfx_victory
+  m_Name: sfx_tile_drag
   m_EditorClassIdentifier: 
   <AnimationCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.4
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.4
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -40,5 +40,5 @@ MonoBehaviour:
   <Delay>k__BackingField: 0
   <Looped>k__BackingField: 0
   <PreventSimultaneousDuplicatePlayback>k__BackingField: 0
-  <PauseWhenTimeScaleZero>k__BackingField: 0
-  <AudioClip>k__BackingField: {fileID: 8300000, guid: de9b67b56f51c4b1aa7a4bd79dce11c4, type: 3}
+  <PauseWhenTimeScaleZero>k__BackingField: 1
+  <AudioClip>k__BackingField: {fileID: 8300000, guid: f0660e347d59b44c19ff0ba577292db3, type: 3}
