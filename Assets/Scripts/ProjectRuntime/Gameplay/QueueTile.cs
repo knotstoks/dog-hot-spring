@@ -173,13 +173,15 @@ namespace ProjectRuntime.Gameplay
         {
             if (bathSlideTile == null)
             {
-                Debug.LogError("Dropped animal when CurrentlyDraggedTile is null");
+                // Debug.LogError("Dropped animal when CurrentlyDraggedTile is null");
                 return;
             }
 
 			// Communicate with Tile that it has dropped instantly
 			while (CurrentTileColour == bathSlideTile.TileColor)
             {
+                // Fix for Null Issue when dragging rapidly
+                if (bathSlideTile == null) return;
                 isCurrentlyDeducting = true;
 				bathSlideTile.HandleAnimalDropped();
                 UpdateVisual();
