@@ -94,13 +94,7 @@ namespace ProjectRuntime.Gameplay
 
             GridManager.Instance.RegisterQueueTile(this);
 
-            UpdateVisual();
-        }
-
-        public void UpdateVisual()
-        {
             UpdateColour();
-            UpdateDropsText();
         }
 
         public void UpdateColour()
@@ -128,16 +122,6 @@ namespace ProjectRuntime.Gameplay
             {
 				NextColourIndicator.gameObject.SetActive(false);
             }
-        }
-
-        public void UpdateDropsText()
-        {
-           
-        }
-
-        public void Update()
-        {
-            // print($"{gameObject.name}: {isCurrentlyDeducting}");
         }
 
         public void UpdateFacingDirection(QueueTileDirection direction)
@@ -178,13 +162,13 @@ namespace ProjectRuntime.Gameplay
             }
 
 			// Communicate with Tile that it has dropped instantly
-			while (CurrentTileColour == bathSlideTile.TileColor)
+			while (bathSlideTile.DropsLeft > 0 && CurrentTileColour == bathSlideTile.TileColor)
             {
                 // Fix for Null Issue when dragging rapidly
                 if (bathSlideTile == null) return;
                 isCurrentlyDeducting = true;
 				bathSlideTile.HandleAnimalDropped();
-                UpdateVisual();
+                UpdateColour();
                 await UniTask.WaitForSeconds(this.DropDelay, true);
                 if (!this) return;
 
