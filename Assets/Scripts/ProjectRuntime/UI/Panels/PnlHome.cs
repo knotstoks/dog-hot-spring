@@ -9,6 +9,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using BroccoliBunnyStudios.Sound;
 
 namespace ProjectRuntime.UI.Panels
 {
@@ -37,11 +38,17 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField]
         private Button NextAreaButton { get; set; }
 
+        [field: SerializeField]
+        private Button CinematicButton { get; set; }
+
         [field: SerializeField, Header("Button Sprites")]
         private Sprite RedButtonSprite { get; set; }
 
         [field: SerializeField]
         private Sprite GrayButtonSprite { get; set; }
+
+        [field: SerializeField]
+        private AudioPlaybackInfo ButtonClickSfx { get; set; }
 
         // Internal Variables
         private int _numberOfWorlds; // Set only once in init
@@ -70,6 +77,9 @@ namespace ProjectRuntime.UI.Panels
             }
             this.PreviousAreaButton.OnClick(this.OnPreviousAreaButtonClick);
             this.NextAreaButton.OnClick(this.OnNextAreaButtonClick);
+            this.CinematicButton.OnClick(this.OnCinematicButtonClick);
+
+            UserSaveDataManager.Instance.RegisterStory("STORY_1");
         }
 
         private void Start()
@@ -86,9 +96,8 @@ namespace ProjectRuntime.UI.Panels
         {
             this.ToggleAllButtonsShow(false);
             var currentLevel = UserSaveDataManager.Instance.GetCurrentWorldProgress();
-            this._currentAreaIdx = currentLevel % 10 == 0 // 0-indexed
-                ? Mathf.Max(currentLevel / 10 - 1, 0)
-                : currentLevel / 10;
+            Debug.Log($"Loading current save world level: {currentLevel}");
+            this._currentAreaIdx = Mathf.Max(currentLevel / 10, 0); // 0-indexed
 
             await PanelManager.Instance.FadeFromBlack();
             if (!this) return;
@@ -131,12 +140,22 @@ namespace ProjectRuntime.UI.Panels
         public void ToggleAllButtonsShow(bool toggle)
         {
             this.SettingsButton.gameObject.SetActive(toggle);
-            this.LevelSelectButtonParent.SetActive(toggle);
+
+            this.CinematicButton.gameObject.SetActive(toggle);
+            // TODO: Make signifier to click cinematic if area is locked because haven't seen cinematic
 
             var currentWorldProgress = UserSaveDataManager.Instance.GetCurrentWorldProgress();
+            var firstLevelShown = this._currentAreaIdx * 10 + 1;
+            for (var i = 0; i < 10; i++)
+            {
+                this.LevelSelectButtons[i].interactable = UserSaveDataManager.Instance.HasSeenStory($"STORY_{this._currentAreaIdx + 1}")
+                    && currentWorldProgress >= firstLevelShown + i - 1;
+            }
+            this.LevelSelectButtonParent.SetActive(toggle);
+            
             var maxAreaIdx = currentWorldProgress / 10;
             this.PreviousAreaButton.gameObject.SetActive(toggle && this._currentAreaIdx != 0);
-            this.NextAreaButton.gameObject.SetActive(toggle && this._currentAreaIdx < maxAreaIdx);
+            this.NextAreaButton.gameObject.SetActive(toggle && this._currentAreaIdx < maxAreaIdx);            
         }
 
         #region Button Click
@@ -148,7 +167,9 @@ namespace ProjectRuntime.UI.Panels
             }
             this._isTransitioningScene = true;
 
-            BattleManager.LevelIdToLoad = level;
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
+            BattleManager.LevelIdToLoad = this._currentAreaIdx * 10 + level;
 
             await PanelManager.Instance.FadeToBlackAsync();
             if (!this) return;
@@ -163,6 +184,9 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
             this.ToggleAllButtonsShow(false);
 
             await this.RefreshUI(this._currentAreaIdx + 1);
@@ -179,6 +203,9 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
             this.ToggleAllButtonsShow(false);
 
             await this.RefreshUI(this._currentAreaIdx - 1);
@@ -190,7 +217,29 @@ namespace ProjectRuntime.UI.Panels
 
         private void OnSettingsButtonClick()
         {
+            if (this._isTransitioningScene)
+            {
+                return;
+            }
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
             // TODO
+        }
+
+        private async void OnCinematicButtonClick()
+        {
+            if (this._isTransitioningScene)
+            {
+                return;
+            }
+            this._isTransitioningScene = true;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
+            // TODO: Change scene and load the correct cinematic
+
+            var storyIdToLoad = $"STORY_{this._currentAreaIdx + 1}"; // TODO: Change to static variable inside PnlCinematic
         }
         #endregion
     }

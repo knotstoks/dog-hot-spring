@@ -13,7 +13,7 @@ namespace BroccoliBunnyStudios.Managers
         private readonly List<string> _completedTutorials;
 
         // Callbacks
-        public event Action<int> OnUserLevelProgressModified;
+        public event Action<int> OnUserWorldProgressModified;
         public event Action<string> OnUserStoryProgressModified;
         public event Action<string> OnTutorialProgressModified;
 
@@ -41,7 +41,13 @@ namespace BroccoliBunnyStudios.Managers
         public void SetCurrentWorldProgress(int levelNumber)
         {
             SaveManager.Instance.CurrentLevelProgress = levelNumber;
-            this.OnUserLevelProgressModified?.Invoke(levelNumber);
+            this.OnUserWorldProgressModified?.Invoke(levelNumber);
+        }
+
+        public void ResetCurrentWorldProgress()
+        {
+            SaveManager.Instance.CurrentLevelProgress = 0;
+            this.OnUserWorldProgressModified?.Invoke(0);
         }
 
         public bool IsWorldRequirementMet(int worldNumber)
@@ -53,6 +59,10 @@ namespace BroccoliBunnyStudios.Managers
         #region Stories
         public void RegisterStory(string storyId)
         {
+            if (this._completedStories.Contains(storyId))
+            {
+                return;
+            }
             this._completedStories.Add(storyId);
             this.SaveStories();
         }
@@ -77,6 +87,10 @@ namespace BroccoliBunnyStudios.Managers
         #region Tutorials
         public void RegisterTutorial(string tutorialId)
         {
+            if (this._completedTutorials.Contains(tutorialId))
+            {
+                return;
+            }
             this._completedTutorials.Add(tutorialId);
             this.SaveTutorials();
         }

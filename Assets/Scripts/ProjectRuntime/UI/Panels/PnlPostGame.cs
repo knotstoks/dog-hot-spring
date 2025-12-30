@@ -45,7 +45,7 @@ namespace ProjectRuntime.UI.Panels
         private Button NextStageButton { get; set; }
 
         [field: SerializeField]
-        private Button ReturnToMainMenuButton { get; set; }
+        private Button ReturnToLevelSelectButton { get; set; }
 
         [field: SerializeField, Header("Sfxes")]
         private AudioPlaybackInfo VictorySfx { get; set; }
@@ -59,14 +59,26 @@ namespace ProjectRuntime.UI.Panels
 
         // Internal Variables
         private bool _isTransitioningScene;
+        private bool _willShowCinematic;
 
         private void Awake()
         {
+            this.NextStageButton.OnClick(this.OnNextStageButtonClick);
+            this.ReturnToLevelSelectButton.OnClick(this.OnReturnToLevelSelectButtonClick);
+            this.CinematicNextButton.OnClick(this.OnCinematicNextButtonClick);
+
+            var usdm = UserSaveDataManager.Instance;
+            var currentLevel = BattleManager.LevelIdToLoad;
+            if (currentLevel > usdm.GetCurrentWorldProgress())
+            {
+                usdm.SetCurrentWorldProgress(currentLevel);
+            }
+            this._willShowCinematic = currentLevel % 10 == 0
+                && !usdm.HasSeenStory($"STORY_{currentLevel / 10}");
+
             this.NormalButtonParent.SetActive(false);
             this.CinematicNextButton.gameObject.SetActive(false);
             this.Init().Forget();
-            this.NextStageButton.OnClick(this.OnNextStageButtonClick);
-            this.ReturnToMainMenuButton.OnClick(this.OnReturnToMainMenuButtonClick);
         }
 
         private async UniTaskVoid Init()
@@ -113,7 +125,8 @@ namespace ProjectRuntime.UI.Panels
             //    stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             //}
 
-            this.NormalButtonParent.SetActive(true);
+            this.CinematicNextButton.SetActive(this._willShowCinematic);
+            this.NormalButtonParent.SetActive(!this._willShowCinematic);
             //this.CinematicNextButton.gameObject.SetActive(true);
         }
 
@@ -136,7 +149,7 @@ namespace ProjectRuntime.UI.Panels
             this.Close();
         }
 
-        private async void OnReturnToMainMenuButtonClick()
+        private async void OnReturnToLevelSelectButtonClick()
         {
             if (this._isTransitioningScene)
             {
@@ -149,7 +162,26 @@ namespace ProjectRuntime.UI.Panels
             await PanelManager.Instance.FadeToBlackAsync();
             if (!this) return;
 
-            SceneManager.Instance.LoadSceneAsync("ScMain").Forget();
+            SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+
+            this.Close();
+        }
+
+        private async void OnCinematicNextButtonClick()
+        {
+            if (this._isTransitioningScene)
+            {
+                return;
+            }
+            this._isTransitioningScene = true;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonSfx, false, Vector3.zero).Forget();
+
+            await PanelManager.Instance.FadeToBlackAsync();
+            if (!this) return;
+
+            // TODO
+            //SceneManager.Instance.LoadSceneAsync("ScMain").Forget();
 
             this.Close();
         }

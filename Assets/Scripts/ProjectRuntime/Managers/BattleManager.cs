@@ -70,6 +70,16 @@ namespace ProjectRuntime.Managers
             {
                 UserSaveDataManager.Instance.ResetAllTutorials();
             }
+
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                this.ShowVictoryPanel();
+            }
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                UserSaveDataManager.Instance.ResetCurrentWorldProgress();
+            }
 #endif
         }
 
