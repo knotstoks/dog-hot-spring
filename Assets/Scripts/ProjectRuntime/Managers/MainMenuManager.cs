@@ -47,14 +47,11 @@ namespace ProjectRuntime.Managers
 
             await PanelManager.Instance.FadeToBlackAsync();
 
-            // TODO
-            //SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+            SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
 
-            BattleManager.LevelIdToLoad = 1;
-            SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
-
-            // TEMP for playtesting
-            TimeManager.Instance.SetStartTime();
+            // For playtesting
+            //BattleManager.LevelIdToLoad = 1;
+            //SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
         }
 
         private void OnOptionsButtonClick()

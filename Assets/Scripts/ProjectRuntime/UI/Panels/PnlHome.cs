@@ -51,7 +51,8 @@ namespace ProjectRuntime.UI.Panels
         private AudioPlaybackInfo ButtonClickSfx { get; set; }
 
         // Internal Variables
-        private int _numberOfWorlds; // Set only once in init
+        private int _numberOfWorlds; // Set only once in Init
+        private int _numberOfAreas; //Set only once in Init
         private bool _isTransitioningScene;
         private int _currentAreaIdx;
 
@@ -69,6 +70,7 @@ namespace ProjectRuntime.UI.Panels
             }
 
             this._numberOfWorlds = DWorld.GetAllData().Data.Count;
+            this._numberOfAreas = this._numberOfWorlds / 10;
             this.SettingsButton.OnClick(this.OnSettingsButtonClick);
             for (var i = 0; i < this.LevelSelectButtons.Count; i++)
             {
@@ -97,12 +99,12 @@ namespace ProjectRuntime.UI.Panels
             this.ToggleAllButtonsShow(false);
             var currentLevel = UserSaveDataManager.Instance.GetCurrentWorldProgress();
             Debug.Log($"Loading current save world level: {currentLevel}");
-            this._currentAreaIdx = Mathf.Max(currentLevel / 10, 0); // 0-indexed
+            this._currentAreaIdx = Mathf.Min(Mathf.Max(currentLevel / 10, 0), this._numberOfAreas - 1); // 0-indexed
+            await this.RefreshUI(this._currentAreaIdx);
+            if (!this) return;
 
             await PanelManager.Instance.FadeFromBlack();
             if (!this) return;
-
-            this.RefreshUI(this._currentAreaIdx).Forget();
         }
 
         /// <summary>
@@ -135,6 +137,10 @@ namespace ProjectRuntime.UI.Panels
             }
 
             this.ToggleAllButtonsShow(true);
+
+            // Provide 1 frame buffer for Init
+            await UniTask.Yield();
+            if (!this) return;
         }
 
         public void ToggleAllButtonsShow(bool toggle)
