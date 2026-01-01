@@ -3,6 +3,7 @@ using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
 using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,24 @@ namespace ProjectRuntime.Managers
 {
     public class MainMenuManager : MonoBehaviour
     {
+        [field: SerializeField, Header("User Cheats")]
+        private int CheatWorldProgress { get; set; }
+
+        [field: SerializeField]
+        private string CheatStoryProgress { get; set; }
+
+        [Button]
+        private void SetUserProgress()
+        {
+            UserSaveDataManager.Instance.SetCurrentWorldProgress(this.CheatWorldProgress);
+        }
+
+        [Button]
+        private void SetUserStory()
+        {
+            UserSaveDataManager.Instance.RegisterStory(this.CheatStoryProgress);
+        }
+
         [field: SerializeField, Header("Scene References")]
         private Button PlayButton { get; set; }
 

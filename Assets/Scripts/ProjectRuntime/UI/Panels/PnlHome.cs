@@ -30,6 +30,9 @@ namespace ProjectRuntime.UI.Panels
         private List<Button> LevelSelectButtons { get; set; }
 
         [field: SerializeField]
+        private List<GameObject> LockIcons { get; set; }
+
+        [field: SerializeField]
         private List<TextMeshProUGUI> LevelSelectTMPs { get; set; }
 
         [field: SerializeField]
@@ -42,12 +45,12 @@ namespace ProjectRuntime.UI.Panels
         private Button CinematicButton { get; set; }
 
         [field: SerializeField, Header("Button Sprites")]
-        private Sprite RedButtonSprite { get; set; }
+        private Sprite ActiveButtonSprite { get; set; }
 
         [field: SerializeField]
-        private Sprite GrayButtonSprite { get; set; }
+        private Sprite InactiveButtonSprite { get; set; }
 
-        [field: SerializeField]
+        [field: SerializeField, Header("Sfxes")]
         private AudioPlaybackInfo ButtonClickSfx { get; set; }
 
         // Internal Variables
@@ -150,12 +153,18 @@ namespace ProjectRuntime.UI.Panels
             this.CinematicButton.gameObject.SetActive(toggle);
             // TODO: Make signifier to click cinematic if area is locked because haven't seen cinematic
 
-            var currentWorldProgress = UserSaveDataManager.Instance.GetCurrentWorldProgress();
+            var usdm = UserSaveDataManager.Instance;
+            var currentWorldProgress = usdm.GetCurrentWorldProgress();
             var firstLevelShown = this._currentAreaIdx * 10 + 1;
             for (var i = 0; i < 10; i++)
             {
-                this.LevelSelectButtons[i].interactable = UserSaveDataManager.Instance.HasSeenStory($"STORY_{this._currentAreaIdx + 1}")
+                var isActive = usdm.HasSeenStory($"STORY_{this._currentAreaIdx + 1}")
                     && currentWorldProgress >= firstLevelShown + i - 1;
+                this.LevelSelectButtons[i].image.sprite = isActive
+                    ? this.ActiveButtonSprite
+                    : this.InactiveButtonSprite;
+                this.LevelSelectButtons[i].interactable = isActive;
+                this.LockIcons[i].SetActive(!isActive);
             }
             this.LevelSelectButtonParent.SetActive(toggle);
             
@@ -172,7 +181,6 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
-
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
             BattleManager.LevelIdToLoad = this._currentAreaIdx * 10 + level;
@@ -190,7 +198,6 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
-
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
             this.ToggleAllButtonsShow(false);
@@ -209,7 +216,6 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
-
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
             this.ToggleAllButtonsShow(false);
@@ -227,7 +233,6 @@ namespace ProjectRuntime.UI.Panels
             {
                 return;
             }
-
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
             // TODO
@@ -240,7 +245,6 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
-
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
             // TODO: Change scene and load the correct cinematic
