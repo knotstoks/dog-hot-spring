@@ -69,6 +69,13 @@ namespace ProjectRuntime.Managers
             if (Input.GetKeyDown(KeyCode.T))
             {
                 UserSaveDataManager.Instance.ResetAllTutorials();
+                Debug.Log("Reset All Tutorials");
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                UserSaveDataManager.Instance.ResetAllStories();
+                Debug.Log("Reset All Stories");
             }
 
             if (Input.GetKeyDown(KeyCode.V))
@@ -79,6 +86,7 @@ namespace ProjectRuntime.Managers
             if (Input.GetKeyDown(KeyCode.P))
             {
                 UserSaveDataManager.Instance.ResetCurrentWorldProgress();
+                Debug.Log("Reset World Progress");
             }
 #endif
         }

@@ -86,7 +86,7 @@ namespace ProjectRuntime.UI.Panels
             this.NextAreaButton.OnClick(this.OnNextAreaButtonClick);
             this.CinematicButton.OnClick(this.OnCinematicButtonClick);
 
-            UserSaveDataManager.Instance.RegisterStory("STORY_1");
+            //UserSaveDataManager.Instance.RegisterStory("STORY_1");
         }
 
         private void Start()
@@ -268,9 +268,13 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = true;
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
-            // TODO: Change scene and load the correct cinematic
+            // Change scene and load the correct cinematic
+            PnlCinematic.StoryIdToLoad = $"STORY_{this._currentAreaIdx + 1}";
 
-            var storyIdToLoad = $"STORY_{this._currentAreaIdx + 1}"; // TODO: Change to static variable inside PnlCinematic
+            await PanelManager.Instance.FadeToBlackAsync();
+            if (!this) return;
+
+            SceneManager.Instance.LoadSceneAsync("ScCinematic").Forget();
         }
         #endregion
     }

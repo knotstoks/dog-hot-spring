@@ -61,12 +61,21 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
-
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
             await PanelManager.Instance.FadeToBlackAsync();
 
-            SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+            if (!UserSaveDataManager.Instance.HasSeenStory("STORY_1"))
+            {
+                // Go to cinematic instead
+                PnlCinematic.StoryIdToLoad = "STORY_1";
+                SceneManager.Instance.LoadSceneAsync("ScCinematic").Forget();
+            }
+            else
+            {
+                // Go to ScHome
+                SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+            }
 
             // For playtesting
             //BattleManager.LevelIdToLoad = 1;

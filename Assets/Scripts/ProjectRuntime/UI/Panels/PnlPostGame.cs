@@ -74,7 +74,7 @@ namespace ProjectRuntime.UI.Panels
                 usdm.SetCurrentWorldProgress(currentLevel);
             }
             this._willShowCinematic = currentLevel % 10 == 0
-                && !usdm.HasSeenStory($"STORY_{currentLevel / 10}");
+                && !usdm.HasSeenStory($"STORY_{currentLevel / 10 + 1}");
 
             this.NormalButtonParent.SetActive(false);
             this.CinematicNextButton.gameObject.SetActive(false);
@@ -174,14 +174,13 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
             this._isTransitioningScene = true;
-
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonSfx, false, Vector3.zero).Forget();
 
+            // Change scene and load the correct cinematic
+            PnlCinematic.StoryIdToLoad = $"STORY_{BattleManager.LevelIdToLoad / 10 + 1}";
             await PanelManager.Instance.FadeToBlackAsync();
             if (!this) return;
-
-            // TODO
-            //SceneManager.Instance.LoadSceneAsync("ScMain").Forget();
+            SceneManager.Instance.LoadSceneAsync("ScCinematic").Forget();
 
             this.Close();
         }
