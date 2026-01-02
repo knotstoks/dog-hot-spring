@@ -7,9 +7,9 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectRuntime.Managers
+namespace ProjectRuntime.UI.Panels
 {
-    public class MainMenuManager : MonoBehaviour
+    public class PnlMain : MonoBehaviour
     {
         [field: SerializeField, Header("User Cheats")]
         private int CheatWorldProgress { get; set; }

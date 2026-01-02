@@ -17,6 +17,8 @@ namespace ProjectRuntime.UI.Panels
     {
         public static PnlHome Instance { get; private set; }
 
+        public static int AreaToTransition { get; set; } = -1;
+
         [field: SerializeField, Header("Scene References")]
         private CinemachineVirtualCamera DollyCamera { get; set; }
 
@@ -103,11 +105,30 @@ namespace ProjectRuntime.UI.Panels
             var currentLevel = UserSaveDataManager.Instance.GetCurrentWorldProgress();
             Debug.Log($"Loading current save world level: {currentLevel}");
             this._currentAreaIdx = Mathf.Min(Mathf.Max(currentLevel / 10, 0), this._numberOfAreas - 1); // 0-indexed
-            await this.RefreshUI(this._currentAreaIdx);
-            if (!this) return;
 
-            await PanelManager.Instance.FadeFromBlack();
-            if (!this) return;
+            if (AreaToTransition == -1)
+            {
+                await this.RefreshUI(this._currentAreaIdx);
+                if (!this) return;
+
+                await PanelManager.Instance.FadeFromBlack();
+                if (!this) return;
+            }
+            else
+            {
+                await this.RefreshUI(AreaToTransition - 1);
+                if (!this) return;
+
+                this.ToggleAllButtonsShow(false);
+
+                await PanelManager.Instance.FadeFromBlack();
+                if (!this) return;
+
+                await this.RefreshUI(AreaToTransition);
+                if (!this) return;
+
+                AreaToTransition = -1;
+            }
         }
 
         /// <summary>
