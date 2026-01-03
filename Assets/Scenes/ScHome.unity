@@ -697,6 +697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 356660496}
   - component: {fileID: 356660497}
+  - component: {fileID: 356660498}
   m_Layer: 5
   m_Name: PnlHome
   m_TagString: Untagged
@@ -737,6 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e12adfbd8f3a4f6eac36de7d0a2971f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CanvasGroup>k__BackingField: {fileID: 356660498}
   <DollyCamera>k__BackingField: {fileID: 1697717528}
   <SettingsButton>k__BackingField: {fileID: 620319962}
   <LevelSelectButtonParent>k__BackingField: {fileID: 1317713664}
@@ -779,6 +781,18 @@ MonoBehaviour:
   <ActiveButtonSprite>k__BackingField: {fileID: 21300000, guid: 2cb8c419efb40410588c07a2338cef36, type: 3}
   <InactiveButtonSprite>k__BackingField: {fileID: 21300000, guid: 9446d9de9565c4af59860895a4ac4c26, type: 3}
   <ButtonClickSfx>k__BackingField: {fileID: 11400000, guid: 85f1912fbd2dd42ada4b4c91fe10b27b, type: 2}
+--- !u!225 &356660498
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356660495}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &357118779
 GameObject:
   m_ObjectHideFlags: 0
