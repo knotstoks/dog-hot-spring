@@ -1,6 +1,7 @@
 using BroccoliBunnyStudios.Pools;
 using ProjectRuntime.Gameplay;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +27,7 @@ namespace BroccoliBunnyStudios.Utils
 #endif
 
         /// <summary>
-        /// Convert string to int
+        /// Convert string to int32
         /// </summary>
         /// <param name="text"></param>
         /// <returns>int</returns>
@@ -37,12 +38,22 @@ namespace BroccoliBunnyStudios.Utils
                 return 0;
             }
 
-            if (int.TryParse(text, out int result))
+            return int.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0;
+        }
+
+        /// <summary>
+        /// Convert string to int64
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns>int</returns>
+        public static long ConvertToInt64(string text)
+        {
+            if (string.IsNullOrEmpty(text))
             {
-                return result;
+                return 0;
             }
 
-            return 0;
+            return long.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0;
         }
 
         /// <summary>
@@ -57,12 +68,7 @@ namespace BroccoliBunnyStudios.Utils
                 return 0;
             }
 
-            if (float.TryParse(text, out float result))
-            {
-                return result;
-            }
-
-            return 0;
+            return float.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0f;
         }
 
         /// <summary>
@@ -77,12 +83,7 @@ namespace BroccoliBunnyStudios.Utils
                 return 0;
             }
 
-            if (double.TryParse(text, out double result))
-            {
-                return result;
-            }
-
-            return 0;
+            return double.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0d;
         }
 
         /// <summary>
@@ -97,12 +98,7 @@ namespace BroccoliBunnyStudios.Utils
                 return 0;
             }
 
-            if (decimal.TryParse(text, out decimal result))
-            {
-                return result;
-            }
-
-            return 0;
+            return decimal.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0m;
         }
 
         /// <summary>

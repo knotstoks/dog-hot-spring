@@ -24,5 +24,11 @@ namespace BroccoliBunnyStudios.Managers
             get => this.SaveConfig.GetCollection<List<string>, string>(nameof(this.CompletedTutorials), new());
             set => this.SaveConfig.SetCollection<List<string>, string>(nameof(this.CompletedTutorials), value);
         }
+
+        public string UserAchievements
+        {
+            get => this.SaveConfig.GetString(nameof(this.UserAchievements), string.Empty);
+            set => this.SaveConfig.SetString(nameof(this.UserAchievements), value);
+        }
     }
 }
