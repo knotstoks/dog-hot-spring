@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeaf1862a21084919b8749b136e01a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EditorIdToLoad>k__BackingField: 0
+  <EditorIdToLoad>k__BackingField: 1
   <PuzzleGridTransform>k__BackingField: {fileID: 887716548}
   <TutorialGameControllers>k__BackingField:
   - {fileID: 320266357}
@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <BackgroundTilePrefab>k__BackingField: {fileID: 180824280772228822, guid: f2e7bec2503839641883f1e09df4866e, type: 3}
-  <WallTilePrefab>k__BackingField: {fileID: 4931604542624370029, guid: 653cc5fd50a8b8345824bf4bf0da7cb4, type: 3}
+  <WallTilePrefab>k__BackingField: {fileID: 7329905969952421108, guid: 653cc5fd50a8b8345824bf4bf0da7cb4, type: 3}
   <TileWidth>k__BackingField: 1
   <TileHeight>k__BackingField: 1
   <TileGap>k__BackingField: 0

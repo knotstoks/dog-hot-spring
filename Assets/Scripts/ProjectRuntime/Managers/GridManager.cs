@@ -33,7 +33,7 @@ namespace ProjectRuntime.Managers
         public BackgroundTile BackgroundTilePrefab { get; private set; }
 
         [field: SerializeField]
-        public GameObject WallTilePrefab { get; private set; }
+        public WallTile WallTilePrefab { get; private set; }
 
         [field: SerializeField]
         public float TileWidth { get; private set; } = 1f;
@@ -62,6 +62,7 @@ namespace ProjectRuntime.Managers
         // Animal Drop Tracking
         private Dictionary<TileColor, List<AnimalDrop>> _animalDropDict;
         private Dictionary<Vector2Int, AnimalDrop> _animalDropPositionDict;
+        private List<WallTile> _wallTileList { get; set; } = new();
 
         private Dictionary<Vector2Int, QueueTile> _queueDropPositionDict;
         public List<BathSlideTile> EmptySlideTileList { get; private set; } = new();
@@ -104,8 +105,10 @@ namespace ProjectRuntime.Managers
             this._animalDropDict = new();
             this._animalDropPositionDict = new();
             this._queueDropPositionDict = new();
+            this._wallTileList = new();
 
-            this._finalGridWidth = this.GridWidth + 2;
+
+			this._finalGridWidth = this.GridWidth + 2;
             this._finalGridHeight = this.GridHeight + 2;
 
             var totalWidth = this._finalGridWidth * this.TileWidth + (this._finalGridWidth - 1) * this.TileGap;
@@ -127,7 +130,10 @@ namespace ProjectRuntime.Managers
                         // Spawn a wall tile
                         var wallTile = Instantiate(this.WallTilePrefab, this.TileContainer);
                         wallTile.transform.localPosition = this.GetTilePosition(rowY, colX);
-                    }
+
+                        this._wallTileList.Add(wallTile);
+						wallTile.TileYXPosition = new(colX, rowY);
+					}
                     else
                     {
                         // Instantiate and initialize
@@ -141,6 +147,8 @@ namespace ProjectRuntime.Managers
                     }
                 }
             }
+
+            
 
             // Create Bath Slide Tiles
             foreach (var bathSlideTile in levelData.TileSaveDatas)
@@ -222,7 +230,12 @@ namespace ProjectRuntime.Managers
 
                 tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true);
             }
-        }
+
+			foreach (var wallTile in _wallTileList)
+			{
+				wallTile.Init(this.Tiles);
+			}
+		}
 
         private bool IsLockedTile(List<Vector2Int> lockedTiles, Vector2Int tileYX)
         {
