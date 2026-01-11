@@ -259,7 +259,6 @@ public class WallTile : MonoBehaviour
             {
                 var rowY = TileYXPosition.y - i;
                 var colX = TileYXPosition.x + j;
-				print($"{i+1}, {j+1}: {rowY}, {colX}");
                 BlockedAreas[i+1, j+1] = QueryTile(tiles, rowY, colX);
 			}
         }
