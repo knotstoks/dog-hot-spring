@@ -110,7 +110,7 @@ namespace ProjectRuntime.UI.Panels
             if (!this) return;
             var currentLevel = UserSaveDataManager.Instance.GetCurrentWorldProgress();
             Debug.Log($"Loading current save world level: {currentLevel}");
-            this._currentAreaIdx = Mathf.Min(Mathf.Max(currentLevel / 10, 0), this._numberOfAreas - 1); // 0-indexed
+            this._currentAreaIdx = Mathf.Min(Mathf.Max((currentLevel + 1) / 10, 0), this._numberOfAreas - 1); // 0-indexed
 
             if (AreaToTransition == -1)
             {

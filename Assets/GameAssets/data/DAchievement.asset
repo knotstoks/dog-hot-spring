@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c397bb4b09b15148aaae619c450c393, type: 3}
+  m_Name: DAchievement
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField:
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_10
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 10
+    <Name>k__BackingField: Onsen Open!
+    <Description>k__BackingField: Complete Level 10
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_20
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 20
+    <Name>k__BackingField: Crowded Baths
+    <Description>k__BackingField: Complete Level 20
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_30
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 30
+    <Name>k__BackingField: Icebreaker
+    <Description>k__BackingField: Complete Level 30
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_40
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 40
+    <Name>k__BackingField: Holey Moley
+    <Description>k__BackingField: Complete Level 40
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_50
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 50
+    <Name>k__BackingField: XXX
+    <Description>k__BackingField: Complete Level 50
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_60
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 60
+    <Name>k__BackingField: XXX
+    <Description>k__BackingField: Complete Level 60
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_70
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 70
+    <Name>k__BackingField: XXX
+    <Description>k__BackingField: Complete Level 70
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_80
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 80
+    <Name>k__BackingField: XXX
+    <Description>k__BackingField: Complete Level 80
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_90
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 90
+    <Name>k__BackingField: XXX
+    <Description>k__BackingField: Complete Level 90
+  - <AchievementId>k__BackingField: ACH_LEVELCOMPLETE_100
+    <AchievementType>k__BackingField: 1
+    <Count>k__BackingField: 100
+    <Name>k__BackingField: XXX
+    <Description>k__BackingField: Complete Level 100

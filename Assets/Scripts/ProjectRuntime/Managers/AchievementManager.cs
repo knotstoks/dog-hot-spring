@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ProjectRuntime.Managers
 {
@@ -73,16 +72,6 @@ namespace ProjectRuntime.Managers
                 }
                 this.SaveAchievements();
             }
-
-            this.UnlockNewAchievements();
-        }
-
-        /// <summary>
-        /// Checks if any new achievements have been added and unlock them if needed
-        /// </summary>
-        public void UnlockNewAchievements()
-        {
-
         }
 
         /// <summary>
@@ -90,7 +79,10 @@ namespace ProjectRuntime.Managers
         /// </summary>
         public void ResetAchievements()
         {
+            var sm = SaveManager.Instance;
+            sm.UserAchievements = string.Empty;
 
+            this._userAchievements.Clear();
         }
 
         private void SaveAchievements()
@@ -153,10 +145,11 @@ namespace ProjectRuntime.Managers
                 if (uAch.Status == AchievementStatusEnum.InProgress)
                 {
                     uAch.Status = AchievementStatusEnum.Unlocked;
-                    
+
                     // TODO: Hook up Steam Achievement
 
                     // TODO: Show in game achievement
+                    Debug.Log($"Achievement Unlocked: {dAch.AchievementId}");
                 }
             }
             this._userAchievements[uAch.AchievementId] = uAch;
@@ -188,6 +181,7 @@ namespace ProjectRuntime.Managers
                     // TODO: Hook up Steam Achievement
 
                     // TODO: Show in game achievement
+                    Debug.Log($"Achievement Unlocked: {dAch.AchievementId}");
                 }
             }
             this._userAchievements[uAch.AchievementId] = uAch;
@@ -209,9 +203,14 @@ namespace ProjectRuntime.Managers
             AddReach = 2,
         }
 
-        public readonly Dictionary<AchievementType, AchievementCreditType> s_creditDict = new Dictionary<AchievementType, AchievementCreditType>
+        public readonly Dictionary<AchievementType, AchievementCreditType> s_creditDict = new()
         {
             { AchievementType.LEVEL_COMPLETE, AchievementCreditType.AddReach },
         };
+
+        public void ReachLevelComplete(int levelNumber)
+        {
+            this.GenericAddCredit(AchievementType.LEVEL_COMPLETE, levelNumber);
+        }
     }
 }
