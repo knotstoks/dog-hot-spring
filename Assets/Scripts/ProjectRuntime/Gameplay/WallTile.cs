@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using ProjectRuntime.Gameplay;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WallTile : MonoBehaviour

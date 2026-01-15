@@ -76,10 +76,6 @@ namespace ProjectRuntime.UI.Panels
                 // Go to ScHome
                 SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
             }
-
-            // For playtesting
-            //BattleManager.LevelIdToLoad = 1;
-            //SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
         }
 
         private void OnOptionsButtonClick()

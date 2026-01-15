@@ -18,6 +18,7 @@ namespace ProjectRuntime.UI.Panels
     {
         public static PnlHome Instance { get; private set; }
 
+        // This is 0-indexed
         public static int AreaToTransition { get; set; } = -1;
 
         [field: SerializeField, Header("Scene References")]
@@ -108,9 +109,10 @@ namespace ProjectRuntime.UI.Panels
         {
             await this.ToggleAllButtonsShow(false);
             if (!this) return;
-            var currentLevel = UserSaveDataManager.Instance.GetCurrentWorldProgress();
-            Debug.Log($"Loading current save world level: {currentLevel}");
-            this._currentAreaIdx = Mathf.Min(Mathf.Max((currentLevel + 1) / 10, 0), this._numberOfAreas - 1); // 0-indexed
+            var currentLevelProgress = UserSaveDataManager.Instance.GetCurrentWorldProgress();
+            Debug.Log($"Loading current save world level: {currentLevelProgress}");
+            this._currentAreaIdx = Mathf.Min(Mathf.Max(currentLevelProgress / 10, 0), this._numberOfAreas - 1); // 0-indexed
+            Debug.Log($"Loading area index: {this._currentAreaIdx}");
 
             if (AreaToTransition == -1)
             {
@@ -205,7 +207,8 @@ namespace ProjectRuntime.UI.Panels
             
             var maxAreaIdx = currentWorldProgress / 10;
             this.PreviousAreaButton.gameObject.SetActive(this._currentAreaIdx != 0);
-            this.NextAreaButton.gameObject.SetActive(this._currentAreaIdx < maxAreaIdx);
+            this.NextAreaButton.gameObject.SetActive(this._currentAreaIdx < maxAreaIdx
+                && currentWorldProgress / 10 > this._currentAreaIdx);
 
             await this.CanvasGroup.DOFade(1f, BUTTON_FADE_DURATION);
             if (!this) return;

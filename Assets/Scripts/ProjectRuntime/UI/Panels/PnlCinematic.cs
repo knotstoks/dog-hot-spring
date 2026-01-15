@@ -34,8 +34,26 @@ namespace ProjectRuntime.UI.Panels
             var usdm = UserSaveDataManager.Instance;
             if (!usdm.HasSeenStory(StoryIdToLoad))
             {
-                PnlHome.AreaToTransition = 1; // TEMP
+                var dStory = DStory.GetDataById(StoryIdToLoad).Value;
+                var numberOfAreas = DWorld.GetAllData().Data.Count / 10;
+                if (dStory.StoryNumber == 1 || dStory.StoryNumber > numberOfAreas)
+                {
+                    // Edge case where Player just started game so no transition
+                    // OR
+                    // Edge case where Player is watching last world so no transition to next
+                    PnlHome.AreaToTransition = -1;
+                }
+                else
+                {
+                    // This is 0 indexed so transition to next area
+                    PnlHome.AreaToTransition = dStory.StoryNumber - 1;
+                }
+                
                 UserSaveDataManager.Instance.RegisterStory(StoryIdToLoad);
+            }
+            else
+            {
+                PnlHome.AreaToTransition = -1;
             }
 
             await PanelManager.Instance.FadeToBlackAsync();

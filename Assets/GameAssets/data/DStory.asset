@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99071c37e2bcb4243990afc7bf8c3ff9, type: 3}
+  m_Name: DStory
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField:
+  - <StoryId>k__BackingField: STORY_1
+    <StoryNumber>k__BackingField: 1
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_2
+    <StoryNumber>k__BackingField: 2
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_3
+    <StoryNumber>k__BackingField: 3
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_4
+    <StoryNumber>k__BackingField: 4
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_5
+    <StoryNumber>k__BackingField: 5
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_6
+    <StoryNumber>k__BackingField: 6
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_7
+    <StoryNumber>k__BackingField: 7
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_8
+    <StoryNumber>k__BackingField: 8
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_9
+    <StoryNumber>k__BackingField: 9
+    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: STORY_10
+    <StoryNumber>k__BackingField: 10
+    <StoryPrefabPath>k__BackingField: 
