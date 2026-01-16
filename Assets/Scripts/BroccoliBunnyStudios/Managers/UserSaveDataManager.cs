@@ -32,6 +32,14 @@ namespace BroccoliBunnyStudios.Managers
             //this.InitUserSnails();
         }
 
+        /// <summary>
+        /// This function is to trigger the constructor from GameManager
+        /// </summary>
+        public void InitUserSaveDataManager()
+        {
+            // Empty for now
+        }
+
         #region Progression
         public int GetCurrentWorldProgress()
         {

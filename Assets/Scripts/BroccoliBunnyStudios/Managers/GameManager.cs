@@ -1,5 +1,7 @@
 using System;
 using BroccoliBunnyStudios.Extensions;
+using BroccoliBunnyStudios.Managers;
+using ProjectRuntime.Managers;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -24,6 +26,8 @@ public class GameManager
         }
 
         this.Root = go.transform;
+        UserSaveDataManager.Instance.InitUserSaveDataManager();
+        AchievementManager.Instance.TriggerAnyAchievements();
 #if UNITY_EDITOR
         go.FGetComp<EditorCheats>();
 #endif

@@ -72,6 +72,7 @@ namespace ProjectRuntime.UI.Panels
             if (currentLevel > usdm.GetCurrentWorldProgress())
             {
                 usdm.SetCurrentWorldProgress(currentLevel);
+                AchievementManager.Instance.ReachLevelComplete(currentLevel);
             }
             this._willShowCinematic = currentLevel % 10 == 0
                 && !usdm.HasSeenStory($"STORY_{currentLevel / 10 + 1}");

@@ -72,6 +72,36 @@ namespace ProjectRuntime.Managers
                 }
                 this.SaveAchievements();
             }
+
+            this.InitAchievements();
+        }
+
+        /// <summary>
+        /// This function is to trigger the constructor from GameManager
+        /// </summary>
+        public void TriggerAnyAchievements()
+        {
+            // Empty for now
+        }
+
+        /// <summary>
+        /// Initializes all user achievements
+        /// </summary>
+        private void InitAchievements()
+        {
+            var dAchievements = DAchievement.GetAllData().Data;
+            foreach (var dAch in dAchievements)
+            {
+                if (!this._userAchievements.ContainsKey(dAch.AchievementId))
+                {
+                    this._userAchievements[dAch.AchievementId] = new UserAchievement(dAch.AchievementId, dAch.Count);
+                }
+            }
+
+            // Try crediting existing stats
+            this.GenericAddCredit(AchievementType.LEVEL_COMPLETE, UserSaveDataManager.Instance.GetCurrentWorldProgress());
+
+            this.SaveAchievements();
         }
 
         /// <summary>
@@ -81,8 +111,9 @@ namespace ProjectRuntime.Managers
         {
             var sm = SaveManager.Instance;
             sm.UserAchievements = string.Empty;
-
             this._userAchievements.Clear();
+
+            this.InitAchievements();
         }
 
         private void SaveAchievements()
@@ -111,7 +142,7 @@ namespace ProjectRuntime.Managers
             var creditType = s_creditDict[achievementType];
             foreach (var dAch in dAchs)
             {
-                if (!this._userAchievements.ContainsKey(dAch.AchievementId))
+                if (this._userAchievements.ContainsKey(dAch.AchievementId))
                 {
                     switch (creditType)
                     {
