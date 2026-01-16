@@ -137,6 +137,9 @@ namespace ProjectRuntime.Tutorial
                     case TutorialGameStepType.UnpauseGame:
                         this.UnpauseGame(stepData).Forget();
                         break;
+                    case TutorialGameStepType.ShowPnlInfoPopup:
+                        this.ShowPnlInfoPopup(stepData).Forget();
+                        break;
                     default:
                         break;
                 }
@@ -182,6 +185,15 @@ namespace ProjectRuntime.Tutorial
             await this.GoToNextStep(stepData, false);
         }
 
+        private async UniTask ShowPnlInfoPopup(TutorialGameStepData stepData)
+        {
+            PanelManager.Instance.ShowAsync<PnlInfoPopup>((pnl) =>
+            {
+                pnl.Init(stepData.HeaderText, stepData.PromptText, stepData.InfoPopupImagePath);
+            }).Forget();
+            await this.GoToNextStep(stepData, false);
+        }
+
         private async UniTask GoToNextStep(TutorialGameStepData stepData, bool allowWaitForUserInput)
         {
             switch (stepData.StepDurationType)
@@ -207,7 +219,7 @@ namespace ProjectRuntime.Tutorial
                     this.CompleteCurrentStep();
                     break;
 
-                case TutorialGameStepDurationType.WaitForPnlPopUpClose: // 3
+                case TutorialGameStepDurationType.WaitForPnlInfoPopupClose: // 3
                     // Setup callbacks with closures
                     var flag = false;
                     void SetFlag() => flag = true;

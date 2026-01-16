@@ -31,5 +31,10 @@ MonoBehaviour:
 
       Animals only enter baths the same
       colour as them!'
+  - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_HEADER
+    <Value>k__BackingField: The Queue Block
+  - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_PROMPT
+    <Value>k__BackingField: Animals will jump in the same coloured baths if placed
+      in front of them!
   - <Key>k__BackingField: LOC_OKAY
     <Value>k__BackingField: Okay

@@ -28,5 +28,9 @@ MonoBehaviour:
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_TUTORIAL_SLIDE
     <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_HEADER
+    <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_PROMPT
+    <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_OKAY
     <Value>k__BackingField: 

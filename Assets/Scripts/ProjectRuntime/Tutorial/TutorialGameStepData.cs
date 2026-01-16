@@ -10,6 +10,7 @@ namespace ProjectRuntime.Tutorial
         ShowImageAndTextOnly = 0,
         PauseGame = 1,
         UnpauseGame = 2,
+        ShowPnlInfoPopup = 3,
     }
 
     [Serializable]
@@ -18,7 +19,7 @@ namespace ProjectRuntime.Tutorial
         WaitForUserInput = 0,
         GoToNextStepImmediately = 1,
         GoToNextStepAfterSeconds = 2,
-        WaitForPnlPopUpClose = 3,
+        WaitForPnlInfoPopupClose = 3,
     }
 
     [Serializable]
@@ -82,6 +83,12 @@ namespace ProjectRuntime.Tutorial
         public bool ShowNpc;
         public bool KeepPnlTutorialForNextStep;
 
+        [Header("Pnl Info Popup Logic"), ShowIf("ShowIfWaitForPnlInfoPopup")]
+        public string HeaderText;
+        [ShowIf("ShowIfWaitForPnlInfoPopup")]
+        public string PromptText;
+        [ShowIf("ShowIfWaitForPnlInfoPopup")]
+        public string InfoPopupImagePath;
         [Header("Tutorial hand pointer"), ShowIf("ShowIfInteraction")]
         public bool ShowHandPointer;
         [ShowIf("ShowIfInteractionAndHandPointer")]
@@ -118,6 +125,11 @@ namespace ProjectRuntime.Tutorial
         {
             // Interaction type tutorial steps
             return this.StepType == TutorialGameStepType.ShowImageAndTextOnly;
+        }
+
+        private bool ShowIfWaitForPnlInfoPopup()
+        {
+            return this.StepType == TutorialGameStepType.ShowPnlInfoPopup;
         }
 
         private bool ShowIfInteractionAndShowTutorialImage()

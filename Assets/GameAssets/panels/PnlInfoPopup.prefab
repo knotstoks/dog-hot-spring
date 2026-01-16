@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 3568101768049462129}
   - component: {fileID: 8734670789620513363}
   - component: {fileID: 2257705376940042252}
-  - component: {fileID: 6860920096762320621}
   m_Layer: 5
   m_Name: BlackBackground
   m_TagString: Untagged
@@ -151,29 +150,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6860920096762320621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3589907752916758874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb3de556dd1abbb448e41a1dfd1296d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <BathAnimator>k__BackingField: {fileID: 0}
-  <AnimalAnimator>k__BackingField: {fileID: 0}
-  <BackgroundImage>k__BackingField: {fileID: 2257705376940042252}
-  <BackgroundFinalAlphaValue>k__BackingField: 0.78
-  <BackgroundFadeDuration>k__BackingField: 1
-  <CinematicNextButton>k__BackingField: {fileID: 0}
-  <NormalButtonParent>k__BackingField: {fileID: 0}
-  <NextStageButton>k__BackingField: {fileID: 0}
-  <ReturnToLevelSelectButton>k__BackingField: {fileID: 0}
-  <VictorySfx>k__BackingField: {fileID: 11400000, guid: 53552a97c2083454c845f9587f1ff420, type: 2}
-  <ButtonSfx>k__BackingField: {fileID: 11400000, guid: 85f1912fbd2dd42ada4b4c91fe10b27b, type: 2}
 --- !u!1 &4259826493118680173
 GameObject:
   m_ObjectHideFlags: 0
