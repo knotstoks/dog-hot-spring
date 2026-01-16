@@ -18,6 +18,7 @@ namespace ProjectRuntime.Tutorial
         WaitForUserInput = 0,
         GoToNextStepImmediately = 1,
         GoToNextStepAfterSeconds = 2,
+        WaitForPnlPopUpClose = 3,
     }
 
     [Serializable]

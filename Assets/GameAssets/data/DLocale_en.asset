@@ -22,8 +22,14 @@ MonoBehaviour:
     <Value>k__BackingField: Credits
   - <Key>k__BackingField: LOC_QUIT
     <Value>k__BackingField: Quit
-  - <Key>k__BackingField: LOC_TUTORIAL_MOVE
-    <Value>k__BackingField: 'Swipe to Move
+  - <Key>k__BackingField: LOC_NEXT_STAGE
+    <Value>k__BackingField: Next Stage
+  - <Key>k__BackingField: LOC_MAIN_MENU
+    <Value>k__BackingField: To Main Menu
+  - <Key>k__BackingField: LOC_TUTORIAL_SLIDE
+    <Value>k__BackingField: 'Swipe to Slide
 
       Animals only enter baths the same
       colour as them!'
+  - <Key>k__BackingField: LOC_OKAY
+    <Value>k__BackingField: Okay

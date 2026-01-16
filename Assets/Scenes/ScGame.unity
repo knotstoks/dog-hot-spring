@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 320266356}
   - component: {fileID: 320266357}
   m_Layer: 0
-  m_Name: TutorialMove
+  m_Name: SlideTutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,11 +198,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 054047e5fca29044ba33e639509a8ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <TutorialId>k__BackingField: TUTORIAL_MOVE
+  <TutorialId>k__BackingField: TutorialSlide
   <WorldId>k__BackingField: 1
   <ActivateIfNotCompleted>k__BackingField: 1
   <TutorialIdsNotCompleted>k__BackingField:
-  - TUTORIAL_MOVE
+  - TutorialSlide
   <ActivateIfCompleted>k__BackingField: 0
   <TutorialIdsCompleted>k__BackingField: []
   <ActivateIfWorldNotCompleted>k__BackingField: 0
@@ -220,7 +220,7 @@ MonoBehaviour:
     ShowTutorialImage: 0
     TutorialImagePath: 
     TutorialTextPosition: {fileID: 952467930}
-    TutorialText: LOC_TUTORIAL_MOVE
+    TutorialText: LOC_TUTORIAL_SLIDE
     ShowNpc: 0
     KeepPnlTutorialForNextStep: 0
     ShowHandPointer: 1

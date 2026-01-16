@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using ProjectRuntime.Managers;
 using ProjectRuntime.Tutorial;
 using ProjectRuntime.UI;
+using ProjectRuntime.UI.Panels;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
@@ -204,6 +205,23 @@ namespace ProjectRuntime.Tutorial
                     await UniTask.WaitForSeconds(stepData.NextStepAfterSeconds, stepData.IgnoreTimeScale);
                     if (!this) return;  // Check for scene unload
                     this.CompleteCurrentStep();
+                    break;
+
+                case TutorialGameStepDurationType.WaitForPnlPopUpClose: // 3
+                    // Setup callbacks with closures
+                    var flag = false;
+                    void SetFlag() => flag = true;
+                    bool CheckFlag() => flag;
+
+                    PnlInfoPopup.OnOkay += SetFlag;
+
+                    await UniTask.WaitUntil(CheckFlag);
+                    if (!this) return;
+
+                    PnlInfoPopup.OnOkay -= SetFlag;
+
+                    this.CompleteCurrentStep();
+
                     break;
 
                 default:
