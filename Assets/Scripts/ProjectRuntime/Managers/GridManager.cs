@@ -14,7 +14,7 @@ namespace ProjectRuntime.Managers
     /*
      * Terminology:
      * Backpack space
-     *   In backpack space, coordinates are counted in tiles.
+     *   In tile space, coordinates are counted in tiles.
      *   (y,x) means the tile at (rowY, colX).
      *   In a 5 column, 7 row backpack:
      *     (0,0) is the bottom left corner tile.

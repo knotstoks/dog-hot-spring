@@ -4,33 +4,186 @@ using UnityEngine;
 
 public class WallTile : MonoBehaviour
 {
+	[field: SerializeField]
+	private SpriteRenderer TileSpriteRenderer { get; set; }
+
     public enum RuleTileType
     {
-		NONE,
-        TOP_LEFT,
-        TOP_RIGHT,
-        BOTTOM_LEFT,
-        BOTTOM_RIGHT,
-        HORIZONTAL_UPPER,
-        HORIZONTAL_LOWER,
-        VERTICAL_LEFT,
-        VERTICAL_RIGHT,
-        SURRONDED,
-		BLANK,
-		ERROR
+		NONE = 0,
+        TOP = 1,
+		RIGHT = 2,
+		BOTTOM = 3,
+		LEFT = 4,
+		CORNER_TOP_LEFT = 5,
+		CORNER_TOP_RIGHT = 6,
+		CORNER_BOTTOM_RIGHT = 7,
+		CORNER_BOTTOM_LEFT = 8,
+		TOP_RIGHT = 9,
+		BOTTOM_RIGHT = 10,
+		BOTTOM_LEFT = 11,
+		TOP_LEFT = 12,
+		U_FACE_TOP = 13,
+		U_FACE_RIGHT = 14,
+		U_FACE_BOTTOM = 15,
+		U_FACE_LEFT = 16,
+		SURROUNDED = 17,
+		BLANK = 18,
     }
 
 	// It's 1am... I am sorry for this.
-    private readonly Dictionary<bool[,], RuleTileType> ParsedRuleTile = new()
+    private static readonly Dictionary<bool[,], RuleTileType> ParsedRuleTile = new()
     {
-# region CORNERS
+		{
+			new bool[,]
+			{
+				{ true,     true,       true   },
+				{ false,    false,      false  },
+				{ false,    false,      false  },
+			},
+			RuleTileType.TOP
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,       false },
+				{ false,    false,      false },
+				{ false,    false,      false },
+			},
+			RuleTileType.TOP
+		},
+		{
+			new bool[,]
+			{
+				{ false,    true,       true  },
+				{ false,    false,      false },
+				{ false,    false,      false },
+			},
+			RuleTileType.TOP
+		},
+		{
+			new bool[,]
+			{
+				{ false,     true,      false  },
+				{ false,    false,      false },
+				{ false,    false,      false },
+			},
+			RuleTileType.TOP
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,      false },
+				{ false,    false,      false },
+				{ true,     true,       true  },
+			},
+			RuleTileType.BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,      false },
+				{ false,    false,      false },
+				{ false,     true,      true  },
+			},
+			RuleTileType.BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,      false },
+				{ false,    false,      false },
+				{ true,     true,       false },
+			},
+			RuleTileType.BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,      false },
+				{ false,    false,      false },
+				{ false,     true,      false },
+			},
+			RuleTileType.BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ true,    false,     false },
+				{ true,    false,     false },
+				{ true,    false,     false },
+			},
+			RuleTileType.LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ false,   false,     false },
+				{ true,    false,     false },
+				{ true,    false,     false },
+			},
+			RuleTileType.LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,    false,     false },
+				{ true,    false,     false },
+				{ false,   false,     false },
+			},
+			RuleTileType.LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,     false },
+				{ true,    false,     false },
+				{ false,    false,     false },
+			},
+			RuleTileType.LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,     true },
+				{ false,    false,     true },
+				{ false,    false,     true },
+			},
+			RuleTileType.RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,     false },
+				{ false,    false,     true  },
+				{ false,    false,     true  },
+			},
+			RuleTileType.RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,     true  },
+				{ false,    false,     true  },
+				{ false,    false,     false },
+			},
+			RuleTileType.RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,     false  },
+				{ false,    false,     true  },
+				{ false,    false,     false },
+			},
+			RuleTileType.RIGHT
+		},
 		{
 			new bool[,]
 			{
 				{ false,    false,      false },
 				{ false,    false,      false },
 				{ false,    false,      true  },
-			}, RuleTileType.TOP_LEFT
+			}, RuleTileType.CORNER_BOTTOM_RIGHT
 		},
 		{
 			new bool[,]
@@ -38,7 +191,7 @@ public class WallTile : MonoBehaviour
 				{ false,    false,      false },
 				{ false,    false,      false },
 				{ true,		false,		false },
-			}, RuleTileType.TOP_RIGHT
+			}, RuleTileType.CORNER_BOTTOM_LEFT
 		},
 		{
 			new bool[,]
@@ -46,31 +199,48 @@ public class WallTile : MonoBehaviour
 				{ false,    false,      true  },
 				{ false,    false,      false },
 				{ false,    false,      false },
-			}, RuleTileType.BOTTOM_LEFT
+			}, RuleTileType.CORNER_TOP_RIGHT
 		},
 		{
 			new bool[,]
 			{
-				{ false,    false,      false  },
 				{ true,     false,      false  },
-				{ true,     true,		false  },
-			}, RuleTileType.BOTTOM_LEFT
+				{ false,    false,      false },
+				{ false,    false,      false },
+			}, RuleTileType.CORNER_TOP_LEFT
 		},
 		{
 			new bool[,]
 			{
-				{ true,    false,      false  },
-				{ true,     false,      false  },
-				{ true,     true,       false  },
-			}, RuleTileType.BOTTOM_LEFT
+				{ false,    true,      true  },
+				{ false,    false,     true  },
+				{ false,    false,     false },
+			}, RuleTileType.TOP_RIGHT
 		},
-		{ 
-            new bool[,] 
-            { 
-                { true,     false,		false },
-                { false,    false,      false },
-                { false,    false,      false },
-            }, RuleTileType.BOTTOM_RIGHT
+		{
+			new bool[,]
+			{
+				{ true,     true,      true  },
+				{ false,    false,     true  },
+				{ false,    false,     false },
+			}, RuleTileType.TOP_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,    true,      true  },
+				{ false,    false,     true  },
+				{ false,    false,     true  },
+			}, RuleTileType.TOP_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      true  },
+				{ false,    false,     true  },
+				{ false,    false,     true  },
+			},
+			RuleTileType.TOP_RIGHT
 		},
 		{
 			new bool[,]
@@ -88,134 +258,235 @@ public class WallTile : MonoBehaviour
 				{ false,    true,       true  },
 			}, RuleTileType.BOTTOM_RIGHT
 		},
-#endregion
 		{
 			new bool[,]
 			{
-				{ true,		true,		true   },
+				{ false,    false,     false },
+				{ false,    false,     true  },
+				{ true,     true,      true  },
+			}, RuleTileType.BOTTOM_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,     true  },
+				{ false,    false,     true  },
+				{ true,     true,      true  },
+			},
+			RuleTileType.BOTTOM_RIGHT
+		},
+		{
+			new bool[,]
+			{
 				{ false,    false,      false  },
+				{ true,     false,      false  },
+				{ true,     true,       false  },
+			}, RuleTileType.BOTTOM_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,     false,      false  },
+				{ true,     false,      false  },
+				{ true,     true,       false  },
+			},
+			RuleTileType.BOTTOM_LEFT
+		},
+		{
+			new bool[,]
+			{
 				{ false,    false,      false  },
-			}, RuleTileType.HORIZONTAL_LOWER
+				{ true,     false,      false  },
+				{ true,     true,       true   },
+			}, RuleTileType.BOTTOM_LEFT
 		},
 		{
 			new bool[,]
 			{
-				{ true,     true,       false },
-				{ false,    false,      false },
-				{ false,    false,      false },
-			}, RuleTileType.HORIZONTAL_LOWER
+				{ true,     false,      false  },
+				{ true,     false,      false  },
+				{ true,     true,       true   },
+			}, RuleTileType.BOTTOM_LEFT
 		},
 		{
 			new bool[,]
 			{
-				{ false,     true,       true  },
-				{ false,    false,      false },
-				{ false,    false,       false },
-			}, RuleTileType.HORIZONTAL_LOWER
-		},
-		{
-			new bool[,]
-			{
-				{ false,     true,       false  },
-				{ false,    false,       false },
-				{ false,    false,       false },
-			}, RuleTileType.HORIZONTAL_LOWER
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,      false },
-				{ false,    false,		false },
-				{ true,		true,		true  },
-			}, RuleTileType.HORIZONTAL_UPPER
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,      false },
-				{ false,    false,      false },
-				{ false,     true,      true  },
-			}, RuleTileType.HORIZONTAL_UPPER
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,      false },
-				{ false,    false,      false },
-				{ true,     true,       false },
-			}, RuleTileType.HORIZONTAL_UPPER
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,      false },
-				{ false,    false,      false },
-				{ false,     true,       false },
-			}, RuleTileType.HORIZONTAL_UPPER
-		},
-		{
-			new bool[,]
-			{
-				{ true,    false,     false },
-				{ true,    false,     false },
-				{ true,    false,     false },
-			}, RuleTileType.VERTICAL_RIGHT
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,     false },
-				{ true,    false,     false },
-				{ true,    false,     false },
-			}, RuleTileType.VERTICAL_RIGHT
-		},
-		{
-			new bool[,]
-			{
-				{ true,    false,     false },
-				{ true,    false,     false },
-				{ false,    false,     false },
-			}, RuleTileType.VERTICAL_RIGHT
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,     false },
-				{ true,    false,     false },
-				{ false,    false,     false },
-			}, RuleTileType.VERTICAL_RIGHT
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,     true },
-				{ false,    false,     true },
-				{ false,    false,     true },
-			}, RuleTileType.VERTICAL_LEFT
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,     false },
-				{ false,    false,     true	 },
-				{ false,    false,     true  },
-			}, RuleTileType.VERTICAL_LEFT
-		},
-		{
-			new bool[,]
-			{
-				{ false,    false,     true  },
-				{ false,    false,     true  },
-				{ false,    false,     false },
-			}, RuleTileType.VERTICAL_LEFT
-		},
-		{
-			new bool[,]
-			{
+				{ true,     true,      false  },
+				{ true,     false,     false  },
 				{ false,    false,     false  },
-				{ false,    false,     true  },
+			},
+			RuleTileType.TOP_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      true   },
+				{ true,     false,     false  },
+				{ false,    false,     false  },
+			},
+			RuleTileType.TOP_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      false  },
+				{ true,     false,     false  },
+				{ true,     false,     false },
+			},
+			RuleTileType.TOP_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      true   },
+				{ true,     false,     false  },
+				{ true,     false,     false  },
+			},
+			RuleTileType.TOP_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      true  },
+				{ true,     false,     true  },
 				{ false,    false,     false },
-			}, RuleTileType.VERTICAL_LEFT
+			},
+			RuleTileType.U_FACE_TOP
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      true  },
+				{ true,     false,     true  },
+				{ true,     false,     false },
+			},
+			RuleTileType.U_FACE_TOP
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      true  },
+				{ true,     false,     true  },
+				{ false,    false,     true  },
+			},
+			RuleTileType.U_FACE_TOP
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,      true  },
+				{ true,     false,     true  },
+				{ true,     false,     true  },
+			},
+			RuleTileType.U_FACE_TOP
+		},
+		{
+			new bool[,]
+			{
+				{ false,     true,      true  },
+				{ false,     false,     true  },
+				{ false,     true,      true  },
+			},
+			RuleTileType.U_FACE_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,      true  },
+				{ false,     false,     true  },
+				{ false,     true,      true  },
+			},
+			RuleTileType.U_FACE_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,     true,      true  },
+				{ false,     false,     true  },
+				{ true,      true,      true  },
+			},
+			RuleTileType.U_FACE_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,      true  },
+				{ false,     false,     true  },
+				{ true,      true,      true  },
+			},
+			RuleTileType.U_FACE_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     false  },
+				{ true,      false,     true   },
+				{ true,      true,      true   },
+			},
+			RuleTileType.U_FACE_BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     false  },
+				{ true,      false,     true   },
+				{ true,      true,      true   },
+			},
+			RuleTileType.U_FACE_BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     true   },
+				{ true,      false,     true   },
+				{ true,      true,      true   },
+			},
+			RuleTileType.U_FACE_BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     true   },
+				{ true,      false,     true   },
+				{ true,      true,      true   },
+			},
+			RuleTileType.U_FACE_BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,      false   },
+				{ true,      false,     false   },
+				{ true,      true,      false   },
+			},
+			RuleTileType.U_FACE_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,      true    },
+				{ true,      false,     false   },
+				{ true,      true,      false   },
+			},
+			RuleTileType.U_FACE_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,      false   },
+				{ true,      false,     false   },
+				{ true,      true,      true    },
+			},
+			RuleTileType.U_FACE_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,      true    },
+				{ true,      false,     false   },
+				{ true,      true,      true    },
+			},
+			RuleTileType.U_FACE_LEFT
 		},
 		{
 			new bool[,]
@@ -223,7 +494,7 @@ public class WallTile : MonoBehaviour
 				{ true,    true,     true },
 				{ true,    false,    true },
 				{ true,    true,     true },
-			}, RuleTileType.SURRONDED
+			}, RuleTileType.SURROUNDED
 		},
 		{
 			new bool[,]
@@ -234,9 +505,8 @@ public class WallTile : MonoBehaviour
 			}, RuleTileType.BLANK
 		},
 	};
-
 	
-    private bool[,] BlockedAreas = 
+    private readonly bool[,] BlockedAreas =
     {
         { false, false, false },
 		{ false, false, false },
@@ -246,7 +516,7 @@ public class WallTile : MonoBehaviour
 	[Sirenix.OdinInspector.ShowInInspector, Sirenix.OdinInspector.ReadOnly]
 	public Vector2Int TileYXPosition { get; set; } = new(-1, -1);
 
-	public RuleTileType TileType;
+	private RuleTileType _tileType;
 
 	public void Init(BackgroundTile[,] tiles)
     {
@@ -259,37 +529,29 @@ public class WallTile : MonoBehaviour
                 BlockedAreas[i+1, j+1] = QueryTile(tiles, rowY, colX);
 			}
         }
-		TileType = GetTileType(BlockedAreas);
+
+		this._tileType = GetTileType(BlockedAreas);
+
+		// TODO: Set the sprite for tile
 	}
 
 	private RuleTileType GetTileType(bool[,] blockedAreas)
 	{
-		var isTileFound = true;		
-
         foreach (var tileCombi in ParsedRuleTile.Keys)
         {
-			isTileFound = true;
 			for (int i = 0; i < 3; i++)
 			{
 				for (int j = 0; j < 3; j++)
 				{
-					if (tileCombi[i, j] != blockedAreas[i, j]) isTileFound = false;
-
-					if (!isTileFound) break;
+					if (tileCombi[i, j] != blockedAreas[i, j]) break;
 				}
-
-				if (!isTileFound) break;
 			}
 
-			if (isTileFound)
-			{
-				var combi = ParsedRuleTile[tileCombi];
-				return combi;
-			}
+			return ParsedRuleTile[tileCombi];
         }
 
 		Debug.LogError("No matching tile found!");
-		return RuleTileType.ERROR;
+		return RuleTileType.NONE;
     }
 
     private bool QueryTile(BackgroundTile[,] tiles, int rowY, int colX)
