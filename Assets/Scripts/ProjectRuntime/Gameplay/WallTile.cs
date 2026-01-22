@@ -7,7 +7,91 @@ public class WallTile : MonoBehaviour
 	[field: SerializeField]
 	private SpriteRenderer TileSpriteRenderer { get; set; }
 
-    public enum RuleTileType
+	[field: SerializeField, Header("Wall Tile Sprties")]
+	private Sprite TopSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite RightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite BottomSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite LeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite CornerTopLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite CornerTopRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite CornerBottomRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite CornerBottomLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TopRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite BottomRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite BottomLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TopLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite UFaceTopSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite UFaceRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite UFaceBottomSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite UFaceLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TwoCornersTopSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TwoCornersRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TwoCornersBottomSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TwoCornersLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TwoCornersDiagLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite TwoCornersDiagRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite ThreeCornersTopRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite ThreeCornersBottomRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite ThreeCornersBottomLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite ThreeCornersTopLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite AllCornersSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite SurroundedSprite { get; set; }
+
+	public enum RuleTileType
     {
 		NONE = 0,
         TOP = 1,
@@ -26,8 +110,19 @@ public class WallTile : MonoBehaviour
 		U_FACE_RIGHT = 14,
 		U_FACE_BOTTOM = 15,
 		U_FACE_LEFT = 16,
-		SURROUNDED = 17,
-		BLANK = 18,
+		TWO_CORNERS_TOP = 17,
+		TWO_CORNERS_RIGHT = 18,
+		TWO_CORNERS_BOTTOM = 19,
+		TWO_CORNERS_LEFT = 20,
+		TWO_CORNERS_DIAG_LEFT = 21,
+		TWO_CORNERS_DIAG_RIGHT = 22,
+		THREE_CORNERS_TOP_RIGHT = 23,
+		THREE_CORNERS_BOTTOM_RIGHT = 24,
+		THREE_CORNERS_BOTTOM_LEFT = 25,
+		THREE_CORNERS_TOP_LEFT = 26,
+		ALL_CORNERS = 27,
+		SURROUNDED = 28,
+		BLANK = 29,
     }
 
 	// It's 1am... I am sorry for this.
@@ -63,7 +158,7 @@ public class WallTile : MonoBehaviour
 		{
 			new bool[,]
 			{
-				{ false,     true,      false  },
+				{ false,    true,       false },
 				{ false,    false,      false },
 				{ false,    false,      false },
 			},
@@ -491,9 +586,99 @@ public class WallTile : MonoBehaviour
 		{
 			new bool[,]
 			{
-				{ true,    true,     true },
-				{ true,    false,    true },
-				{ true,    true,     true },
+				{ true,      false,     true    },
+				{ false,     false,     false   },
+				{ false,     false,     false   },
+			},
+			RuleTileType.TWO_CORNERS_TOP
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     true    },
+				{ false,     false,     false   },
+				{ false,     false,     true    },
+			},
+			RuleTileType.TWO_CORNERS_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     false   },
+				{ false,     false,     false   },
+				{ true,      false,     true    },
+			},
+			RuleTileType.TWO_CORNERS_BOTTOM
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     false   },
+				{ false,     false,     false   },
+				{ true,      false,     false   },
+			},
+			RuleTileType.TWO_CORNERS_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     false   },
+				{ false,     false,     false   },
+				{ false,     false,     true    },
+			},
+			RuleTileType.TWO_CORNERS_DIAG_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     true    },
+				{ false,     false,     false   },
+				{ true,      false,     false   },
+			},
+			RuleTileType.TWO_CORNERS_DIAG_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     true   },
+				{ false,     false,     false  },
+				{ false,     false,     true   },
+			},
+			RuleTileType.THREE_CORNERS_TOP_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     true   },
+				{ false,     false,     false  },
+				{ true,      false,     true   },
+			},
+			RuleTileType.THREE_CORNERS_BOTTOM_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     false   },
+				{ false,     false,     false   },
+				{ true,      false,     true    },
+			},
+			RuleTileType.THREE_CORNERS_BOTTOM_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     true    },
+				{ false,     false,     false   },
+				{ true,      false,     false   },
+			},
+			RuleTileType.THREE_CORNERS_TOP_LEFT
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,     true },
+				{ true,     false,    true },
+				{ true,     true,     true },
 			}, RuleTileType.SURROUNDED
 		},
 		{
@@ -506,7 +691,7 @@ public class WallTile : MonoBehaviour
 		},
 	};
 	
-    private readonly bool[,] BlockedAreas =
+    private readonly bool[,] _blockedAreas =
     {
         { false, false, false },
 		{ false, false, false },
@@ -524,30 +709,155 @@ public class WallTile : MonoBehaviour
         {
             for (int j = -1; j < 2; j++)
             {
-                var rowY = TileYXPosition.y - i;
+                var rowY = TileYXPosition.y + i;
                 var colX = TileYXPosition.x + j;
-                BlockedAreas[i+1, j+1] = QueryTile(tiles, rowY, colX);
+                this._blockedAreas[i+1, j+1] = QueryTile(tiles, rowY, colX);
 			}
         }
 
-		this._tileType = GetTileType(BlockedAreas);
+		/* -1, -1
+		 * 0, -1
+		 * 1, -1
+		 * 
+		 * 
+		 */
 
-		// TODO: Set the sprite for tile
-	}
+		this._tileType = GetTileType(this._blockedAreas);
 
-	private RuleTileType GetTileType(bool[,] blockedAreas)
-	{
-        foreach (var tileCombi in ParsedRuleTile.Keys)
+        // TODO: Set the sprite for tile
+        switch (this._tileType)
         {
-			for (int i = 0; i < 3; i++)
-			{
-				for (int j = 0; j < 3; j++)
-				{
-					if (tileCombi[i, j] != blockedAreas[i, j]) break;
-				}
-			}
+            case RuleTileType.NONE:
+                Debug.LogError("Tile type not found!");
+                break;
+            case RuleTileType.TOP:
+                this.TileSpriteRenderer.sprite = this.TopSprite;
+                break;
+            case RuleTileType.RIGHT:
+                this.TileSpriteRenderer.sprite = this.RightSprite;
+                break;
+            case RuleTileType.BOTTOM:
+                this.TileSpriteRenderer.sprite = this.BottomSprite;
+                break;
+            case RuleTileType.LEFT:
+                this.TileSpriteRenderer.sprite = this.LeftSprite;
+                break;
+            case RuleTileType.CORNER_TOP_LEFT:
+                this.TileSpriteRenderer.sprite = this.CornerTopLeftSprite;
+                break;
+            case RuleTileType.CORNER_TOP_RIGHT:
+                this.TileSpriteRenderer.sprite = this.CornerTopRightSprite;
+                break;
+            case RuleTileType.CORNER_BOTTOM_RIGHT:
+                this.TileSpriteRenderer.sprite = this.CornerBottomRightSprite;
+                break;
+            case RuleTileType.CORNER_BOTTOM_LEFT:
+                this.TileSpriteRenderer.sprite = this.CornerBottomLeftSprite;
+                break;
+            case RuleTileType.TOP_RIGHT:
+                this.TileSpriteRenderer.sprite = this.TopRightSprite;
+                break;
+            case RuleTileType.BOTTOM_RIGHT:
+                this.TileSpriteRenderer.sprite = this.BottomRightSprite;
+                break;
+            case RuleTileType.BOTTOM_LEFT:
+                this.TileSpriteRenderer.sprite = this.BottomLeftSprite;
+                break;
+            case RuleTileType.TOP_LEFT:
+                this.TileSpriteRenderer.sprite = this.TopLeftSprite;
+                break;
+            case RuleTileType.U_FACE_TOP:
+                this.TileSpriteRenderer.sprite = this.UFaceTopSprite;
+                break;
+            case RuleTileType.U_FACE_RIGHT:
+                this.TileSpriteRenderer.sprite = this.UFaceRightSprite;
+                break;
+            case RuleTileType.U_FACE_BOTTOM:
+                this.TileSpriteRenderer.sprite = this.UFaceBottomSprite;
+                break;
+            case RuleTileType.U_FACE_LEFT:
+                this.TileSpriteRenderer.sprite = this.UFaceLeftSprite;
+                break;
+            case RuleTileType.TWO_CORNERS_TOP:
+				this.TileSpriteRenderer.sprite = this.TwoCornersTopSprite;
+				break;
+            case RuleTileType.TWO_CORNERS_RIGHT:
+				this.TileSpriteRenderer.sprite = this.TwoCornersRightSprite;
+				break;
+            case RuleTileType.TWO_CORNERS_BOTTOM:
+				this.TileSpriteRenderer.sprite = this.TwoCornersBottomSprite;
+				break;
+            case RuleTileType.TWO_CORNERS_LEFT:
+				this.TileSpriteRenderer.sprite = this.TwoCornersLeftSprite;
+				break;
+            case RuleTileType.TWO_CORNERS_DIAG_LEFT:
+				this.TileSpriteRenderer.sprite = this.TwoCornersDiagLeftSprite;
+				break;
+            case RuleTileType.TWO_CORNERS_DIAG_RIGHT:
+				this.TileSpriteRenderer.sprite = this.TwoCornersDiagRightSprite;
+				break;
+            case RuleTileType.THREE_CORNERS_TOP_RIGHT:
+				this.TileSpriteRenderer.sprite = this.ThreeCornersTopRightSprite;
+				break;
+            case RuleTileType.THREE_CORNERS_BOTTOM_RIGHT:
+				this.TileSpriteRenderer.sprite = this.ThreeCornersBottomRightSprite;
+				break;
+            case RuleTileType.THREE_CORNERS_BOTTOM_LEFT:
+				this.TileSpriteRenderer.sprite = this.ThreeCornersBottomLeftSprite;
+				break;
+            case RuleTileType.THREE_CORNERS_TOP_LEFT:
+				this.TileSpriteRenderer.sprite = this.ThreeCornersTopLeftSprite;
+				break;
+            case RuleTileType.ALL_CORNERS:
+				this.TileSpriteRenderer.sprite = this.AllCornersSprite;
+				break;
+            case RuleTileType.SURROUNDED:
+                this.TileSpriteRenderer.sprite = this.SurroundedSprite;
+                break;
+            case RuleTileType.BLANK:
+                this.TileSpriteRenderer.sprite = null;
+                break;
+            default:
+                Debug.LogError("Tile type not found!");
+                break;
+        }
+    }
 
-			return ParsedRuleTile[tileCombi];
+    private RuleTileType GetTileType(bool[,] blockedAreas)
+	{
+        foreach (var (tileCombi, tileEnum) in ParsedRuleTile)
+        {
+			var transposedTileCombi = new bool[3, 3]
+			{
+				{ tileCombi[2,0], tileCombi[2,1], tileCombi[2,2] },
+				{ tileCombi[1,0], tileCombi[1,1], tileCombi[1,2] },
+				{ tileCombi[0,0], tileCombi[0,1], tileCombi[0,2] },
+			};
+
+			var stillContinue = true;
+			for (var i = 0; i < 3; i++)
+            {
+				for (var j = 0; j < 3; j++)
+                {
+					if (transposedTileCombi[i,j] != blockedAreas[i,j])
+                    {
+						stillContinue = false;
+						break;
+					}
+                }
+
+				if (!stillContinue)
+                {
+					break;
+                }
+            }
+
+			if (!stillContinue)
+            {
+				continue;
+            }
+
+			return tileEnum;
         }
 
 		Debug.LogError("No matching tile found!");
@@ -562,7 +872,7 @@ public class WallTile : MonoBehaviour
         if (colX < 0 || colX + 1 > colX_len) return false;
 		if (rowY < 0 || rowY + 1 > rowY_len) return false;
 
-		// print($"{colX}, {rowY}");
+		//print($"{colX}, {rowY}");
         var tile = tiles[rowY, colX];
 
         if (tile == null) return false;

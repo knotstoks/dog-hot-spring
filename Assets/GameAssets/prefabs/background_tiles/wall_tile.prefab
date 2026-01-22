@@ -151,6 +151,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c3f109496def458d8b7e2a48d5659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TileSpriteRenderer>k__BackingField: {fileID: 6737335867732979779}
+  <TopSprite>k__BackingField: {fileID: 21300000, guid: 2dca0fadb4d2d462aa7d511a43750ae0, type: 3}
+  <RightSprite>k__BackingField: {fileID: 21300000, guid: 65c35550de3aa41beb82d6fc587b9be6, type: 3}
+  <BottomSprite>k__BackingField: {fileID: 21300000, guid: 3d20cd0c4acc74b0eabb5a7b42f26844, type: 3}
+  <LeftSprite>k__BackingField: {fileID: 21300000, guid: a825e96d968e84f41b2e6947c748028b, type: 3}
+  <CornerTopLeftSprite>k__BackingField: {fileID: 21300000, guid: c096cd5c4a0fc4b86b1399623094d0ac, type: 3}
+  <CornerTopRightSprite>k__BackingField: {fileID: 21300000, guid: 46526372bf8144fa1b95321647b46f36, type: 3}
+  <CornerBottomRightSprite>k__BackingField: {fileID: 21300000, guid: a9a06b7ac36e24f07be47a0bc52dd981, type: 3}
+  <CornerBottomLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TopRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <BottomRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <BottomLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TopLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <UFaceTopSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <UFaceRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <UFaceBottomSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <UFaceLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <SurroundedSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <BlankSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
 --- !u!1 &5849949611784284800
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,15 +243,15 @@ SpriteRenderer:
   m_SortingLayerID: -1756200791
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: abd61a07393121b4892be90476883f49, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9f72d504083b2462b826f8447d1c1637, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &9182756404882458612

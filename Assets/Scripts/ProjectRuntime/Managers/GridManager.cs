@@ -62,7 +62,7 @@ namespace ProjectRuntime.Managers
         // Animal Drop Tracking
         private Dictionary<TileColor, List<AnimalDrop>> _animalDropDict;
         private Dictionary<Vector2Int, AnimalDrop> _animalDropPositionDict;
-        private List<WallTile> _wallTileList { get; set; } = new();
+        private List<WallTile> _wallTileList;
 
         private Dictionary<Vector2Int, QueueTile> _queueDropPositionDict;
         public List<BathSlideTile> EmptySlideTileList { get; private set; } = new();
@@ -148,8 +148,6 @@ namespace ProjectRuntime.Managers
                 }
             }
 
-            
-
             // Create Bath Slide Tiles
             foreach (var bathSlideTile in levelData.TileSaveDatas)
             {
@@ -231,7 +229,7 @@ namespace ProjectRuntime.Managers
                 tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true);
             }
 
-			foreach (var wallTile in _wallTileList)
+			foreach (var wallTile in this._wallTileList)
 			{
 				wallTile.Init(this.Tiles);
 			}
@@ -437,8 +435,6 @@ namespace ProjectRuntime.Managers
                     }
                 }
             }
-
-			
 		}
 
         public void DetectForVictory()
