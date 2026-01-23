@@ -24,6 +24,14 @@ namespace ProjectRuntime.Gameplay
         PINK = 9,
     }
 
+    public enum AxisAlignEnum
+    {
+        NONE = 0,
+        BOTH = 1,
+        HORIZONTAL = 2,
+        VERTICAL = 3,
+    }
+
     public class BathSlideTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         [field: SerializeField, Header("Scene References")]
@@ -46,6 +54,12 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         private SpriteRenderer OverlayedSpriteRenderer { get; set; }
+
+        [field: SerializeField, Header("Axis Align Logic")]
+        private SpriteRenderer HoritzontalAxisAlignSpriteRenderer { get; set; }
+
+        [field: SerializeField]
+        private SpriteRenderer VerticalAxisAlignSpriteRenderer { get; set; }
 
         [field: SerializeField, Header("Sfxes")]
         private AudioPlaybackInfo DragSfx { get; set; }
@@ -80,8 +94,9 @@ namespace ProjectRuntime.Gameplay
         private bool CanMove => this._iceCracksLeft == 0;
         private int _iceCracksLeft;
 
+        private AxisAlignEnum _axisAlignEnum;
+
         // Animation states
-        private const string ANIM_IDLE = "tile_idle";
         private const string ANIM_SHRINK = "tile_shrink";
 
         private void Awake()
@@ -102,17 +117,22 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft = 0, bool isEmptyTile = false)
+        public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft, bool isEmptyTile, AxisAlignEnum axisAlignEnum)
         {
             this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
             this.TileColor = tileColor;
             this._dropsLeft = dropsLeft;
+            this._axisAlignEnum = axisAlignEnum;
 
             // Update the tile sprite
             if (!isEmptyTile)
             {
                 CommonUtil.UpdateSprite(this.SpriteRenderer, string.Format("images/tiles/tile_{0}_{1}.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant()));
             }
+
+            // Update the axis align tile sprites (if any)
+            this.HoritzontalAxisAlignSpriteRenderer.gameObject.SetActive(this._axisAlignEnum == AxisAlignEnum.HORIZONTAL);
+            this.VerticalAxisAlignSpriteRenderer.gameObject.SetActive(this._axisAlignEnum == AxisAlignEnum.VERTICAL);
 
             // Logic for ice blocks
             this._iceCracksLeft = iceCracksLeft;
@@ -233,6 +253,17 @@ namespace ProjectRuntime.Gameplay
 
             if (hit.collider == null)
             {
+                if (this._axisAlignEnum == AxisAlignEnum.HORIZONTAL)
+                {
+                    castDirection.y = 0f;
+                    castDirection.z = 0f;
+                }
+                else if (this._axisAlignEnum == AxisAlignEnum.VERTICAL)
+                {
+                    castDirection.x = 0f;
+                    castDirection.z = 0f;
+                }
+
                 this.transform.position += castDirection;
             }
             else
@@ -275,12 +306,34 @@ namespace ProjectRuntime.Gameplay
 
                 if (hit.collider == null)
                 {
+                    if (this._axisAlignEnum == AxisAlignEnum.HORIZONTAL)
+                    {
+                        castDirection.y = 0f;
+                        castDirection.z = 0f;
+                    }
+                    else if (this._axisAlignEnum == AxisAlignEnum.VERTICAL)
+                    {
+                        castDirection.x = 0f;
+                        castDirection.z = 0f;
+                    }
+
                     this.transform.position += castDirection;
                 }
                 else
                 {
                     dist = Mathf.Max(hit.distance - this._slowDownAmount, 0f);
                     dragVector = castDirection.normalized * dist;
+                    if (this._axisAlignEnum == AxisAlignEnum.HORIZONTAL)
+                    {
+                        dragVector.y = 0f;
+                        dragVector.z = 0f;
+                    }
+                    else if (this._axisAlignEnum == AxisAlignEnum.VERTICAL)
+                    {
+                        dragVector.x = 0f;
+                        dragVector.z = 0f;
+                    }
+
                     this.transform.position += dragVector;
                 }
             }

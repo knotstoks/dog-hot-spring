@@ -161,7 +161,7 @@ namespace ProjectRuntime.Managers
                 var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
                 tileObject.transform.localPosition = tilePos + offset;
 
-                tile.Init(bathSlideTile.TileId, bathSlideTile.TileColor, bathSlideTile.DropsLeft);
+                tile.Init(bathSlideTile.TileId, bathSlideTile.TileColor, bathSlideTile.DropsLeft, 0, false, AxisAlignEnum.BOTH);
             }
 
             // Create Animals
@@ -207,7 +207,7 @@ namespace ProjectRuntime.Managers
                 var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
                 tileObject.transform.localPosition = tilePos + offset;
 
-                tile.Init(iceTile.TileId, iceTile.TileColor, iceTile.DropsLeft, iceTile.IceCracksLeft);
+                tile.Init(iceTile.TileId, iceTile.TileColor, iceTile.DropsLeft, iceTile.IceCracksLeft, false, AxisAlignEnum.BOTH);
             }
 
             // Create Empty Tiles
@@ -226,7 +226,12 @@ namespace ProjectRuntime.Managers
                 // Add to the empty tile list
                 this.EmptySlideTileList.Add(tile);
 
-                tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true);
+                tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true, AxisAlignEnum.BOTH);
+            }
+
+            foreach (var axisAlignTile in levelData.AxisAlignSaveDatas)
+            {
+
             }
 
 			foreach (var wallTile in this._wallTileList)
@@ -339,7 +344,21 @@ namespace ProjectRuntime.Managers
                     new Vector2Int(CommonUtil.ConvertToInt32(emptyTileSplit[1]), CommonUtil.ConvertToInt32(emptyTileSplit[2]))));
             }
 
-            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles, iceTiles, emptyTiles);
+            var axisAlignLocations = Regex.Matches(stringSplit[8], @"\((.*?)\)")
+                .Select(m => m.Groups[1].Value)
+                .ToList();
+            var axisAlignTiles = new List<AxisAlignSaveData>();
+            foreach (var axisAlignTile in axisAlignLocations)
+            {
+                var axisAlignTileSplit = axisAlignTile.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                axisAlignTiles.Add(new AxisAlignSaveData(CommonUtil.ConvertToInt32(axisAlignTileSplit[0]),
+                    Enum.TryParse(axisAlignTileSplit[1], out TileColor slideTileColor) ? slideTileColor : TileColor.NONE,
+                    new Vector2Int(CommonUtil.ConvertToInt32(axisAlignTileSplit[2]), CommonUtil.ConvertToInt32(axisAlignTileSplit[3])),
+                    CommonUtil.ConvertToInt32(axisAlignTileSplit[4]),
+                    this.ParseAxisAlignEnum(axisAlignTileSplit[5])));
+            }
+
+            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles, iceTiles, emptyTiles, axisAlignTiles);
         }
 
         public QueueTileDirection ParseQueueTileDirectionString(string s)
@@ -361,6 +380,22 @@ namespace ProjectRuntime.Managers
             }
 
             return QueueTileDirection.NONE;
+        }
+
+        public AxisAlignEnum ParseAxisAlignEnum(string s)
+        {
+            switch (s)
+            {
+                case "H":
+                    return AxisAlignEnum.HORIZONTAL;
+                case "V":
+                    return AxisAlignEnum.VERTICAL;
+                default:
+                    break;
+            }
+
+            Debug.LogError($"Axis Align Enum parsed wrongly: {s}");
+            return AxisAlignEnum.NONE;
         }
 
         /// <summary>
@@ -444,7 +479,7 @@ namespace ProjectRuntime.Managers
             if (this._alreadyPlayingVictory) return;
 
             this._alreadyPlayingVictory = true;
-            BattleManager.Instance.ShowVictoryPanel();
+            BattleManager.Instance.ShowVictoryPanel().Forget();
         }
 
         public void ResetHighlightsForAllTiles()

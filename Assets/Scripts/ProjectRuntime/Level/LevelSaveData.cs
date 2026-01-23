@@ -14,9 +14,10 @@ namespace ProjectRuntime.Level
         public List<QueueSaveData> QueueTileSaveDatas { get; set; }
         public List<IceTileSaveData> IceTileSaveDatas { get; set; }
         public List<EmptyTileSaveData> EmptyTileSaveDatas { get; set; }
+        public List<AxisAlignSaveData> AxisAlignSaveDatas { get; set; }
 
         public LevelSaveData(int gridHeight, int gridWidth, List<Vector2Int> lockedTiles, List<TileSaveData> tileSaveDatas, List<AnimalSaveData> animalSaveDatas,
-            List<QueueSaveData> queueSaveDatas, List<IceTileSaveData> iceSaveDatas, List<EmptyTileSaveData> emptyTileSaveDatas)
+            List<QueueSaveData> queueSaveDatas, List<IceTileSaveData> iceSaveDatas, List<EmptyTileSaveData> emptyTileSaveDatas, List<AxisAlignSaveData> axisAlignSaveDatas)
         {
             this.GridHeight = gridHeight;
             this.GridWidth = gridWidth;
@@ -26,6 +27,7 @@ namespace ProjectRuntime.Level
             this.QueueTileSaveDatas = queueSaveDatas;
             this.IceTileSaveDatas = iceSaveDatas;
             this.EmptyTileSaveDatas = emptyTileSaveDatas;
+            this.AxisAlignSaveDatas = axisAlignSaveDatas;
         }
     }
 
@@ -98,6 +100,24 @@ namespace ProjectRuntime.Level
         {
             this.TileId = tileId;
             this.TileYX = tileYX;
+        }
+    }
+
+    public struct AxisAlignSaveData
+    {
+        public int TileId { get; set; }
+        public TileColor TileColor { get; set; }
+        public Vector2Int TileYX { get; set; }
+        public int DropsLeft { get; set; }
+        public AxisAlignEnum AxisAlignEnum { get; set; }
+
+        public AxisAlignSaveData(int tileId, TileColor tileColor, Vector2Int tileYX, int dropsLeft, AxisAlignEnum axisAlignEnum)
+        {
+            this.TileId = tileId;
+            this.TileColor = tileColor;
+            this.TileYX = tileYX;
+            this.DropsLeft = dropsLeft;
+            this.AxisAlignEnum = axisAlignEnum;
         }
     }
 }
