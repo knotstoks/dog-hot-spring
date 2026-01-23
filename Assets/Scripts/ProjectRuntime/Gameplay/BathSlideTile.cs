@@ -27,6 +27,9 @@ namespace ProjectRuntime.Gameplay
     public class BathSlideTile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         [field: SerializeField, Header("Scene References")]
+        private Animator TileAnimator { get; set; }
+
+        [field: SerializeField]
         public Transform BottomLeftTransform { get; private set; }
 
         [field: SerializeField]
@@ -76,6 +79,10 @@ namespace ProjectRuntime.Gameplay
 
         private bool CanMove => this._iceCracksLeft == 0;
         private int _iceCracksLeft;
+
+        // Animation states
+        private const string ANIM_IDLE = "tile_idle";
+        private const string ANIM_SHRINK = "tile_shrink";
 
         private void Awake()
         {
@@ -349,7 +356,7 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public async void HandleAnimalDropped()
+        public void HandleAnimalDropped()
         {
             this._dropsLeft--;
 
@@ -368,16 +375,7 @@ namespace ProjectRuntime.Gameplay
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
                 GridManager.Instance.OnBathTileComplete();
 
-                await UniTask.WaitForSeconds(0.8f); // Long to let the splash vfx to play
-                if (!this)
-                {
-                    GridManager.Instance.ResetHighlightsForAllTiles();
-                    Destroy(this.gameObject);
-                    return;
-                }
-
-                GridManager.Instance.ResetHighlightsForAllTiles();
-                Destroy(this.gameObject);
+                this.HandleDestroyTile().Forget();
             }
         }
 
@@ -419,6 +417,48 @@ namespace ProjectRuntime.Gameplay
                 this.RefreshDropsLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(true);
             }
+        }
+
+        private async UniTaskVoid HandleDestroyTile()
+        {
+            GridManager.Instance.ResetHighlightsForAllTiles();
+
+            await UniTask.WaitForSeconds(0.8f); // Long to let the splash vfx to play
+            if (!this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+
+            // Play shrink animation and then destroy
+            GridManager.Instance.ResetHighlightsForAllTiles();
+            this.TileAnimator.Play(ANIM_SHRINK);
+            var stateInfo = this.TileAnimator.GetCurrentAnimatorStateInfo(0);
+            while (!stateInfo.IsName(ANIM_SHRINK))
+            {
+                await UniTask.Yield();
+                if (!this)
+                {
+                    Destroy(this.gameObject);
+                    return;
+                }
+
+                stateInfo = this.TileAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+
+            while (stateInfo.IsName(ANIM_SHRINK) && stateInfo.normalizedTime < 1f)
+            {
+                await UniTask.Yield();
+                if (!this)
+                {
+                    Destroy(this.gameObject);
+                    return;
+                }
+
+                stateInfo = this.TileAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+
+            Destroy(this.gameObject);
         }
 
         private void ForceStopDrag()

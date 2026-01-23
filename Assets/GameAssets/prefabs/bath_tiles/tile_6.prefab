@@ -677,6 +677,7 @@ GameObject:
   - component: {fileID: 1307391486513016052}
   - component: {fileID: 4873202006526866493}
   - component: {fileID: 7033645038258998254}
+  - component: {fileID: 5039128197610917727}
   m_Layer: 6
   m_Name: tile_6
   m_TagString: Untagged
@@ -716,6 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c0ae336ac9149e48a8d6c1461174d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TileAnimator>k__BackingField: {fileID: 5039128197610917727}
   <BottomLeftTransform>k__BackingField: {fileID: 8060971816393324422}
   <DropsLeftTMP>k__BackingField: {fileID: 160299176989263753}
   <DropTransforms>k__BackingField:
@@ -755,6 +757,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!95 &5039128197610917727
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7439222321343710707}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b0b97f7b808ec48a98722cf3fdbea216, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7623239845191282815
 GameObject:
   m_ObjectHideFlags: 0

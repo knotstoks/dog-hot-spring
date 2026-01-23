@@ -49,7 +49,7 @@ namespace ProjectRuntime.Managers
 
         private void Start()
         {
-            this.Init();
+            this.Init().Forget();
         }
 
         private void Update()
@@ -80,7 +80,7 @@ namespace ProjectRuntime.Managers
 
             if (Input.GetKeyDown(KeyCode.V))
             {
-                this.ShowVictoryPanel();
+                this.ShowVictoryPanel().Forget();
             }
 
             if (Input.GetKeyDown(KeyCode.P))
@@ -91,7 +91,7 @@ namespace ProjectRuntime.Managers
 #endif
         }
 
-        private async void Init()
+        private async UniTaskVoid Init()
         {
             if (LevelIdToLoad <= 0)
             {
@@ -126,7 +126,7 @@ namespace ProjectRuntime.Managers
             return Vector2Int.zero;
         }
 
-        public async void ShowVictoryPanel()
+        public async UniTaskVoid ShowVictoryPanel()
         {
             foreach (var emptyTile in GridManager.Instance.EmptySlideTileList)
             {
