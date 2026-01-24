@@ -93,7 +93,7 @@ namespace ProjectRuntime.Gameplay
         private int _dropsLeft;
 
         // Ice Logic
-        private bool CanMove => this._iceCracksLeft == 0;
+        private bool CanMove => this._iceCracksLeft == 0 && this._dropsLeft > 0;
         private int _iceCracksLeft;
 
         // Axis Align Logic
