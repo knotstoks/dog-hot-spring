@@ -428,6 +428,8 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
+            this.TryPunchDropsLeftText().Forget();
+
             this.RefreshDropsLeftText();
 
             if (this._dropsLeft == 0)
@@ -559,6 +561,17 @@ namespace ProjectRuntime.Gameplay
                 this.transform.localScale = Vector3.one;
 
                 this._isPunching = false;
+            }
+        }
+
+        private async UniTask TryPunchDropsLeftText()
+        {
+            if (this.DropsLeft > 0 && this.CanMove)
+            {
+                // Punch animation on move
+                await this.DropsLeftTMP.transform.DOPunchScale(Vector3.one * 0.5f, 0.1f);
+                if (!this) return;
+                this.DropsLeftTMP.transform.localScale = Vector3.one;
             }
         }
     }
