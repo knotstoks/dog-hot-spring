@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BroccoliBunnyStudios.Sound;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using ProjectRuntime.Data;
 using ProjectRuntime.Managers;
 using TMPro;
@@ -91,10 +92,15 @@ namespace ProjectRuntime.Gameplay
         private List<BoxCollider2D> _myColliders;
         private int _dropsLeft;
 
+        // Ice Logic
         private bool CanMove => this._iceCracksLeft == 0;
         private int _iceCracksLeft;
 
+        // Axis Align Logic
         private AxisAlignEnum _axisAlignEnum;
+
+        // Juice Logic
+        private bool _isPunching = false;
 
         // Animation states
         private const string ANIM_SHRINK = "tile_shrink";
@@ -182,6 +188,8 @@ namespace ProjectRuntime.Gameplay
             if (s_currentPointerId == InvalidPointerId)
             {
                 SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.DragSfx, false, Vector3.zero).Forget();
+
+                this.TryPunchTile().Forget();
 
                 s_currentPointerId = eventData.pointerId;
                 CurrentDraggedTile = this;
@@ -361,6 +369,8 @@ namespace ProjectRuntime.Gameplay
             {
                 SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ReleaseSfx, false, Vector3.zero).Forget();
 
+                this.TryPunchTile().Forget();
+
                 CurrentDraggedTile = null;
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
                 s_currentPointerId = InvalidPointerId;
@@ -423,7 +433,7 @@ namespace ProjectRuntime.Gameplay
             if (this._dropsLeft == 0)
             {
                 s_currentPointerId = InvalidPointerId;
-                this.ToggleDrag(false);
+                //this.ToggleDrag(false); // TEMP
                 this.ForceSnapToGrid();
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
                 GridManager.Instance.OnBathTileComplete();
@@ -476,7 +486,7 @@ namespace ProjectRuntime.Gameplay
         {
             GridManager.Instance.ResetHighlightsForAllTiles();
 
-            await UniTask.WaitForSeconds(0.8f); // Long to let the splash vfx to play
+            await UniTask.WaitForSeconds(0.6f); // Long to let the splash vfx to play
             if (!this)
             {
                 Destroy(this.gameObject);
@@ -529,6 +539,26 @@ namespace ProjectRuntime.Gameplay
             {
                 this.ForceStopDrag();
                 this.ForceSnapToGrid();
+            }
+        }
+
+        private async UniTask TryPunchTile()
+        {
+            if (this._isPunching)
+            {
+                return;
+            }
+
+            if (this.DropsLeft > 0 && this.CanMove)
+            {
+                this._isPunching = true;
+
+                // Punch animation on move
+                await this.transform.DOPunchScale(Vector3.one * 0.05f, 0.1f);
+                if (!this) return;
+                this.transform.localScale = Vector3.one;
+
+                this._isPunching = false;
             }
         }
     }
