@@ -229,9 +229,20 @@ namespace ProjectRuntime.Managers
                 tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true, AxisAlignEnum.BOTH);
             }
 
+            // Create Axis Align Tiles
             foreach (var axisAlignTile in levelData.AxisAlignSaveDatas)
             {
+                var axisAlignPrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", axisAlignTile.TileId.ToString());
+                var tileObject = await ResourceLoader.InstantiateAsync(axisAlignPrefabPath, this.TileContainer);
+                if (!this) return;
+                var tile = tileObject.GetComponent<BathSlideTile>();
 
+                // Set position
+                var tilePos = this.GetTilePosition(axisAlignTile.TileYX.x, axisAlignTile.TileYX.y);
+                var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
+                tileObject.transform.localPosition = tilePos + offset;
+
+                tile.Init(axisAlignTile.TileId, axisAlignTile.TileColor, axisAlignTile.DropsLeft, 0, false, axisAlignTile.AxisAlignEnum);
             }
 
 			foreach (var wallTile in this._wallTileList)

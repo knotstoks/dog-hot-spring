@@ -279,6 +279,17 @@ namespace ProjectRuntime.Gameplay
                 var dist = Mathf.Max(hit.distance - this._slowDownAmount, 0f);
                 var dragVector = castDirection.normalized * dist;
 
+                if (this._axisAlignEnum == AxisAlignEnum.HORIZONTAL)
+                {
+                    dragVector.y = 0f;
+                    dragVector.z = 0f;
+                }
+                else if (this._axisAlignEnum == AxisAlignEnum.VERTICAL)
+                {
+                    dragVector.x = 0f;
+                    dragVector.z = 0f;
+                }
+
                 this.transform.position += dragVector;
                 Physics2D.SyncTransforms();
 
