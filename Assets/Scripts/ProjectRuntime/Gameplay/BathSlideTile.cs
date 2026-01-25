@@ -92,9 +92,13 @@ namespace ProjectRuntime.Gameplay
         private List<BoxCollider2D> _myColliders;
         private int _dropsLeft;
 
+        private bool CanMove => this._isEmptyTile || (this._iceCracksLeft == 0 && this._dropsLeft > 0);
+
         // Ice Logic
-        private bool CanMove => this._iceCracksLeft == 0 && this._dropsLeft > 0;
         private int _iceCracksLeft;
+
+        // Empty Tile Logic
+        private bool _isEmptyTile;
 
         // Axis Align Logic
         private AxisAlignEnum _axisAlignEnum;
@@ -128,6 +132,7 @@ namespace ProjectRuntime.Gameplay
             this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
             this.TileColor = tileColor;
             this._dropsLeft = dropsLeft;
+            this._isEmptyTile = isEmptyTile;
             this._axisAlignEnum = axisAlignEnum;
 
             // Update the tile sprite
