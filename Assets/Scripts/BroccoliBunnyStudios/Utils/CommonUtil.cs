@@ -285,23 +285,23 @@ namespace BroccoliBunnyStudios.Utils
             switch (tileColor)
             {
                 case TileColor.RED:
-                    return Color.red;
+                    return new Color(0.957f, 0.424f, 0.455f);
                 case TileColor.BLUE:
-                    return Color.blue;
+                    return new Color(0.318f, 0.639f, 0.878f);
                 case TileColor.GREEN:
-                    return Color.green;
+                    return new Color(0.745f, 0.914f, 0.0824f);
                 case TileColor.YELLOW:
-                    return Color.yellow;
+                    return new Color(0.988f, 0.9f, 0.298f);
                 case TileColor.ORANGE:
-                    return new Color(1, 0.65f, 0, 1);
+                    return new Color(0.988f, 0.608f, 0.212f);
                 case TileColor.WHITE:
-                    return Color.white;
+                    return new Color(0.976f, 0.992f, 1f);
                 case TileColor.BLACK:
-                    return Color.black;
+                    return new Color(0.271f, 0.294f, 0.278f);
                 case TileColor.PINK:
-                    return new Color(1, 0.75f, 0.8f);
+                    return new Color(0.996f, 0.698f, 0.863f);
                 case TileColor.PURPLE:
-                    return new Color(0.494f, 0.106f, 0.494f);
+                    return new Color(0.839f, 0.533f, 0.965f);
                 default:
                     break;
             }

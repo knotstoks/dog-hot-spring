@@ -42,6 +42,7 @@ namespace ProjectRuntime.Gameplay
 
             this._lastCachedShrinkProgress = this._shrinkProgress;
             var scale = Mathf.Lerp(1f, SHRINK_SCALE, this._shrinkProgress);
+            this.FrontSpriteRenderer.color = Color.Lerp(ORIGINAL_TILE_COLOR, this._currentColor, this._shrinkProgress);
             this.FrontSpriteRenderer.gameObject.transform.localScale = Vector3.one * scale;
         }
 
