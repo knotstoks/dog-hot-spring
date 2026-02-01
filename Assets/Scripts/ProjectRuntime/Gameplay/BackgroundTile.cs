@@ -55,7 +55,6 @@ namespace ProjectRuntime.Gameplay
         public void UnhighlightTile()
         {
             this._isBathTileOnTop = false;
-            this._currentColor = ORIGINAL_TILE_COLOR;
         }
     }
 
