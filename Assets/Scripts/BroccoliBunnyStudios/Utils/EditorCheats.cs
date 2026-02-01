@@ -9,6 +9,8 @@ public class EditorCheats : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.D))
         {
+            Debug.Log("Deleted save file");
+
             SaveManager.Instance.DeleteSaveFile();
         }
 
