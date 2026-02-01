@@ -15,7 +15,7 @@ namespace ProjectRuntime.Gameplay
         public Vector2Int TileYXPosition { get; set; } = new(-1, -1);
 
         private const float SHRINK_SCALE = 0.8f;
-        private Color ORIGINAL_TILE_COLOR = new(0.8f, 0.7f, 0.61f, 1f);
+        private Color ORIGINAL_TILE_COLOR = new(0.992f, 0.969f, 0.91f, 1f);
         private const float SHRINK_SPEED = 3f;
         private Color _currentColor;
         private bool _isBathTileOnTop;
