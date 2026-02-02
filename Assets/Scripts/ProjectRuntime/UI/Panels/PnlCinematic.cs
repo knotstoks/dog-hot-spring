@@ -1,5 +1,6 @@
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
+using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ namespace ProjectRuntime.UI.Panels
     {
         public static string StoryIdToLoad { get; set; } = string.Empty;
 
+        [field: SerializeField]
+        private RectTransform CanvasRT { get; set; }
+
         private void Start()
         {
             this.Init().Forget();
@@ -16,9 +20,11 @@ namespace ProjectRuntime.UI.Panels
 
         private async UniTaskVoid Init()
         {
-            // TODO: Get the prefab to load
-
             await PanelManager.Instance.FadeFromBlack();
+            if (!this) return;
+
+            var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_1.prefab", this.CanvasRT); // TODO: Hardcoded for now
+            await cinematicObject.GetComponent<UICinematic>().InitAndPlay();
             if (!this) return;
 
             // TEMP
@@ -27,10 +33,6 @@ namespace ProjectRuntime.UI.Panels
 
         private async UniTaskVoid ReturnToScHome()
         {
-            // TEMP
-            await UniTask.WaitForSeconds(2f);
-            if (!this) return;
-
             var usdm = UserSaveDataManager.Instance;
             if (!usdm.HasSeenStory(StoryIdToLoad))
             {
