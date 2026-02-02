@@ -160,7 +160,7 @@ namespace ProjectRuntime.Gameplay
                 this.IceCracksLeftTMP.gameObject.SetActive(true);
                 this.RefreshIceCracksLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(false);
-                CommonUtil.UpdateSprite(this.OverlayedSpriteRenderer, string.Format("images/tiles/tile_1_black.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant())); //images/ice_tiles/ice_tile_{0}
+                CommonUtil.UpdateSprite(this.OverlayedSpriteRenderer, string.Format("images/ice_tiles/ice_see_thru.png", tileId.ToString(), tileColor.ToString().ToLowerInvariant())); //images/ice_tiles/ice_tile_{0}
 
                 GridManager.Instance.OnBathTileCompleted += this.OnBathTileCompleted;
             }
