@@ -20,10 +20,14 @@ namespace ProjectRuntime.UI.Panels
 
         private async UniTaskVoid Init()
         {
+            var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_1.prefab", this.CanvasRT); // TODO: Hardcoded for now
+
             await PanelManager.Instance.FadeFromBlack();
             if (!this) return;
 
-            var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_1.prefab", this.CanvasRT); // TODO: Hardcoded for now
+            await UniTask.WaitForSeconds(0.5f);
+            if (!this) return;
+
             await cinematicObject.GetComponent<UICinematic>().InitAndPlay();
             if (!this) return;
 

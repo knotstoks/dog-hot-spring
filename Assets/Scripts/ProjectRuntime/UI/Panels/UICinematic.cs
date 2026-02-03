@@ -13,12 +13,12 @@ namespace ProjectRuntime.UI.Panels
         private PlayableDirector ScenePlayableDirector { get; set; }
 
         [field: SerializeField]
-        private List<PlayableAsset> PlayableAssets { get; set; }
+        private PlayableAsset PlayableAsset { get; set; }
 
         [field: SerializeField]
         private Button FullScreenButton { get; set; }
 
-        private int _idx = -1; // Initialized as -1 because of adding 1 to idx for the initial state
+        private int _idx = 0;
         private bool _isInCutscene = false;
         private bool _wasFullscreenButtonClicked = false;
 
@@ -32,22 +32,17 @@ namespace ProjectRuntime.UI.Panels
             this.FullScreenButton.gameObject.SetActive(false);
             this._isInCutscene = true;
 
-            while (this._idx < this.PlayableAssets.Count)
-            {
-                this._idx++;
-
-                await this.PlayNextCinematic();
-                if (!this) return;
-            }
+            await PlayCinematic();
+            if (!this) return;
 
             this._isInCutscene = false;
             this.FullScreenButton.gameObject.SetActive(false);
             await UniTask.CompletedTask;
         }
 
-        private async UniTask PlayNextCinematic()
+        private async UniTask PlayCinematic()
         {
-            this.ScenePlayableDirector.Play(this.PlayableAssets[this._idx]);
+            this.ScenePlayableDirector.Play();
             await UniTask.WaitUntil(() => this.ScenePlayableDirector.state == PlayState.Paused);
             if (!this) return;
 
@@ -55,7 +50,8 @@ namespace ProjectRuntime.UI.Panels
             if (!this) return;
         }
 
-        private async UniTask WaitForPlayerInput()
+        // Public for the signal emitter to get it
+        public async UniTask WaitForPlayerInput()
         {
             this.FullScreenButton.gameObject.SetActive(true);
 

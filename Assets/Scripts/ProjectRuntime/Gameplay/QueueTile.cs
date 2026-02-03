@@ -11,10 +11,10 @@ namespace ProjectRuntime.Gameplay
     public enum QueueTileDirection
     {
         NONE = 0,
-        NORTH,
-        SOUTH,
-        EAST,
-        WEST,
+        NORTH = 1,
+        SOUTH = 2,
+        EAST = 3,
+        WEST = 4,
     }
 
     public class QueueTile : MonoBehaviour, IDroppableTile
