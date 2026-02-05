@@ -1,10 +1,11 @@
+using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
 
 public class DropInterfaces 
 {
     public interface IDroppableTile
     {
-        void Drop(BathSlideTile bathSlideTile);
+        UniTaskVoid Drop(BathSlideTile bathSlideTile);
 
         void CancelDrop();
     }

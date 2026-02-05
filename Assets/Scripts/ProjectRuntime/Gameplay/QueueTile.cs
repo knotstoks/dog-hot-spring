@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using ProjectRuntime.Managers;
 using TMPro;
 using UnityEngine;
@@ -19,9 +20,6 @@ namespace ProjectRuntime.Gameplay
 
     public class QueueTile : MonoBehaviour, IDroppableTile
     {
-        [field: SerializeField]
-        private float DropDelay { get; set; } = 0.5f;
-
         [field: SerializeField, Header("Scene References")]
         private BoxCollider2D AnimalCollider { get; set; }
 
@@ -32,42 +30,42 @@ namespace ProjectRuntime.Gameplay
         private GameObject RotationVisualParent { get; set; }
 
         [field: SerializeField]
-        private SpriteRenderer CurrentColourIndicator { get; set; }
-
-        [field: SerializeField]
-        private SpriteRenderer NextColourIndicator { get; set; }
-
-        [field: SerializeField]
-        public TileColor TileColor { get; private set; }
-
-        [field: SerializeField]
-        public Vector3 TileDetectionPosition { get; private set; }
-
-        [field: SerializeField]
-        public QueueTileDirection TileDirection { get; private set; }
-
-        [field: SerializeField]
-        public Queue<TileColor> TileQueueColours { get; private set; }
-
-        [field: SerializeField]
         private Animator Animator { get; set; }
 
-        private bool isCurrentlyDeducting = true;
+        [field: SerializeField]
+        private Transform CurrentQueueAnimalTransform { get; set; }
 
-        private TileColor CurrentTileColour;
+        [field: SerializeField]
+        private Transform NextQueueAnimalTransform { get; set; }
+
+        [field: SerializeField, Header("Settings")]
+        private float DropDelay { get; set; } = 0.5f;
+
+        [field: SerializeField, Header("Prefabs")]
+        private QueueAnimal QueueAnimalPrefab { get; set; }
+
+        // Accessible Variables
+        public Vector3 TileDetectionPosition { get; private set; }
+
+        // Internal Variables
+        private bool _isCurrentlyDeducting = true;
+        public Queue<TileColor> _tileQueueColours;
+        private TileColor _currentTileColour;
+        private QueueAnimal _currentQueueAnimal;
+        private QueueAnimal _nextQueueAnimal;
+        private QueueTileDirection _tileDirection;
 
         // Tile Color should be set in level editor
-        public async void Init(QueueTileDirection tileDirection, Queue<TileColor> queueColors, float tileHeight, float tileWidth)
+        public async UniTask Init(QueueTileDirection tileDirection, Queue<TileColor> queueColors, float tileHeight, float tileWidth)
         {
             await UniTask.WaitUntil(() => GridManager.Instance != null);
             if (!this) return;
 
             var tileDetectionPosition = transform.position;
-            this.TileDirection = tileDirection;
-            this.TileQueueColours = queueColors;
+            this._tileDirection = tileDirection;
+            this._tileQueueColours = queueColors;
 
-
-            switch (TileDirection)
+            switch (_tileDirection)
             {
                 case QueueTileDirection.NONE:
                     Debug.LogError($"No tile direction for tile: {name}");
@@ -90,43 +88,67 @@ namespace ProjectRuntime.Gameplay
 
             this.TileDetectionPosition = tileDetectionPosition;
 
-            UpdateFacingDirection(this.TileDirection);
+            this.UpdateFacingDirection(this._tileDirection);
 
             GridManager.Instance.RegisterQueueTile(this);
 
-            UpdateColour();
+            await this.UpdateColour();
+            if (!this) return;
         }
 
-        public void UpdateColour()
+        /// <summary>
+        /// This function moves the queue animals forward
+        /// </summary>
+        private async UniTask UpdateColour()
         {
-            if (TileQueueColours.TryDequeue(out var dequeuedColour))
+            if (_tileQueueColours.TryDequeue(out var dequeuedColour))
             {
-				DropsLeftText.text = $"{TileQueueColours.Count + 1}";
-				CurrentTileColour = dequeuedColour;
-                CurrentColourIndicator.color = CommonUtil.GetHighlightTintFromTileColor(dequeuedColour);
+				DropsLeftText.text = $"{this._tileQueueColours.Count + 1}";
+				this._currentTileColour = dequeuedColour;
 
+                // Move next animal to current animal
+                if (this._nextQueueAnimal != null)
+                {
+                    this._currentQueueAnimal = this._nextQueueAnimal;
+                    this._nextQueueAnimal = null;
+
+                    this._currentQueueAnimal.transform.SetParent(this.CurrentQueueAnimalTransform);
+                    await this._currentQueueAnimal.transform.DOLocalMove(Vector3.zero, 0.1f);
+                    if (!this) return;
+                }
+                // Spawn in new current animal, should only happen in the init
+                else
+                {
+                    var currentQueueAnimal = Instantiate(this.QueueAnimalPrefab, this.CurrentQueueAnimalTransform);
+                    currentQueueAnimal.transform.localPosition = Vector3.zero;
+                    await currentQueueAnimal.Init(this._tileDirection, this._currentTileColour);
+                    if (!this) return;
+                }
             }
+            // No current animal
             else
             {
-				DropsLeftText.text = $"{TileQueueColours.Count}";
-				CurrentTileColour = TileColor.NONE;
-				CurrentColourIndicator.gameObject.SetActive(false);
+				DropsLeftText.text = $"{this._tileQueueColours.Count}";
+				this._currentTileColour = TileColor.NONE;
 				GridManager.Instance.DeregisterQueueDrop(this);
 			}
 
-            if (TileQueueColours.TryPeek(out var nextColour))
-            {	
-				NextColourIndicator.color = CommonUtil.GetHighlightTintFromTileColor(nextColour);
+            if (_tileQueueColours.TryPeek(out var nextColor))
+            {
+                var nextQueueAnimal = Instantiate(this.QueueAnimalPrefab, this.NextQueueAnimalTransform);
+                nextQueueAnimal.transform.localPosition = Vector3.zero;
+                await nextQueueAnimal.Init(this._tileDirection, nextColor);
+                if (!this) return;
             }
+            // No next animal
             else
             {
-				NextColourIndicator.gameObject.SetActive(false);
+			    // Nothing for now
             }
         }
 
         public void UpdateFacingDirection(QueueTileDirection direction)
         {
-            var transform = RotationVisualParent.transform;
             switch (direction)
             {
                 case QueueTileDirection.NONE:
@@ -135,13 +157,13 @@ namespace ProjectRuntime.Gameplay
                     // Do nothing
                     break;
                 case QueueTileDirection.SOUTH:
-                    transform.Rotate(0, 0, 180f);
+                    this.transform.Rotate(0, 0, 180f);
                     return;
                 case QueueTileDirection.EAST:
-                    transform.Rotate(0, 0, -90f);
+                    this.transform.Rotate(0, 0, -90f);
                     return;
                 case QueueTileDirection.WEST:
-                    transform.Rotate(0, 0, 90f);
+                    this.transform.Rotate(0, 0, 90f);
                     break;
                 default:
                     break;
@@ -153,7 +175,7 @@ namespace ProjectRuntime.Gameplay
             this.AnimalCollider.isTrigger = isTrigger;
         }
 
-        public async void Drop(BathSlideTile bathSlideTile)
+        public async UniTaskVoid Drop(BathSlideTile bathSlideTile)
         {
             if (bathSlideTile == null)
             {
@@ -162,17 +184,24 @@ namespace ProjectRuntime.Gameplay
             }
 
 			// Communicate with Tile that it has dropped instantly
-			while (bathSlideTile.DropsLeft > 0 && CurrentTileColour == bathSlideTile.TileColor)
+			while (bathSlideTile.DropsLeft > 0 && _currentTileColour == bathSlideTile.TileColor)
             {
                 // Fix for Null Issue when dragging rapidly
                 if (bathSlideTile == null) return;
-                isCurrentlyDeducting = true;
+                this._isCurrentlyDeducting = true;
+
+                await this._currentQueueAnimal.DropAnimal(bathSlideTile);
+                if (!this) return;
+
 				bathSlideTile.HandleAnimalDropped();
-                UpdateColour();
+
+                await this.UpdateColour();
+                if (!this) return;
+
                 await UniTask.WaitForSeconds(this.DropDelay, true);
                 if (!this) return;
 
-                if (!isCurrentlyDeducting)
+                if (!_isCurrentlyDeducting)
                 {
                     break;
                 }
@@ -204,7 +233,7 @@ namespace ProjectRuntime.Gameplay
 
         public void CancelDrop()
         {
-            isCurrentlyDeducting = false;
+            _isCurrentlyDeducting = false;
         }
     }
 }

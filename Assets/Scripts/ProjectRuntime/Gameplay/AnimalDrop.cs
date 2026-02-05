@@ -21,6 +21,9 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField, Header("Sfx")]
         private AudioPlaybackInfo SplashSfx { get; set; }
 
+        [field: SerializeField]
+        private AudioPlaybackInfo RandomAnimalDropSfx { get; set; }
+
         // Tile Color should be set in level editor
         public async void Init()
         {
@@ -35,7 +38,7 @@ namespace ProjectRuntime.Gameplay
             this.AnimalCollider.isTrigger = isTrigger;
         }
 
-        public async void Drop(BathSlideTile bathSlideTile)
+        public async UniTaskVoid Drop(BathSlideTile bathSlideTile)
         {
             // Removing this null check error for now
             //if (bathSlideTile == null)
@@ -71,6 +74,12 @@ namespace ProjectRuntime.Gameplay
             if (!this) return;
 
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.SplashSfx, false, Vector3.zero).Forget();
+
+            // TODO: Remove this null check
+            if (this.RandomAnimalDropSfx != null)
+            {
+                SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
+            }
 
             GridManager.Instance.DetectForVictory();
 
