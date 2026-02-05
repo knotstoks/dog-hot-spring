@@ -168,8 +168,24 @@ MonoBehaviour:
   <UFaceRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
   <UFaceBottomSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
   <UFaceLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TwoCornersTopSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TwoCornersRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TwoCornersBottomSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TwoCornersLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TwoCornersDiagLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <TwoCornersDiagRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <ThreeCornersTopRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <ThreeCornersBottomRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <ThreeCornersBottomLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <ThreeCornersTopLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <VSidesSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <HSidesSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <LCornerTopLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <LCornerTopRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <LCornerBottomRightSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <LCornerBottomLeftSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
+  <AllCornersSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
   <SurroundedSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
-  <BlankSprite>k__BackingField: {fileID: 21300000, guid: f17b5316574d34b64b053af6d7e23702, type: 3}
 --- !u!1 &5849949611784284800
 GameObject:
   m_ObjectHideFlags: 0

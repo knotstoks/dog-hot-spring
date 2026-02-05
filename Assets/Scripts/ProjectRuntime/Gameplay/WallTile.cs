@@ -86,6 +86,24 @@ public class WallTile : MonoBehaviour
 	private Sprite ThreeCornersTopLeftSprite { get; set; }
 
 	[field: SerializeField]
+	private Sprite VSidesSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite HSidesSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite LCornerTopLeftSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite LCornerTopRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite LCornerBottomRightSprite { get; set; }
+
+	[field: SerializeField]
+	private Sprite LCornerBottomLeftSprite { get; set; }
+
+	[field: SerializeField]
 	private Sprite AllCornersSprite { get; set; }
 
 	[field: SerializeField]
@@ -121,11 +139,19 @@ public class WallTile : MonoBehaviour
 		THREE_CORNERS_BOTTOM_LEFT = 25,
 		THREE_CORNERS_TOP_LEFT = 26,
 		ALL_CORNERS = 27,
-		SURROUNDED = 28,
-		BLANK = 29,
+		V_SIDES = 28,
+		H_SIDES = 29,
+		L_CORNER_TOP_LEFT = 30,
+		L_CORNER_TOP_RIGHT = 31,
+		L_CORNER_BOTTOM_RIGHT = 32,
+		L_CORNER_BOTTOM_LEFT = 33,
+		SURROUNDED = 34,
+		BLANK = 35,
     }
 
 	// It's 1am... I am sorry for this.
+	// true means got nothing there
+	// false means got something there
     private static readonly Dictionary<bool[,], RuleTileType> ParsedRuleTile = new()
     {
 		{
@@ -231,7 +257,7 @@ public class WallTile : MonoBehaviour
 			new bool[,]
 			{
 				{ false,    false,     false },
-				{ true,    false,     false },
+				{ true,     false,     false },
 				{ false,    false,     false },
 			},
 			RuleTileType.LEFT
@@ -673,6 +699,333 @@ public class WallTile : MonoBehaviour
 			},
 			RuleTileType.THREE_CORNERS_TOP_LEFT
 		},
+        {
+			new bool[,]
+            {
+				{ false,     false,     false   },
+				{ true,      false,     true    },
+				{ false,     false,     false   },
+			},
+			RuleTileType.V_SIDES
+        },
+		{
+			new bool[,]
+			{
+				{ true,      false,     false   },
+				{ true,      false,     true    },
+				{ false,     false,     false   },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     true   },
+				{ true,      false,     true    },
+				{ false,     false,     false   },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     false   },
+				{ true,      false,     true    },
+				{ true,      false,     false   },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     false   },
+				{ true,      false,     true    },
+				{ false,     false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     true    },
+				{ true,      false,     true    },
+				{ false,     false,     false   },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     true    },
+				{ true,      false,     true    },
+				{ false,     false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     false   },
+				{ true,      false,     true    },
+				{ true,      false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     false   },
+				{ true,      false,     true    },
+				{ true,      false,     false   },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,     false   },
+				{ true,      false,     true    },
+				{ false,     false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     false,     true    },
+				{ true,      false,     true    },
+				{ true,      false,     false   },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,     false,     true    },
+				{ true,     false,     true    },
+				{ true,     false,     false   },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,     false,     true    },
+				{ true,     false,     true    },
+				{ false,    false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,    false,     true    },
+				{ true,     false,     true    },
+				{ true,     false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,     false,     false   },
+				{ true,     false,     true    },
+				{ true,     false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,     false,     true    },
+				{ true,     false,     true    },
+				{ true,     false,     true    },
+			},
+			RuleTileType.V_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,    true,      false   },
+				{ false,    false,     false   },
+				{ false,    true,      false   },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,     true,     false    },
+				{ false,    false,    false    },
+				{ false,    true,     false    },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,    true,     true      },
+				{ false,    false,    false     },
+				{ false,    true,     false     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,    true,     false     },
+				{ false,    false,    false     },
+				{ true,     true,     false     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,    true,     false     },
+				{ false,    false,    false     },
+				{ false,    true,     true      },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     true     },
+				{ false,     false,    false    },
+				{ false,     true,     false    },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     true,     true     },
+				{ false,     false,    false    },
+				{ false,     true,     true     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     true,     false    },
+				{ false,     false,    false    },
+				{ true,      true,     true     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     false    },
+				{ false,     false,    false    },
+				{ true,      true,     false    },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     false    },
+				{ false,     false,    false    },
+				{ false,     true,     true     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     true,     true     },
+				{ false,     false,    false    },
+				{ true,      true,     false    },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     true     },
+				{ false,     false,    false    },
+				{ true,      true,     false    },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     true     },
+				{ false,     false,    false    },
+				{ false,     true,     true     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ false,     true,     true     },
+				{ false,     false,    false    },
+				{ true,      true,     true     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     false    },
+				{ false,     false,    false    },
+				{ true,      true,     true     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     true     },
+				{ false,     false,    false    },
+				{ true,      true,     true     },
+			},
+			RuleTileType.H_SIDES
+		},
+		{
+			new bool[,]
+			{
+				{ true,      false,    true     },
+				{ true,      false,    false    },
+				{ true,      true,     true     },
+			},
+			RuleTileType.L_CORNER_TOP_RIGHT
+		},
+		{
+			new bool[,]
+			{
+				{ true,      true,     true     },
+				{ true,      false,    false    },
+				{ true,      false,    true     },
+			},
+			RuleTileType.L_CORNER_BOTTOM_RIGHT
+		},
+
+		{
+			new bool[,]
+			{
+				{ true,      true,     true     },
+				{ false,     false,    true     },
+				{ true,      false,    true     },
+			},
+			RuleTileType.L_CORNER_BOTTOM_LEFT
+		},
+
+
+		{
+			new bool[,]
+			{
+				{ true,      false,    true     },
+				{ false,     false,    true     },
+				{ true,      true,     true     },
+			},
+			RuleTileType.L_CORNER_TOP_LEFT
+		},
 		{
 			new bool[,]
 			{
@@ -779,45 +1132,63 @@ public class WallTile : MonoBehaviour
                 this.TileSpriteRenderer.sprite = this.UFaceLeftSprite;
                 break;
             case RuleTileType.TWO_CORNERS_TOP:
-				this.TileSpriteRenderer.sprite = this.TwoCornersTopSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.TwoCornersTopSprite;
+                break;
             case RuleTileType.TWO_CORNERS_RIGHT:
-				this.TileSpriteRenderer.sprite = this.TwoCornersRightSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.TwoCornersRightSprite;
+                break;
             case RuleTileType.TWO_CORNERS_BOTTOM:
-				this.TileSpriteRenderer.sprite = this.TwoCornersBottomSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.TwoCornersBottomSprite;
+                break;
             case RuleTileType.TWO_CORNERS_LEFT:
-				this.TileSpriteRenderer.sprite = this.TwoCornersLeftSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.TwoCornersLeftSprite;
+                break;
             case RuleTileType.TWO_CORNERS_DIAG_LEFT:
-				this.TileSpriteRenderer.sprite = this.TwoCornersDiagLeftSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.TwoCornersDiagLeftSprite;
+                break;
             case RuleTileType.TWO_CORNERS_DIAG_RIGHT:
-				this.TileSpriteRenderer.sprite = this.TwoCornersDiagRightSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.TwoCornersDiagRightSprite;
+                break;
             case RuleTileType.THREE_CORNERS_TOP_RIGHT:
-				this.TileSpriteRenderer.sprite = this.ThreeCornersTopRightSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.ThreeCornersTopRightSprite;
+                break;
             case RuleTileType.THREE_CORNERS_BOTTOM_RIGHT:
-				this.TileSpriteRenderer.sprite = this.ThreeCornersBottomRightSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.ThreeCornersBottomRightSprite;
+                break;
             case RuleTileType.THREE_CORNERS_BOTTOM_LEFT:
-				this.TileSpriteRenderer.sprite = this.ThreeCornersBottomLeftSprite;
-				break;
+                this.TileSpriteRenderer.sprite = this.ThreeCornersBottomLeftSprite;
+                break;
             case RuleTileType.THREE_CORNERS_TOP_LEFT:
-				this.TileSpriteRenderer.sprite = this.ThreeCornersTopLeftSprite;
+                this.TileSpriteRenderer.sprite = this.ThreeCornersTopLeftSprite;
+                break;
+            case RuleTileType.V_SIDES:
+				this.TileSpriteRenderer.sprite = this.VSidesSprite;
 				break;
-            case RuleTileType.ALL_CORNERS:
+            case RuleTileType.H_SIDES:
+				this.TileSpriteRenderer.sprite = this.HSidesSprite;
+                break;
+            case RuleTileType.L_CORNER_TOP_LEFT:
+				this.TileSpriteRenderer.sprite = this.LCornerTopLeftSprite;
+				break;
+            case RuleTileType.L_CORNER_TOP_RIGHT:
+				this.TileSpriteRenderer.sprite = this.LCornerTopRightSprite;
+				break;
+            case RuleTileType.L_CORNER_BOTTOM_RIGHT:
+				this.TileSpriteRenderer.sprite = this.LCornerBottomRightSprite;
+				break;
+            case RuleTileType.L_CORNER_BOTTOM_LEFT:
+				this.TileSpriteRenderer.sprite = this.LCornerBottomLeftSprite;
+				break;
+			case RuleTileType.ALL_CORNERS:
 				this.TileSpriteRenderer.sprite = this.AllCornersSprite;
 				break;
-            case RuleTileType.SURROUNDED:
-                this.TileSpriteRenderer.sprite = this.SurroundedSprite;
-                break;
-            case RuleTileType.BLANK:
-                this.TileSpriteRenderer.sprite = null;
-                break;
-            default:
+			case RuleTileType.SURROUNDED:
+				this.TileSpriteRenderer.sprite = this.SurroundedSprite;
+				break;
+			case RuleTileType.BLANK:
+				this.TileSpriteRenderer.sprite = null;
+				break;
+			default:
                 Debug.LogError("Tile type not found!");
                 break;
         }
@@ -861,6 +1232,13 @@ public class WallTile : MonoBehaviour
         }
 
 		Debug.LogError("No matching tile found!");
+		for (var i = 0; i < 3; i++)
+        {
+			for (var j = 0; j < 3; j++)
+            {
+				Debug.Log(blockedAreas[i, j]);
+            }
+        }
 		return RuleTileType.NONE;
     }
 
