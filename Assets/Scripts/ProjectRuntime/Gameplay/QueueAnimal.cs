@@ -1,7 +1,5 @@
-using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using ProjectRuntime.Managers;
 using UnityEngine;
 
 namespace ProjectRuntime.Gameplay
@@ -43,6 +41,10 @@ namespace ProjectRuntime.Gameplay
 
         public async UniTask DropAnimal(BathSlideTile bathSlideTile)
         {
+            // TODO: REMOVE
+            await UniTask.CompletedTask;
+            return;
+
             this.IsAbleToDrop = false;
 
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
@@ -58,6 +60,10 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask DoSpawnAnimation()
         {
+            // TODO: REMOVE
+            await UniTask.CompletedTask;
+            return;
+
             var spawnAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             this.AnimalAnimator.Play(spawnAnim);
@@ -81,6 +87,10 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask DoDropAnimation()
         {
+            // TODO: REMOVE
+            await UniTask.CompletedTask;
+            return;
+
             var dropAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             this.AnimalAnimator.Play(dropAnim);
