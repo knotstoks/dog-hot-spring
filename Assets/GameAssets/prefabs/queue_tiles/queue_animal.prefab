@@ -131,6 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <AnimalAnimator>k__BackingField: {fileID: 7223836140223724267}
+  <SplashSfx>k__BackingField: {fileID: 11400000, guid: 6f9746881ea884a8e975252a9f1208d6, type: 2}
+  <RandomAnimalDropSfx>k__BackingField: {fileID: 0}
 --- !u!95 &7223836140223724267
 Animator:
   serializedVersion: 5

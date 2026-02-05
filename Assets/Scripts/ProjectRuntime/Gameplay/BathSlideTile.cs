@@ -504,7 +504,7 @@ namespace ProjectRuntime.Gameplay
         {
             GridManager.Instance.ResetHighlightsForAllTiles();
 
-            await UniTask.WaitForSeconds(0.6f); // Long to let the splash vfx to play
+            await UniTask.WaitForSeconds(AnimalDrop.MOVE_DELAY); // Delay to let the splash vfx + drop vfx to play
             if (!this)
             {
                 Destroy(this.gameObject);

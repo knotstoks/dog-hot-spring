@@ -470,13 +470,13 @@ namespace ProjectRuntime.Managers
                         if (this._animalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
                         {
                             CurrentlyHeldTile = animalDrop;
-                            animalDrop.Drop(BathSlideTile.CurrentDraggedTile);
+                            animalDrop.Drop(BathSlideTile.CurrentDraggedTile).Forget();
                         }
 
                         if (this._queueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
                         {
 							CurrentlyHeldTile = queueDrop;
-							queueDrop.Drop(BathSlideTile.CurrentDraggedTile);
+							queueDrop.Drop(BathSlideTile.CurrentDraggedTile).Forget();
                         }
                     }
                 }

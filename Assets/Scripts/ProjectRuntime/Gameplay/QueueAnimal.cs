@@ -1,5 +1,8 @@
+using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using ProjectRuntime.Managers;
+using UnityEditor;
 using UnityEngine;
 
 namespace ProjectRuntime.Gameplay
@@ -19,8 +22,11 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField, Header("Scene References")]
         private Animator AnimalAnimator { get; set; }
 
-        // Accessible Variables
-        public bool IsAbleToDrop { get; private set; }
+        [field: SerializeField, Header("Sfxes")]
+        private AudioPlaybackInfo SplashSfx { get; set; }
+
+        [field: SerializeField]
+        private AudioPlaybackInfo RandomAnimalDropSfx { get; set; }
 
         // Internal Variables
         private const string SPAWN_ANIM = "{0}_{1}_spawn"; // Direction then color
@@ -35,35 +41,37 @@ namespace ProjectRuntime.Gameplay
 
             await this.DoSpawnAnimation();
             if (!this) return;
-
-            this.IsAbleToDrop = true;
         }
 
         public async UniTask DropAnimal(BathSlideTile bathSlideTile)
         {
-            // TODO: REMOVE
-            await UniTask.CompletedTask;
-            return;
+            Debug.Log("CUM");
 
-            this.IsAbleToDrop = false;
+            this.transform.SetParent(bathSlideTile.GetNearestDropTransform(this.transform.position));
 
-            this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
+            // TODO: Uncomment
+            //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
-            this.DoDropAnimation().Forget(); // Make sure drop animation is 0.1 seconds long?
+            this.DoDropAnimation().Forget(); // Make sure drop animation is DROP_DELAY seconds long?
 
-            await this.transform.DOLocalMove(Vector3.zero, 0.1f);
+            await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
             if (!this) return;
+
+            Debug.Log("cb");
 
             await this.DoDropAnimation();
             if (!this) return;
+
+            await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
+            if (!this) return;
+
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.SplashSfx, false, Vector3.zero).Forget();
+
+            Destroy(this.gameObject);
         }
 
         private async UniTask DoSpawnAnimation()
         {
-            // TODO: REMOVE
-            await UniTask.CompletedTask;
-            return;
-
             var spawnAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             this.AnimalAnimator.Play(spawnAnim);
@@ -87,10 +95,6 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask DoDropAnimation()
         {
-            // TODO: REMOVE
-            await UniTask.CompletedTask;
-            return;
-
             var dropAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             this.AnimalAnimator.Play(dropAnim);

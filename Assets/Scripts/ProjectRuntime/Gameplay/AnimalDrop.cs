@@ -9,6 +9,8 @@ namespace ProjectRuntime.Gameplay
 {
     public class AnimalDrop : MonoBehaviour, IDroppableTile
 	{
+        public static float MOVE_DELAY { get; private set; } = 0.3f; // This controls how fast the animals move to the tile
+
         [field: SerializeField, Header("Scene References")]
         private BoxCollider2D AnimalCollider { get; set; }
 
@@ -18,7 +20,7 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         private Animator Animator { get; set; }
 
-        [field: SerializeField, Header("Sfx")]
+        [field: SerializeField, Header("Sfxes")]
         private AudioPlaybackInfo SplashSfx { get; set; }
 
         [field: SerializeField]
@@ -63,7 +65,7 @@ namespace ProjectRuntime.Gameplay
             // Communicate with Tile that it has dropped instantly
             bathSlideTile.HandleAnimalDropped();
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
-            await this.transform.DOLocalMove(Vector3.zero, 0.1f);
+            await this.transform.DOLocalMove(Vector3.zero, MOVE_DELAY);
             if (!this) return;
 
             // Animate it falling!
@@ -75,11 +77,7 @@ namespace ProjectRuntime.Gameplay
 
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.SplashSfx, false, Vector3.zero).Forget();
 
-            // TODO: Remove this null check
-            if (this.RandomAnimalDropSfx != null)
-            {
-                SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
-            }
+            //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
             GridManager.Instance.DetectForVictory();
 
