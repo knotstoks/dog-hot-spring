@@ -114,7 +114,7 @@ namespace ProjectRuntime.Gameplay
             this._myColliders = new(this.GetComponentsInChildren<BoxCollider2D>(true));
 
             this._contactFilter = new ContactFilter2D();
-            this._contactFilter.SetLayerMask(LayerMask.GetMask("Tiles"));
+            this._contactFilter.SetLayerMask(LayerMask.GetMask("Tiles", "Blocking"));
             this._contactFilter.useLayerMask = true;
             this._contactFilter.useTriggers = false;
         }
@@ -126,31 +126,29 @@ namespace ProjectRuntime.Gameplay
                 this.OnStartAndUpdateDrag();
             }
 
-            var gm = GridManager.Instance;
-            var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
-            var tileYX = gm.GetNearestTileYX(dragPos);
-            // Highlight the positions the Tile would occupy
-            for (var rowY = 0; rowY < this.TileShape.Height; rowY++)
-            {
-                for (var colX = 0; colX < this.TileShape.Width; colX++)
-                {
-                    // Shape occupies this tile
-                    if (this.TileShape[rowY][colX])
-                    {
-                        if (gm.AnimalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
-                        {
-                            GridManager.CurrentlyHeldTile = animalDrop;
-                            animalDrop.Drop(CurrentDraggedTile).Forget();
-                        }
+            //var gm = GridManager.Instance;
+            //var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
+            //var tileYX = gm.GetNearestTileYX(dragPos);
+            //// Highlight the positions the Tile would occupy
+            //for (var rowY = 0; rowY < this.TileShape.Height; rowY++)
+            //{
+            //    for (var colX = 0; colX < this.TileShape.Width; colX++)
+            //    {
+            //        // Shape occupies this tile
+            //        if (this.TileShape[rowY][colX])
+            //        {
+            //            if (gm.AnimalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
+            //            {
+            //                animalDrop.Drop(CurrentDraggedTile).Forget();
+            //            }
 
-                        if (gm.QueueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
-                        {
-                            GridManager.CurrentlyHeldTile = queueDrop;
-                            queueDrop.Drop(CurrentDraggedTile).Forget();
-                        }
-                    }
-                }
-            }
+            //            if (gm.QueueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
+            //            {
+            //                queueDrop.Drop(CurrentDraggedTile).Forget();
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft, bool isEmptyTile, AxisAlignEnum axisAlignEnum)
@@ -476,8 +474,6 @@ namespace ProjectRuntime.Gameplay
 
             if (this._dropsLeft == 0)
             {
-                Debug.Log("Destroying bath tub");
-
                 s_currentPointerId = InvalidPointerId;
                 this.ToggleDrag(false);
                 this.ForceSnapToGrid();
@@ -532,7 +528,7 @@ namespace ProjectRuntime.Gameplay
         {
             GridManager.Instance.ResetHighlightsForAllTiles();
 
-            await UniTask.WaitForSeconds(AnimalDrop.MOVE_DELAY); // Delay to let the splash vfx + drop vfx to play
+            await UniTask.WaitForSeconds(1f); // Delay to let the animal drop and splash vfx to play
             if (!this)
             {
                 Destroy(this.gameObject);

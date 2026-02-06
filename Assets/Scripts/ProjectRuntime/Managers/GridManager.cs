@@ -70,8 +70,6 @@ namespace ProjectRuntime.Managers
         // Events
         public event Action OnBathTileCompleted;
 
-        // Currently Held Tile 
-        public static DropInterfaces.IDroppableTile CurrentlyHeldTile = null;
 		private void Awake()
         {
             if (Instance == null)
@@ -439,9 +437,6 @@ namespace ProjectRuntime.Managers
             {
                 return;
             }
-
-			CurrentlyHeldTile?.CancelDrop();
-			CurrentlyHeldTile = null;
 
 			// Remove highlight for everything
 			for (var rowY = 1; rowY < this._finalGridHeight - 1; rowY++)

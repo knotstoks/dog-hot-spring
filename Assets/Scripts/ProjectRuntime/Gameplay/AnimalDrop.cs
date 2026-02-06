@@ -3,15 +3,17 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Managers;
 using UnityEngine;
-using static DropInterfaces;
 
 namespace ProjectRuntime.Gameplay
 {
-    public class AnimalDrop : MonoBehaviour, IDroppableTile
+    public class AnimalDrop : MonoBehaviour
 	{
         public static float MOVE_DELAY { get; private set; } = 0.3f; // This controls how fast the animals move to the tile
 
         [field: SerializeField, Header("Scene References")]
+        private BoxCollider2D BlockingCollider { get; set; }
+
+        [field: SerializeField]
         private BoxCollider2D AnimalCollider { get; set; }
 
         [field: SerializeField]
@@ -39,6 +41,7 @@ namespace ProjectRuntime.Gameplay
 
         public void ToggleTriggerCollider(bool isTrigger)
         {
+            this.BlockingCollider.isTrigger = isTrigger;
             this.AnimalCollider.isTrigger = isTrigger;
         }
 
@@ -49,8 +52,11 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            if (other.gameObject.CompareTag("Tiles"))
+            
+
+            if (other.gameObject.layer == LayerMask.NameToLayer("Tiles"))
             {
+                Debug.Log(other.gameObject.name);
                 this._isDropping = true;
                 var bathSlideTile = other.GetComponentInParent<BathSlideTile>();
                 this.Drop(bathSlideTile).Forget();
@@ -72,25 +78,25 @@ namespace ProjectRuntime.Gameplay
             // Remove immediately to prevent leaving and entering square bug
             GridManager.Instance.DeregisterAnimalDrop(this);
 
+            // Communicate with Tile that it has dropped instantly
+            bathSlideTile.HandleAnimalDropped();
+
             // Move it to the location
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
             await this.transform.DOLocalMove(Vector3.zero, MOVE_DELAY);
             if (!this) return;
 
-            // Communicate with Tile that it has dropped instantly
-            bathSlideTile.HandleAnimalDropped();
+            // TODO: Uncomment
+            //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
             // Animate it falling!
             await this.PlayDropAnimation();
             if (!this) return;
 
-
             await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
             if (!this) return;
 
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.SplashSfx, false, Vector3.zero).Forget();
-
-            //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
             GridManager.Instance.DetectForVictory();
 
@@ -116,11 +122,6 @@ namespace ProjectRuntime.Gameplay
 
                 stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
             }
-        }
-
-        public void CancelDrop()
-        {
-            
         }
     }
 }

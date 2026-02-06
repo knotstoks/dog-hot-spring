@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Managers;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static DropInterfaces;
 
 namespace ProjectRuntime.Gameplay
 {
@@ -18,7 +16,7 @@ namespace ProjectRuntime.Gameplay
         WEST = 4,
     }
 
-    public class QueueTile : MonoBehaviour, IDroppableTile
+    public class QueueTile : MonoBehaviour
     {
         [field: SerializeField, Header("Scene References")]
         private BoxCollider2D AnimalCollider { get; set; }
@@ -213,7 +211,6 @@ namespace ProjectRuntime.Gameplay
             this.AnimalCollider.isTrigger = isTrigger;
         }
 
-        private int hg = 1;
         public async UniTaskVoid Drop(BathSlideTile bathSlideTile)
         {
             if (bathSlideTile == null)
@@ -272,11 +269,6 @@ namespace ProjectRuntime.Gameplay
                 finalCount += 1;
             }
             this.DropsLeftText.text = finalCount.ToString();
-        }
-
-        public void CancelDrop()
-        {
-            this._cancelDrop = true;
         }
     }
 }

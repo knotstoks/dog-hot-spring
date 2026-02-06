@@ -46,18 +46,18 @@ namespace ProjectRuntime.Gameplay
 
         public async UniTask DropAnimal(BathSlideTile bathSlideTile)
         {
-            var dropTransform = bathSlideTile.GetNearestDropTransform(this.transform.position);
-            this.transform.SetParent(dropTransform);
+            // Communicate with Tile that it has dropped instantly
+            bathSlideTile.HandleAnimalDropped();
+
+            // Move it to the location
+            this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
+            await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
+            if (!this) return;
 
             // TODO: Uncomment
             //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
-            //this.DoDropAnimation().Forget(); // Make sure drop animation is DROP_DELAY seconds long?
-
-            await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
-            if (!this) return;
-
-            await this.DoDropAnimation();
+            await this.PlayDropAnimation();
             if (!this) return;
 
             await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
@@ -91,7 +91,7 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        private async UniTask DoDropAnimation()
+        private async UniTask PlayDropAnimation()
         {
             Debug.Log($"{this.name} starts drop animation");
 
