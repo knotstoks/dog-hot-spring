@@ -54,12 +54,8 @@ namespace ProjectRuntime.Gameplay
 
             //this.DoDropAnimation().Forget(); // Make sure drop animation is DROP_DELAY seconds long?
 
-            Debug.Log($"BEFORE {dropTransform.name}");
-
             await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
             if (!this) return;
-
-            Debug.Log($"AFTER {dropTransform.gameObject.name}");
 
             await this.DoDropAnimation();
             if (!this) return;

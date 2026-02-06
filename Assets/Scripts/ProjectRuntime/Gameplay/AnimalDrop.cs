@@ -26,6 +26,8 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         private AudioPlaybackInfo RandomAnimalDropSfx { get; set; }
 
+        private bool _isDropping = false;
+
         // Tile Color should be set in level editor
         public async void Init()
         {
@@ -40,15 +42,23 @@ namespace ProjectRuntime.Gameplay
             this.AnimalCollider.isTrigger = isTrigger;
         }
 
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (this._isDropping)
+            {
+                return;
+            }
+
+            if (other.gameObject.CompareTag("Tiles"))
+            {
+                this._isDropping = true;
+                var bathSlideTile = other.GetComponentInParent<BathSlideTile>();
+                this.Drop(bathSlideTile).Forget();
+            }
+        }
+
         public async UniTaskVoid Drop(BathSlideTile bathSlideTile)
         {
-            // Removing this null check error for now
-            //if (bathSlideTile == null)
-            //{
-            //    Debug.LogError("Dropped animal when CurrentlyDraggedTile is null");
-            //    return;
-            //}
-
             if (bathSlideTile == null)
             {
                 return;
@@ -62,15 +72,18 @@ namespace ProjectRuntime.Gameplay
             // Remove immediately to prevent leaving and entering square bug
             GridManager.Instance.DeregisterAnimalDrop(this);
 
-            // Communicate with Tile that it has dropped instantly
-            bathSlideTile.HandleAnimalDropped();
+            // Move it to the location
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
             await this.transform.DOLocalMove(Vector3.zero, MOVE_DELAY);
             if (!this) return;
 
+            // Communicate with Tile that it has dropped instantly
+            bathSlideTile.HandleAnimalDropped();
+
             // Animate it falling!
             await this.PlayDropAnimation();
             if (!this) return;
+
 
             await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
             if (!this) return;

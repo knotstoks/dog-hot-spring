@@ -61,17 +61,17 @@ namespace ProjectRuntime.Managers
 
         // Animal Drop Tracking
         private Dictionary<TileColor, List<AnimalDrop>> _animalDropDict;
-        private Dictionary<Vector2Int, AnimalDrop> _animalDropPositionDict;
+        public Dictionary<Vector2Int, AnimalDrop> AnimalDropPositionDict;
         private List<WallTile> _wallTileList;
 
-        private Dictionary<Vector2Int, QueueTile> _queueDropPositionDict;
+        public Dictionary<Vector2Int, QueueTile> QueueDropPositionDict;
         public List<BathSlideTile> EmptySlideTileList { get; private set; } = new();
 
         // Events
         public event Action OnBathTileCompleted;
 
         // Currently Held Tile 
-        DropInterfaces.IDroppableTile CurrentlyHeldTile = null;
+        public static DropInterfaces.IDroppableTile CurrentlyHeldTile = null;
 		private void Awake()
         {
             if (Instance == null)
@@ -103,8 +103,8 @@ namespace ProjectRuntime.Managers
             this.GridWidth = levelData.GridWidth;
             this._alreadyPlayingVictory = false;
             this._animalDropDict = new();
-            this._animalDropPositionDict = new();
-            this._queueDropPositionDict = new();
+            this.AnimalDropPositionDict = new();
+            this.QueueDropPositionDict = new();
             this._wallTileList = new();
 
 
@@ -191,7 +191,7 @@ namespace ProjectRuntime.Managers
                 queueObject.transform.position = queueTilePos;
 
                 var queue = queueObject.GetComponent<QueueTile>();
-                queue.Init(queueTile.FacingDirection, queueTile.QueueColours, TileHeight, TileWidth);
+                queue.Init(queueTile.FacingDirection, queueTile.QueueColours, TileHeight, TileWidth).Forget();
             }
 
             // Create Ice Tiles
@@ -385,7 +385,6 @@ namespace ProjectRuntime.Managers
                 case "W":
                     return QueueTileDirection.WEST;
 
-
                 default:
                     break;
             }
@@ -467,18 +466,6 @@ namespace ProjectRuntime.Managers
                     {
                         // Highlight the unlocked tiles
                         this.Tiles[tileYX.y + rowY, tileYX.x + colX].HighlightTile(tile.TileColor);
-                        if (this._animalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
-                        {
-                            CurrentlyHeldTile = animalDrop;
-                            animalDrop.Drop(BathSlideTile.CurrentDraggedTile).Forget();
-                        }
-
-                        if (this._queueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
-                        {
-                            Debug.Log("TEST");
-							CurrentlyHeldTile = queueDrop;
-							queueDrop.Drop(BathSlideTile.CurrentDraggedTile).Forget();
-                        }
                     }
                 }
             }
@@ -486,8 +473,8 @@ namespace ProjectRuntime.Managers
 
         public void DetectForVictory()
         {
-            if (this._animalDropPositionDict.Count != 0) return;
-            if (this._queueDropPositionDict.Count != 0) return;
+            if (this.AnimalDropPositionDict.Count != 0) return;
+            if (this.QueueDropPositionDict.Count != 0) return;
             if (this._alreadyPlayingVictory) return;
 
             this._alreadyPlayingVictory = true;
@@ -517,12 +504,12 @@ namespace ProjectRuntime.Managers
             }
 
             this._animalDropDict[animalDrop.TileColor].Add(animalDrop);
-            this._animalDropPositionDict[this.GetNearestTileYX(animalDrop.transform.position)] = animalDrop;
+            this.AnimalDropPositionDict[this.GetNearestTileYX(animalDrop.transform.position)] = animalDrop;
         }
 
         public void RegisterQueueTile(QueueTile queueTile)
         {
-            this._queueDropPositionDict[this.GetNearestTileYX(queueTile.TileDetectionPosition)] = queueTile;
+            this.QueueDropPositionDict[this.GetNearestTileYX(queueTile.TileDetectionPosition)] = queueTile;
         }
 
         public void DeregisterAnimalDrop(AnimalDrop animalDrop)
@@ -532,12 +519,12 @@ namespace ProjectRuntime.Managers
                 this._animalDropDict[animalDrop.TileColor].Remove(animalDrop);
             }
 
-            this._animalDropPositionDict.Remove(this.GetNearestTileYX(animalDrop.transform.position));
+            this.AnimalDropPositionDict.Remove(this.GetNearestTileYX(animalDrop.transform.position));
         }
 
         public void DeregisterQueueDrop(QueueTile queueTile)
         {
-            this._queueDropPositionDict.Remove(this.GetNearestTileYX(queueTile.TileDetectionPosition));
+            this.QueueDropPositionDict.Remove(this.GetNearestTileYX(queueTile.TileDetectionPosition));
         }
 
         public void ToggleDropColor(TileColor tileColor, bool isDroppable)

@@ -125,6 +125,32 @@ namespace ProjectRuntime.Gameplay
             {
                 this.OnStartAndUpdateDrag();
             }
+
+            var gm = GridManager.Instance;
+            var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
+            var tileYX = gm.GetNearestTileYX(dragPos);
+            // Highlight the positions the Tile would occupy
+            for (var rowY = 0; rowY < this.TileShape.Height; rowY++)
+            {
+                for (var colX = 0; colX < this.TileShape.Width; colX++)
+                {
+                    // Shape occupies this tile
+                    if (this.TileShape[rowY][colX])
+                    {
+                        if (gm.AnimalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
+                        {
+                            GridManager.CurrentlyHeldTile = animalDrop;
+                            animalDrop.Drop(CurrentDraggedTile).Forget();
+                        }
+
+                        if (gm.QueueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
+                        {
+                            GridManager.CurrentlyHeldTile = queueDrop;
+                            queueDrop.Drop(CurrentDraggedTile).Forget();
+                        }
+                    }
+                }
+            }
         }
 
         public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft, bool isEmptyTile, AxisAlignEnum axisAlignEnum)
@@ -437,8 +463,6 @@ namespace ProjectRuntime.Gameplay
 
         public void HandleAnimalDropped()
         {
-            Debug.Log("Bath Tile Drop triggered");
-
             this._dropsLeft--;
 
             if (this._dropsLeft < 0)
@@ -511,7 +535,6 @@ namespace ProjectRuntime.Gameplay
             await UniTask.WaitForSeconds(AnimalDrop.MOVE_DELAY); // Delay to let the splash vfx + drop vfx to play
             if (!this)
             {
-                Debug.Log("A");
                 Destroy(this.gameObject);
                 return;
             }
@@ -525,7 +548,6 @@ namespace ProjectRuntime.Gameplay
                 await UniTask.Yield();
                 if (!this)
                 {
-                    Debug.Log("B");
                     Destroy(this.gameObject);
                     return;
                 }
@@ -538,7 +560,6 @@ namespace ProjectRuntime.Gameplay
                 await UniTask.Yield();
                 if (!this)
                 {
-                    Debug.Log("C");
                     Destroy(this.gameObject);
                     return;
                 }
@@ -546,7 +567,6 @@ namespace ProjectRuntime.Gameplay
                 stateInfo = this.TileAnimator.GetCurrentAnimatorStateInfo(0);
             }
 
-            Debug.Log("D");
             Destroy(this.gameObject);
         }
 

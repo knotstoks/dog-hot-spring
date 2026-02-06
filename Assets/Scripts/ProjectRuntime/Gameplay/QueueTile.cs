@@ -218,7 +218,6 @@ namespace ProjectRuntime.Gameplay
         {
             if (bathSlideTile == null)
             {
-                Debug.LogError("Dropped animal when CurrentlyDraggedTile is null");
                 return;
             }
 
@@ -227,22 +226,10 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
             this._isCurrentlyDeducting = true;
-            var abc = hg;
-            hg += 1;
 
 			// Communicate with Tile that it has dropped instantly
-			while (this._currentTileColour == bathSlideTile.TileColor && this._currentQueueAnimal != null)
+			if (this._currentTileColour == bathSlideTile.TileColor && this._currentQueueAnimal != null)
             {
-                // Fix for Null Issue when dragging rapidly
-                if (bathSlideTile == null)
-                {
-                    Debug.Log("this shouldnt happen");
-                }
-
-                Debug.Log($"hg = {abc}");
-
-                Debug.Log($"Current animal dropped {this._currentQueueAnimal.name}");
-
                 await this._currentQueueAnimal.DropAnimal(bathSlideTile);
                 if (!this) return;
 
@@ -258,18 +245,18 @@ namespace ProjectRuntime.Gameplay
 
                 this.UpdateDropsLeftText();
 
-                if (this._cancelDrop)
-                {
-                    this._cancelDrop = false;
-                    break;
-                }
+                //if (this._cancelDrop)
+                //{
+                //    this._cancelDrop = false;
+                //    break;
+                //}
 
                 await UniTask.WaitForSeconds(this.DropDelay);
                 if (!this) return;
             }
 
             this._isCurrentlyDeducting = false;
-            this._cancelDrop = false;
+            //this._cancelDrop = false;
             GridManager.Instance.DetectForVictory();
         }
 
