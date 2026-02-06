@@ -475,6 +475,7 @@ namespace ProjectRuntime.Managers
 
                         if (this._queueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
                         {
+                            Debug.Log("TEST");
 							CurrentlyHeldTile = queueDrop;
 							queueDrop.Drop(BathSlideTile.CurrentDraggedTile).Forget();
                         }

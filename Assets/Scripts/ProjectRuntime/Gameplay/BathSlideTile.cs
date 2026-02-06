@@ -437,6 +437,8 @@ namespace ProjectRuntime.Gameplay
 
         public void HandleAnimalDropped()
         {
+            Debug.Log("Bath Tile Drop triggered");
+
             this._dropsLeft--;
 
             if (this._dropsLeft < 0)
@@ -450,8 +452,10 @@ namespace ProjectRuntime.Gameplay
 
             if (this._dropsLeft == 0)
             {
+                Debug.Log("Destroying bath tub");
+
                 s_currentPointerId = InvalidPointerId;
-                //this.ToggleDrag(false); // TEMP
+                this.ToggleDrag(false);
                 this.ForceSnapToGrid();
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
                 GridManager.Instance.OnBathTileComplete();
@@ -507,6 +511,7 @@ namespace ProjectRuntime.Gameplay
             await UniTask.WaitForSeconds(AnimalDrop.MOVE_DELAY); // Delay to let the splash vfx + drop vfx to play
             if (!this)
             {
+                Debug.Log("A");
                 Destroy(this.gameObject);
                 return;
             }
@@ -520,6 +525,7 @@ namespace ProjectRuntime.Gameplay
                 await UniTask.Yield();
                 if (!this)
                 {
+                    Debug.Log("B");
                     Destroy(this.gameObject);
                     return;
                 }
@@ -532,6 +538,7 @@ namespace ProjectRuntime.Gameplay
                 await UniTask.Yield();
                 if (!this)
                 {
+                    Debug.Log("C");
                     Destroy(this.gameObject);
                     return;
                 }
@@ -539,6 +546,7 @@ namespace ProjectRuntime.Gameplay
                 stateInfo = this.TileAnimator.GetCurrentAnimatorStateInfo(0);
             }
 
+            Debug.Log("D");
             Destroy(this.gameObject);
         }
 

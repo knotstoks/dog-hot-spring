@@ -2,7 +2,6 @@ using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Managers;
-using UnityEditor;
 using UnityEngine;
 
 namespace ProjectRuntime.Gameplay
@@ -28,16 +27,18 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         private AudioPlaybackInfo RandomAnimalDropSfx { get; set; }
 
+        // Accessible Variables
+        public TileColor TileColor { get; set; }
+
         // Internal Variables
         private const string SPAWN_ANIM = "{0}_{1}_spawn"; // Direction then color
         private const string DROP_ANIM = "{0}_{1}_drop";   // Direction then color
         private QueueTileDirection _queueTileDirection;
-        private TileColor _tileColor;
 
         public async UniTask Init(QueueTileDirection queueTileDirection, TileColor tileColor)
         {
             this._queueTileDirection = queueTileDirection;
-            this._tileColor = tileColor;
+            this.TileColor = tileColor;
 
             await this.DoSpawnAnimation();
             if (!this) return;
@@ -45,19 +46,20 @@ namespace ProjectRuntime.Gameplay
 
         public async UniTask DropAnimal(BathSlideTile bathSlideTile)
         {
-            Debug.Log("CUM");
-
-            this.transform.SetParent(bathSlideTile.GetNearestDropTransform(this.transform.position));
+            var dropTransform = bathSlideTile.GetNearestDropTransform(this.transform.position);
+            this.transform.SetParent(dropTransform);
 
             // TODO: Uncomment
             //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
-            this.DoDropAnimation().Forget(); // Make sure drop animation is DROP_DELAY seconds long?
+            //this.DoDropAnimation().Forget(); // Make sure drop animation is DROP_DELAY seconds long?
+
+            Debug.Log($"BEFORE {dropTransform.name}");
 
             await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
             if (!this) return;
 
-            Debug.Log("cb");
+            Debug.Log($"AFTER {dropTransform.gameObject.name}");
 
             await this.DoDropAnimation();
             if (!this) return;
@@ -95,6 +97,8 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask DoDropAnimation()
         {
+            Debug.Log($"{this.name} starts drop animation");
+
             var dropAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             this.AnimalAnimator.Play(dropAnim);
@@ -114,14 +118,16 @@ namespace ProjectRuntime.Gameplay
 
                 stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             }
+
+            Debug.Log($"{this.name} ends drop animation");
         }
 
         private string GetAnimationString(QueueAnimalAnimationEnum qaae)
         {
             return qaae switch
             {
-                QueueAnimalAnimationEnum.Spawn => string.Format(SPAWN_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this._tileColor.ToString().ToLowerInvariant()),
-                QueueAnimalAnimationEnum.Drop => string.Format(DROP_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this._tileColor.ToString().ToLowerInvariant()),
+                QueueAnimalAnimationEnum.Spawn => string.Format(SPAWN_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
+                QueueAnimalAnimationEnum.Drop => string.Format(DROP_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
                 _ => string.Empty,
             };
         }
