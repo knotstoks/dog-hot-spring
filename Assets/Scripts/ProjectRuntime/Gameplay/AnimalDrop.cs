@@ -52,11 +52,8 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            
-
             if (other.gameObject.layer == LayerMask.NameToLayer("Tiles"))
             {
-                Debug.Log(other.gameObject.name);
                 this._isDropping = true;
                 var bathSlideTile = other.GetComponentInParent<BathSlideTile>();
                 this.Drop(bathSlideTile).Forget();

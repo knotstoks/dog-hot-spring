@@ -503,7 +503,7 @@ namespace ProjectRuntime.Gameplay
         {
             GridManager.Instance.ResetHighlightsForAllTiles();
 
-            await UniTask.WaitForSeconds(1f); // Delay to let the animal drop and splash vfx to play
+            await UniTask.WaitForSeconds(0.7f); // Delay to let the animal drop and splash vfx to play
             if (!this)
             {
                 Destroy(this.gameObject);
