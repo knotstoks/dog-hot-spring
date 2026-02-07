@@ -19,16 +19,10 @@ namespace ProjectRuntime.Gameplay
     public class QueueTile : MonoBehaviour
     {
         [field: SerializeField, Header("Scene References")]
-        private BoxCollider2D AnimalCollider { get; set; }
-
-        [field: SerializeField]
         private TextMeshProUGUI DropsLeftText { get; set; }
 
         [field: SerializeField]
         private GameObject RotationVisualParent { get; set; }
-
-        [field: SerializeField]
-        private Animator Animator { get; set; }
 
         [field: SerializeField]
         private Transform CurrentQueueAnimalTransform { get; set; }
@@ -46,13 +40,14 @@ namespace ProjectRuntime.Gameplay
         public Vector3 TileDetectionPosition { get; private set; }
 
         // Internal Variables
-        private bool _isCurrentlyDeducting = false;
-        private bool _cancelDrop = false;
+        private bool _isSetUp = false;
+        private bool _isCurrentlyDropping = false;
         public Queue<TileColor> _tileQueueColours;
         private TileColor _currentTileColour;
         private QueueAnimal _currentQueueAnimal;
         private QueueAnimal _nextQueueAnimal;
         private QueueTileDirection _tileDirection;
+        private int _dropsLeft = 0;
 
         // Tile Color should be set in level editor
         public async UniTask Init(QueueTileDirection tileDirection, Queue<TileColor> queueColors, float tileHeight, float tileWidth)
@@ -108,7 +103,12 @@ namespace ProjectRuntime.Gameplay
 
             GridManager.Instance.RegisterQueueTile(this);
 
+            this._dropsLeft = this._tileQueueColours.Count;
+            this.UpdateDropsLeftText(this._dropsLeft);
+
             this.InitColor().Forget();
+
+            this._isSetUp = true;
         }
 
         private async UniTaskVoid InitColor()
@@ -136,8 +136,6 @@ namespace ProjectRuntime.Gameplay
             {
                 this._nextQueueAnimal = null;
             }
-
-            this.UpdateDropsLeftText();
 
             await UniTask.CompletedTask;
         }
@@ -173,8 +171,6 @@ namespace ProjectRuntime.Gameplay
                 this._nextQueueAnimal = nextQueueAnimal;
             }
 
-            this.UpdateDropsLeftText();
-
             if (this._currentQueueAnimal == null && this._nextQueueAnimal == null
                 && this._tileQueueColours.Count == 0)
             {
@@ -206,9 +202,18 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public void ToggleTriggerCollider(bool isTrigger)
+        private void OnTriggerStay2D(Collider2D other)
         {
-            this.AnimalCollider.isTrigger = isTrigger;
+            if (!this._isSetUp)
+            {
+                return;
+            }
+
+            if (other.gameObject.layer == LayerMask.NameToLayer("Tiles"))
+            {
+                var bathSlideTile = other.gameObject.GetComponentInParent<BathSlideTile>();
+                this.Drop(bathSlideTile).Forget();
+            }
         }
 
         public async UniTaskVoid Drop(BathSlideTile bathSlideTile)
@@ -218,15 +223,22 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            if (this._isCurrentlyDeducting)
+            if (this._isCurrentlyDropping)
             {
                 return;
             }
-            this._isCurrentlyDeducting = true;
+            this._isCurrentlyDropping = true;
 
 			// Communicate with Tile that it has dropped instantly
 			if (this._currentTileColour == bathSlideTile.TileColor && this._currentQueueAnimal != null)
             {
+                Debug.Log(this._currentQueueAnimal.gameObject.name);
+
+                this.UpdateDropsLeftText(this._dropsLeft - 1);
+                this._dropsLeft--;
+
+                bathSlideTile.HandleAnimalDropped();
+
                 await this._currentQueueAnimal.DropAnimal(bathSlideTile);
                 if (!this) return;
 
@@ -238,37 +250,18 @@ namespace ProjectRuntime.Gameplay
                 await this.UpdateColour();
                 if (!this) return;
 
-                bathSlideTile.HandleAnimalDropped();
-
-                this.UpdateDropsLeftText();
-
-                //if (this._cancelDrop)
-                //{
-                //    this._cancelDrop = false;
-                //    break;
-                //}
-
                 await UniTask.WaitForSeconds(this.DropDelay);
                 if (!this) return;
             }
 
-            this._isCurrentlyDeducting = false;
-            //this._cancelDrop = false;
+            this._isCurrentlyDropping = false;
+
             GridManager.Instance.DetectForVictory();
         }
 
-        private void UpdateDropsLeftText()
+        private void UpdateDropsLeftText(int count)
         {
-            var finalCount = this._tileQueueColours.Count;
-            if (this._currentQueueAnimal != null)
-            {
-                finalCount += 1;
-            }
-            if (this._nextQueueAnimal != null)
-            {
-                finalCount += 1;
-            }
-            this.DropsLeftText.text = finalCount.ToString();
+            this.DropsLeftText.text = count.ToString();
         }
     }
 }

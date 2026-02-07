@@ -125,30 +125,6 @@ namespace ProjectRuntime.Gameplay
             {
                 this.OnStartAndUpdateDrag();
             }
-
-            //var gm = GridManager.Instance;
-            //var dragPos = gm.TileContainer.InverseTransformPoint(this.BottomLeftTransform.position);
-            //var tileYX = gm.GetNearestTileYX(dragPos);
-            //// Highlight the positions the Tile would occupy
-            //for (var rowY = 0; rowY < this.TileShape.Height; rowY++)
-            //{
-            //    for (var colX = 0; colX < this.TileShape.Width; colX++)
-            //    {
-            //        // Shape occupies this tile
-            //        if (this.TileShape[rowY][colX])
-            //        {
-            //            if (gm.AnimalDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var animalDrop))
-            //            {
-            //                animalDrop.Drop(CurrentDraggedTile).Forget();
-            //            }
-
-            //            if (gm.QueueDropPositionDict.TryGetValue(new Vector2Int(tileYX.x + colX, tileYX.y + rowY), out var queueDrop))
-            //            {
-            //                queueDrop.Drop(CurrentDraggedTile).Forget();
-            //            }
-            //        }
-            //    }
-            //}
         }
 
         public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft, bool isEmptyTile, AxisAlignEnum axisAlignEnum)
@@ -451,13 +427,13 @@ namespace ProjectRuntime.Gameplay
             gm.SnapToGrid(this, tileYX);
         }
 
-        public void ToggleDrag(bool toggle)
-        {
-            foreach (var myCollider in this._myColliders)
-            {
-                myCollider.enabled = toggle;
-            }
-        }
+        //public void ToggleDrag(bool toggle)
+        //{
+        //    foreach (var myCollider in this._myColliders)
+        //    {
+        //        myCollider.enabled = toggle;
+        //    }
+        //}
 
         public void HandleAnimalDropped()
         {
@@ -475,7 +451,6 @@ namespace ProjectRuntime.Gameplay
             if (this._dropsLeft == 0)
             {
                 s_currentPointerId = InvalidPointerId;
-                this.ToggleDrag(false);
                 this.ForceSnapToGrid();
                 GridManager.Instance.ToggleDropColor(this.TileColor, false);
                 GridManager.Instance.OnBathTileComplete();

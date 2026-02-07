@@ -46,9 +46,6 @@ namespace ProjectRuntime.Gameplay
 
         public async UniTask DropAnimal(BathSlideTile bathSlideTile)
         {
-            // Communicate with Tile that it has dropped instantly
-            bathSlideTile.HandleAnimalDropped();
-
             // Move it to the location
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
             await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
