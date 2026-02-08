@@ -64,6 +64,7 @@ namespace ProjectRuntime.Gameplay
         {
             if (bathSlideTile == null)
             {
+                Debug.Log("Hey wtf");
                 return;
             }
 

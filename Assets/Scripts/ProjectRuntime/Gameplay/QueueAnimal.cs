@@ -90,8 +90,6 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask PlayDropAnimation()
         {
-            Debug.Log($"{this.name} starts drop animation");
-
             var dropAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             this.AnimalAnimator.Play(dropAnim);
@@ -111,8 +109,6 @@ namespace ProjectRuntime.Gameplay
 
                 stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             }
-
-            Debug.Log($"{this.name} ends drop animation");
         }
 
         private string GetAnimationString(QueueAnimalAnimationEnum qaae)

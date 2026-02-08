@@ -232,8 +232,6 @@ namespace ProjectRuntime.Gameplay
 			// Communicate with Tile that it has dropped instantly
 			if (this._currentTileColour == bathSlideTile.TileColor && this._currentQueueAnimal != null)
             {
-                Debug.Log(this._currentQueueAnimal.gameObject.name);
-
                 this.UpdateDropsLeftText(this._dropsLeft - 1);
                 this._dropsLeft--;
 
