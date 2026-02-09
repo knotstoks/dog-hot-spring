@@ -17,7 +17,9 @@ namespace ProjectRuntime.Gameplay
     }
 
     public class QueueAnimal : MonoBehaviour
-	{
+    {
+        public const float MoveNextTime = 0.1f;
+
         [field: SerializeField, Header("Scene References")]
         private Animator AnimalAnimator { get; set; }
 

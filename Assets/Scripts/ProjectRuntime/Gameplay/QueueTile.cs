@@ -154,7 +154,7 @@ namespace ProjectRuntime.Gameplay
                 this._currentTileColour = this._currentQueueAnimal.TileColor;
 
                 this._currentQueueAnimal.transform.SetParent(this.CurrentQueueAnimalTransform);
-                await this._currentQueueAnimal.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
+                await this._currentQueueAnimal.transform.DOLocalMove(Vector3.zero, QueueAnimal.MoveNextTime);
                 if (!this) return;
             }
 
@@ -240,15 +240,9 @@ namespace ProjectRuntime.Gameplay
                 await this._currentQueueAnimal.DropAnimal(bathSlideTile);
                 if (!this) return;
 
-                await UniTask.WaitForSeconds(AnimalDrop.MOVE_DELAY);
-                if (!this) return;
-
                 this._currentQueueAnimal = null;
 
                 await this.UpdateColour();
-                if (!this) return;
-
-                await UniTask.WaitForSeconds(this.DropDelay);
                 if (!this) return;
             }
 
