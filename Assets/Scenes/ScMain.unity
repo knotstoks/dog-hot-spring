@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b9b4f5e02a732c479dd8a212b1443be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CheatWorldProgress>k__BackingField: 0
+  <CheatWorldProgress>k__BackingField: 50
   <CheatStoryProgress>k__BackingField: STORY_3
   <PlayButton>k__BackingField: {fileID: 249945508}
   <OptionsButton>k__BackingField: {fileID: 2143068098}

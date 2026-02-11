@@ -21,7 +21,7 @@ public class DLocale : ScriptableObject, IDataImport
         var lowerLang = lang.ToString().ToLowerInvariant();
 
         // Load
-        var so = ResourceLoader.Load<DLocale>($"data/dlocale_{lowerLang}.asset", false);
+        var so = ResourceLoader.Load<DLocale>($"data/DLocale_{lowerLang}.asset", false);
 
         // Put everything into a dict
         var lookup = new Dictionary<string, string>();

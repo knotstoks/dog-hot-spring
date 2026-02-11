@@ -205,7 +205,7 @@ namespace ProjectRuntime.UI.Panels
             }
             this.LevelSelectButtonParent.SetActive(true);
             
-            var maxAreaIdx = currentWorldProgress / 10;
+            var maxAreaIdx = this._numberOfWorlds / 10 - 1;
             this.PreviousAreaButton.gameObject.SetActive(this._currentAreaIdx != 0);
             this.NextAreaButton.gameObject.SetActive(this._currentAreaIdx < maxAreaIdx
                 && currentWorldProgress / 10 > this._currentAreaIdx);

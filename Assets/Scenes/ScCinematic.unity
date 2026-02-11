@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &45714877
 RectTransform:
   m_ObjectHideFlags: 0
@@ -156,8 +156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -120, y: 139}
-  m_SizeDelta: {x: 620, y: 275}
+  m_AnchoredPosition: {x: -0.000015259, y: 88}
+  m_SizeDelta: {x: 1167.416, y: 464.8297}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &45714878
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DROP DA DAWG
+  m_text: This is temporary just imagine a cutscene and wait for 2 seconds
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f05f83e27279ff6489c86812c5a197b9, type: 2}
   m_sharedMaterial: {fileID: -1624416692399087888, guid: f05f83e27279ff6489c86812c5a197b9, type: 2}
@@ -390,7 +390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &185794128
 RectTransform:
   m_ObjectHideFlags: 0

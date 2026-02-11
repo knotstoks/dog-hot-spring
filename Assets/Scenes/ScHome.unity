@@ -4738,6 +4738,10 @@ MonoBehaviour:
     roll: 0
   - position: {x: 30, y: 0, z: -10}
     roll: 0
+  - position: {x: 45, y: 0, z: -10}
+    roll: 0
+  - position: {x: 60, y: 0, z: -10}
+    roll: 0
 --- !u!4 &1418819169
 Transform:
   m_ObjectHideFlags: 0

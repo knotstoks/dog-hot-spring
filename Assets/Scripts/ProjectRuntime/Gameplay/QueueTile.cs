@@ -19,6 +19,9 @@ namespace ProjectRuntime.Gameplay
     public class QueueTile : MonoBehaviour
     {
         [field: SerializeField, Header("Scene References")]
+        private Transform QueueAnimalParentTransform { get; set; }
+
+        [field: SerializeField]
         private TextMeshProUGUI DropsLeftText { get; set; }
 
         [field: SerializeField]
@@ -60,7 +63,7 @@ namespace ProjectRuntime.Gameplay
             this._tileQueueColours = queueColors;
 
             var temp = Vector3.zero;
-            switch (_tileDirection)
+            switch (this._tileDirection)
             {
                 case QueueTileDirection.NONE:
                     Debug.LogError($"No tile direction for tile: {name}");
@@ -101,6 +104,8 @@ namespace ProjectRuntime.Gameplay
 
             this.UpdateFacingDirection(this._tileDirection);
 
+            this.ReparentAnimalTransforms();
+
             GridManager.Instance.RegisterQueueTile(this);
 
             this._dropsLeft = this._tileQueueColours.Count;
@@ -117,7 +122,7 @@ namespace ProjectRuntime.Gameplay
             this._currentTileColour = initQueueColor;
 
             var currentQueueAnimal = Instantiate(this.QueueAnimalPrefab, this.CurrentQueueAnimalTransform);
-            currentQueueAnimal.transform.localPosition = Vector3.zero;
+            currentQueueAnimal.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             currentQueueAnimal.Init(this._tileDirection, initQueueColor).Forget();
 
             this._currentQueueAnimal = currentQueueAnimal;
@@ -127,7 +132,7 @@ namespace ProjectRuntime.Gameplay
                 var nextTileColor = this._tileQueueColours.Dequeue();
 
                 var nextQueueAnimal = Instantiate(this.QueueAnimalPrefab, this.NextQueueAnimalTransform);
-                nextQueueAnimal.transform.localPosition = Vector3.zero;
+                nextQueueAnimal.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 nextQueueAnimal.Init(this._tileDirection, nextTileColor).Forget();
 
                 this._nextQueueAnimal = nextQueueAnimal;
@@ -138,6 +143,14 @@ namespace ProjectRuntime.Gameplay
             }
 
             await UniTask.CompletedTask;
+        }
+
+        private void ReparentAnimalTransforms()
+        {
+            this.CurrentQueueAnimalTransform.SetParent(this.QueueAnimalParentTransform);
+            this.CurrentQueueAnimalTransform.rotation = Quaternion.identity;
+            this.NextQueueAnimalTransform.SetParent(this.QueueAnimalParentTransform);
+            this.NextQueueAnimalTransform.rotation = Quaternion.identity;
         }
 
         /// <summary>
