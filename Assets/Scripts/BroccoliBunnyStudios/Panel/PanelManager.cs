@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BroccoliBunnyStudios.Extensions;
 using BroccoliBunnyStudios.Pools;
 using Cysharp.Threading.Tasks;
@@ -129,6 +130,7 @@ namespace BroccoliBunnyStudios.Panel
 
         public void OnClose(BasePanel pnl)
         {
+            this._panelStack.Remove(pnl);
             ResourceLoader.Destroy(pnl.gameObject);
         }
 
@@ -168,6 +170,18 @@ namespace BroccoliBunnyStudios.Panel
             await this._transitionMask.FadeFromBlack(duration);
 
             this._fade.SetActive(false);
+        }
+
+        public T GetPanelInStack<T>()
+            where T : BasePanel
+        {
+            return this._panelStack.Find(x => x.GetType() == typeof(T)) as T;
+        }
+
+        public bool IsPanelOpen<T>()
+            where T : BasePanel
+        {
+            return this._panelStack.Any(x => x.GetType() == typeof(T));
         }
     }
 }

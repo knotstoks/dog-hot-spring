@@ -47,3 +47,11 @@ MonoBehaviour:
       slide around!
   - <Key>k__BackingField: LOC_OKAY
     <Value>k__BackingField: Okay
+  - <Key>k__BackingField: LOC_PNLSETTINGS_SETTINGS
+    <Value>k__BackingField: Settings
+  - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC
+    <Value>k__BackingField: Music
+  - <Key>k__BackingField: LOC_PNLSETTINGS_SFX
+    <Value>k__BackingField: SFX
+  - <Key>k__BackingField: LOC_PNLSETTINGS_LANGUAGE
+    <Value>k__BackingField: Change Language

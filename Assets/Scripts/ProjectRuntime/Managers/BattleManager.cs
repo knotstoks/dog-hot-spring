@@ -93,6 +93,9 @@ namespace ProjectRuntime.Managers
 
         private async UniTaskVoid Init()
         {
+            // Start from black fullscreen
+            PanelManager.Instance.FadeToBlackAsync(0).Forget();
+
             if (LevelIdToLoad <= 0)
             {
                 LevelIdToLoad = EditorIdToLoad;
