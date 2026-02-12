@@ -80,7 +80,16 @@ namespace ProjectRuntime.UI.Panels
 
         private void OnOptionsButtonClick()
         {
-            // TODO
+            if (this._isTransitioningScene)
+            {
+                return;
+            }
+            this._isTransitioningScene = true;
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
+            PanelManager.Instance.ShowAsync<PnlSettings>().Forget();
+
+            this._isTransitioningScene = false;
         }
 
         private void OnQuitButtonClick()

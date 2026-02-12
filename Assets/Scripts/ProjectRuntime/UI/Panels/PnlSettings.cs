@@ -4,6 +4,7 @@ using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
 using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
+using ProjectRuntime.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,6 @@ namespace ProjectRuntime.UI.Panels
     public class PnlSettings : BasePanel
     {
         [field: SerializeField, Header("Scene References")]
-        private GameObject PanelParent { get; set; }
-
-        [field: SerializeField]
         private Animator PanelAnimator { get; set; }
 
         [field: SerializeField]
@@ -53,10 +51,18 @@ namespace ProjectRuntime.UI.Panels
         // Internal Variables
         private const string PANEL_IN_ANIMATION = "panel_in";
         private const string PANEL_OUT_ANIMATION = "panel_out";
+        private const string LOC_RETURN_HOME = "LOC_RETURN_HOME";
+        private const string LOC_RETURN_MAINMENU = "LOC_RETURN_MAINMENU";
         private bool _isTransitioning;
 
         private void Awake()
         {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "ScMain")
+            {
+                // Disable the go back to main menu button if on ScMain
+                this.BackToMainMenuButton.gameObject.SetActive(false);
+            }
+
             var sm = SaveManager.Instance;
             this.MusicSlider.value = sm.MusicVolume;
             this.SfxSlider.value = sm.SfxVolume;
@@ -139,9 +145,40 @@ namespace ProjectRuntime.UI.Panels
             }
             this._isTransitioning = true;
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
-            // TODO: Implement PnlYesNoPrompt
+
+            // Return to level select
+            if (BattleManager.Instance != null)
+            {
+                PanelManager.Instance.ShowAsync<PnlYesNoPrompt>((pnl) =>
+                {
+                    pnl.Init(LOC_RETURN_HOME, this.GoToLevelSelect, null, true);
+                }).Forget();
+            }
+            // Return to ScMain
+            else
+            {
+                PanelManager.Instance.ShowAsync<PnlYesNoPrompt>((pnl) =>
+                {
+                    pnl.Init(LOC_RETURN_MAINMENU, this.GoToMainMenu, null, true);
+                }).Forget();
+            }
+
 
             this._isTransitioning = false;
+        }
+
+        private void GoToLevelSelect()
+        {
+            SceneManager.Instance.LoadSceneAsync("ScHome").Forget();
+
+            this.Close();
+        }
+
+        private void GoToMainMenu()
+        {
+            SceneManager.Instance.LoadSceneAsync("ScMain").Forget();
+
+            this.Close();
         }
 
         private async UniTaskVoid OnLocalizationPanelCloseButtonClick()

@@ -83,6 +83,7 @@ namespace BroccoliBunnyStudios.Panel
             var fadeCanvas = fade.FGetComp<Canvas>();
             fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
             fadeCanvas.sortingLayerID = SortingLayer.NameToID("ui_top");
+            fadeCanvas.sortingOrder = 200;
             this._fade = fade.FGetComp<Image>();
             this._fade.raycastTarget = true;
             this._fade.color = new Color(0f, 0f, 0f, 0f);
@@ -132,6 +133,16 @@ namespace BroccoliBunnyStudios.Panel
         {
             this._panelStack.Remove(pnl);
             ResourceLoader.Destroy(pnl.gameObject);
+        }
+
+        public void SwitchCanvasToOverlay()
+        {
+            this._canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        }
+
+        public void SwitchCanvasToCamera()
+        {
+            this._canvas.renderMode = RenderMode.ScreenSpaceCamera;
         }
 
         public async UniTask FadeToBlackAsync(float duration = 1f)

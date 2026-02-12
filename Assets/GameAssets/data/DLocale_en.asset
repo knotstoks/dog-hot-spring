@@ -47,6 +47,17 @@ MonoBehaviour:
       slide around!
   - <Key>k__BackingField: LOC_OKAY
     <Value>k__BackingField: Okay
+  - <Key>k__BackingField: LOC_YES
+    <Value>k__BackingField: Yes
+  - <Key>k__BackingField: LOC_NO
+    <Value>k__BackingField: No
+  - <Key>k__BackingField: LOC_RETURN_HOME
+    <Value>k__BackingField: 'Return to Level Select?
+
+      Your progress will NOT
+      be saved'
+  - <Key>k__BackingField: LOC_RETURN_MAINMENU
+    <Value>k__BackingField: Return to Main Menu?
   - <Key>k__BackingField: LOC_PNLSETTINGS_SETTINGS
     <Value>k__BackingField: Settings
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC

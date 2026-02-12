@@ -1,16 +1,15 @@
-using Cinemachine;
 using System.Collections.Generic;
 using BroccoliBunnyStudios.Extensions;
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
+using BroccoliBunnyStudios.Sound;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using ProjectRuntime.Managers;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using BroccoliBunnyStudios.Sound;
-using DG.Tweening;
 
 namespace ProjectRuntime.UI.Panels
 {
@@ -22,6 +21,9 @@ namespace ProjectRuntime.UI.Panels
         public static int AreaToTransition { get; set; } = -1;
 
         [field: SerializeField, Header("Scene References")]
+        private GameObject PanelParent { get; set; }
+
+        [field: SerializeField]
         private CanvasGroup CanvasGroup { get; set; }
 
         [field: SerializeField]
@@ -71,6 +73,8 @@ namespace ProjectRuntime.UI.Panels
 
         private void Awake()
         {
+            PanelManager.Instance.FadeToBlackAsync(0f).Forget();
+
             if (Instance == null)
             {
                 Instance = this;
@@ -82,7 +86,7 @@ namespace ProjectRuntime.UI.Panels
 
             this._numberOfWorlds = DWorld.GetAllData().Data.Count;
             this._numberOfAreas = this._numberOfWorlds / 10;
-            this.SettingsButton.OnClick(this.OnSettingsButtonClick);
+            this.SettingsButton.OnClick(() => this.OnSettingsButtonClick().Forget());
             for (var i = 0; i < this.LevelSelectButtons.Count; i++)
             {
                 var temp = i + 1; // Neccessary to create temp variable for the closure function
@@ -91,8 +95,6 @@ namespace ProjectRuntime.UI.Panels
             this.PreviousAreaButton.OnClick(this.OnPreviousAreaButtonClick);
             this.NextAreaButton.OnClick(this.OnNextAreaButtonClick);
             this.CinematicButton.OnClick(this.OnCinematicButtonClick);
-
-            //UserSaveDataManager.Instance.RegisterStory("STORY_1");
         }
 
         private void Start()
@@ -274,15 +276,26 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = false;
         }
 
-        private void OnSettingsButtonClick()
+        private async UniTaskVoid OnSettingsButtonClick()
         {
             if (this._isTransitioningScene)
             {
                 return;
             }
+            this._isTransitioningScene = true;
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
-            // TODO
+            this.PanelParent.SetActive(false);
+
+            PanelManager.Instance.SwitchCanvasToOverlay();
+            var pnlSettings = await PanelManager.Instance.ShowAsync<PnlSettings>();
+            await pnlSettings.WaitWhilePanelIsAlive();
+            if (!this) return;
+            PanelManager.Instance.SwitchCanvasToCamera();
+
+            this.PanelParent.SetActive(true);
+
+            this._isTransitioningScene = false;
         }
 
         private async void OnCinematicButtonClick()

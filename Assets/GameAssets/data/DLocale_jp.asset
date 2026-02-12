@@ -42,6 +42,14 @@ MonoBehaviour:
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_OKAY
     <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_YES
+    <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_NO
+    <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_RETURN_HOME
+    <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_RETURN_MAINMENU
+    <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_PNLSETTINGS_SETTINGS
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC
