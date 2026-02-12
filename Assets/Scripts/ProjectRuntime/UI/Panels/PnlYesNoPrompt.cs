@@ -56,8 +56,6 @@ namespace ProjectRuntime.UI.Panels
 
         public void Init(string promptLocString, Action yesCallback, Action noCallback, bool willFadeToBlackOnYesClick = false, string yesText = "LOC_YES", string noText = "LOC_NO")
         {
-            Debug.Log(promptLocString);
-
             this._yesCallback = yesCallback;
             this._noCallback = noCallback;
             this._willFadeToBlackOnYesClick = willFadeToBlackOnYesClick;
