@@ -86,7 +86,7 @@ namespace ProjectRuntime.Gameplay
         private bool _hasStartedDragging = false;
         private PointerEventData _currentEventData = null;
         private readonly float _slowDownAmount = 0.1f;
-        private readonly float _dragSpeed = 0.2f;
+        private readonly float _dragSpeed = 0.3f;
         private static Vector2Int s_lastDragTileYX; // Previous frame's tile position
 
         private List<BoxCollider2D> _myColliders;
