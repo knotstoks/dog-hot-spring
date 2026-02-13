@@ -30,8 +30,10 @@ namespace ProjectRuntime.Managers
         [field: SerializeField, Header("Containers")]
         public Transform VfxContainer { get; private set; }
 
+        // Accessible Variables
+        public bool WillBlockResetInput { get; set; } = false;
+
         // Internal Variables
-        private bool _willBlockResetInput = false;
         private const string LOC_LEVELRESET = "LOC_LEVELRESET";
 
         private void Awake()
@@ -146,13 +148,13 @@ namespace ProjectRuntime.Managers
             PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
         }
 
-        private async UniTaskVoid TryResetLevel()
+        public async UniTaskVoid TryResetLevel()
         {
-            if (this._willBlockResetInput)
+            if (this.WillBlockResetInput)
             {
                 return;
             }
-            this._willBlockResetInput = true;
+            this.WillBlockResetInput = true;
 
             var pnlYesNoPrompt = await PanelManager.Instance.ShowAsync<PnlYesNoPrompt>((pnl) =>
             {
@@ -161,7 +163,7 @@ namespace ProjectRuntime.Managers
             await pnlYesNoPrompt.WaitWhilePanelIsAlive();
             if (!this) return;
 
-            this._willBlockResetInput = false;
+            this.WillBlockResetInput = false;
         }
 
         private async UniTaskVoid ResetLevel()
