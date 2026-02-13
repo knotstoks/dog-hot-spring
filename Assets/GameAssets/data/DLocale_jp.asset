@@ -50,6 +50,8 @@ MonoBehaviour:
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_RETURN_MAINMENU
     <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_LEVELRESET
+    <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_PNLSETTINGS_SETTINGS
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC

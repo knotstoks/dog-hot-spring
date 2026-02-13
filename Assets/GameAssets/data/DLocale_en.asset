@@ -58,6 +58,8 @@ MonoBehaviour:
       be saved'
   - <Key>k__BackingField: LOC_RETURN_MAINMENU
     <Value>k__BackingField: Return to Main Menu?
+  - <Key>k__BackingField: LOC_LEVELRESET
+    <Value>k__BackingField: Reset Level?
   - <Key>k__BackingField: LOC_PNLSETTINGS_SETTINGS
     <Value>k__BackingField: Settings
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC

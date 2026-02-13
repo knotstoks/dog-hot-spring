@@ -30,6 +30,10 @@ namespace ProjectRuntime.Managers
         [field: SerializeField, Header("Containers")]
         public Transform VfxContainer { get; private set; }
 
+        // Internal Variables
+        private bool _willBlockResetInput = false;
+        private const string LOC_LEVELRESET = "LOC_LEVELRESET";
+
         private void Awake()
         {
             if (Instance == null)
@@ -55,11 +59,6 @@ namespace ProjectRuntime.Managers
         private void Update()
         {
 #if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
-            }
-
             if (Input.GetKeyDown(KeyCode.N))
             {
                 LevelIdToLoad++;
@@ -89,6 +88,10 @@ namespace ProjectRuntime.Managers
                 Debug.Log("Reset World Progress");
             }
 #endif
+            if (Input.GetKeyDown(KeyCode.R) )
+            {
+                this.TryResetLevel().Forget();
+            }
         }
 
         private async UniTaskVoid Init()
@@ -141,22 +144,31 @@ namespace ProjectRuntime.Managers
             if (!this) return;
 
             PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
+        }
 
-            // For prototyping
-            //var numberOfWorlds = DWorld.GetAllData().Data.Count;
-            //if (LevelIdToLoad == numberOfWorlds)
-            //{
-            //    PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
-            //}
-            //else
-            //{
-            //    await PanelManager.Instance.FadeToBlackAsync();
-            //    if (!this) return;
+        private async UniTaskVoid TryResetLevel()
+        {
+            if (this._willBlockResetInput)
+            {
+                return;
+            }
+            this._willBlockResetInput = true;
 
-            //    // Continue the game
-            //    LevelIdToLoad++;
-            //    SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
-            //}
+            var pnlYesNoPrompt = await PanelManager.Instance.ShowAsync<PnlYesNoPrompt>((pnl) =>
+            {
+                pnl.Init(LOC_LEVELRESET, () => this.ResetLevel().Forget(), null, true);
+            });
+            await pnlYesNoPrompt.WaitWhilePanelIsAlive();
+            if (!this) return;
+
+            this._willBlockResetInput = false;
+        }
+
+        private async UniTaskVoid ResetLevel()
+        {
+            SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
+
+            await UniTask.CompletedTask;
         }
 
         #region Pause Logic
