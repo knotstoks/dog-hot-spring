@@ -66,7 +66,7 @@ namespace BroccoliBunnyStudios.Managers
         private void UpdateFallbackFont(EnumLanguage lang)
         {
             // Maybe should rewrite with a custom scriptable object referencing each fallback font
-            var searchString = "";
+            var searchString = string.Empty;
             switch (lang)
             {
                 case EnumLanguage.EN:
