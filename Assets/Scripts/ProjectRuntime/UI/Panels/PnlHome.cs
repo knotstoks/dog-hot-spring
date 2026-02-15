@@ -285,7 +285,8 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = true;
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
-            this.PanelParent.SetActive(false);
+            await this.ToggleAllButtonsShow(false);
+            if (!this) return;
 
             PanelManager.Instance.SwitchCanvasToOverlay();
             var pnlSettings = await PanelManager.Instance.ShowAsync<PnlSettings>();
@@ -293,7 +294,8 @@ namespace ProjectRuntime.UI.Panels
             if (!this) return;
             PanelManager.Instance.SwitchCanvasToCamera();
 
-            this.PanelParent.SetActive(true);
+            await this.ToggleAllButtonsShow(true);
+            if (!this) return;
 
             this._isTransitioningScene = false;
         }
