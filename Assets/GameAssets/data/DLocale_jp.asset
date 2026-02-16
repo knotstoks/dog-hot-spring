@@ -64,3 +64,11 @@ MonoBehaviour:
     <Value>k__BackingField: "\u8A00\u8A9E\u3092\u5909\u66F4\u3059\u308B"
   - <Key>k__BackingField: LOC_PNLSETTINGS_RESETSAVE
     <Value>k__BackingField: "\u30BB\u30FC\u30D6\u30C7\u30FC\u30BF\u3092\u30EA\u30BB\u30C3\u30C8"
+  - <Key>k__BackingField: LOC_PROGRAMMING
+    <Value>k__BackingField: "\u30B3\u30FC\u30C9"
+  - <Key>k__BackingField: LOC_DESIGN
+    <Value>k__BackingField: "\u30C7\u30B6\u30A4\u30F3"
+  - <Key>k__BackingField: LOC_ART
+    <Value>k__BackingField: "\u30D3\u30B8\u30E5\u30A2\u30EB"
+  - <Key>k__BackingField: LOC_MUSIC
+    <Value>k__BackingField: "\u30AA\u30FC\u30C7\u30A3\u30AA"

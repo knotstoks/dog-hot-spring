@@ -69,3 +69,11 @@ MonoBehaviour:
     <Value>k__BackingField: Change Language
   - <Key>k__BackingField: LOC_PNLSETTINGS_RESETSAVE
     <Value>k__BackingField: Reset Save Data
+  - <Key>k__BackingField: LOC_PROGRAMMING
+    <Value>k__BackingField: Programming
+  - <Key>k__BackingField: LOC_DESIGN
+    <Value>k__BackingField: Design
+  - <Key>k__BackingField: LOC_ART
+    <Value>k__BackingField: Art
+  - <Key>k__BackingField: LOC_MUSIC
+    <Value>k__BackingField: Audio Design

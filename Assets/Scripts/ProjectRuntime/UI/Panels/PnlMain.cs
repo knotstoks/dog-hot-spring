@@ -38,6 +38,9 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField]
         private Button QuitButton { get; set; }
 
+        [field: SerializeField]
+        private Button CreditsButton { get; set; }
+
         [field: SerializeField, Header("Sfxes")]
         private AudioPlaybackInfo ButtonClickSfx { get; set; }
 
@@ -47,14 +50,15 @@ namespace ProjectRuntime.UI.Panels
         {
             PanelManager.Instance.FadeToBlackAsync(0).Forget();
 
-            this.PlayButton.OnClick(this.OnPlayButtonClick);
+            this.PlayButton.OnClick(() => this.OnPlayButtonClick().Forget());
             this.OptionsButton.OnClick(this.OnOptionsButtonClick);
             this.QuitButton.OnClick(this.OnQuitButtonClick);
+            this.CreditsButton.OnClick(() => this.OnCreditsButtonClick().Forget());
 
             PanelManager.Instance.FadeFromBlack().Forget();
         }
 
-        private async void OnPlayButtonClick()
+        private async UniTaskVoid OnPlayButtonClick()
         {
             if (this._isTransitioningScene)
             {
@@ -92,15 +96,34 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = false;
         }
 
-        private void OnQuitButtonClick()
+        private async void OnQuitButtonClick()
         {
             if (this._isTransitioningScene)
             {
                 return;
             }
             this._isTransitioningScene = true;
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
+            await UniTask.WaitForSeconds(1f);
+            if (!this) return;
 
             Application.Quit();
+        }
+
+        private async UniTaskVoid OnCreditsButtonClick()
+        {
+            if (this._isTransitioningScene)
+            {
+                return;
+            }
+            this._isTransitioningScene = true;
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
+            await PanelManager.Instance.ShowAsync<PnlCredits>();
+            if (!this) return;
+
+            this._isTransitioningScene = false;
         }
     }
 }
