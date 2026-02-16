@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9019608}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 7034609450292838033}
   - component: {fileID: 6253948390033239226}
   - component: {fileID: 5819523321967241291}
+  - component: {fileID: 5487002528519718339}
   m_Layer: 5
   m_Name: PnlTutorial
   m_TagString: Untagged
@@ -347,12 +348,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf9ac5bee5e413438caef552b605b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CanvasGroup>k__BackingField: {fileID: 5487002528519718339}
   <GrayBackground>k__BackingField: {fileID: 4159061075273655905}
   <TutorialTextBackingRT>k__BackingField: {fileID: 5039378541486237333}
   <TutorialTMP>k__BackingField: {fileID: 6138175192804127135}
   <FullscreenButton>k__BackingField: {fileID: 3279334265836800164}
   <HandPointerRT>k__BackingField: {fileID: 4523693879590132752}
   <HandPointerInfinity>k__BackingField: {fileID: 3383693589739604603}
+--- !u!225 &5487002528519718339
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4259826493118680173}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5828586540651603632
 GameObject:
   m_ObjectHideFlags: 0

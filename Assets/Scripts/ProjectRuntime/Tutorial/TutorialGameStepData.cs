@@ -20,6 +20,7 @@ namespace ProjectRuntime.Tutorial
         GoToNextStepImmediately = 1,
         GoToNextStepAfterSeconds = 2,
         WaitForPnlInfoPopupClose = 3,
+        WaitForBathTileDragged = 4,
     }
 
     [Serializable]

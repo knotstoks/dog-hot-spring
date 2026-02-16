@@ -66,6 +66,9 @@ namespace ProjectRuntime.UI
 
     public class PnlTutorial : BasePanel
     {
+        [field: SerializeField, Header("Scene References")]
+        private CanvasGroup CanvasGroup { get; set; }
+
         [field: SerializeField]
         private Image GrayBackground { get; set; }
 
@@ -202,6 +205,8 @@ namespace ProjectRuntime.UI
                 this.HandPointerRT.gameObject.SetActive(false);
                 this.HandPointerInfinity.gameObject.SetActive(false);
             }
+
+            this.CanvasGroup.blocksRaycasts = !stepData.IsClickThrough;
 
             this.OnLocalizationChanged();
         }

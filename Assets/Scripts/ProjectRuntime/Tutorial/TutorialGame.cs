@@ -2,6 +2,7 @@ using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
+using ProjectRuntime.Gameplay;
 using ProjectRuntime.Managers;
 using ProjectRuntime.Tutorial;
 using ProjectRuntime.UI;
@@ -228,9 +229,21 @@ namespace ProjectRuntime.Tutorial
                     PnlInfoPopup.OnOkay += SetFlag;
 
                     await UniTask.WaitUntil(CheckFlag);
-                    if (!this) return;
+                    if (!this)
+                    {
+                        PnlInfoPopup.OnOkay -= SetFlag;
+                        return;
+                    }
 
                     PnlInfoPopup.OnOkay -= SetFlag;
+
+                    this.CompleteCurrentStep();
+
+                    break;
+
+                case TutorialGameStepDurationType.WaitForBathTileDragged: // 4
+                    await UniTask.WaitUntil(() => BathSlideTile.CurrentDraggedTile != null);
+                    if (!this) return;
 
                     this.CompleteCurrentStep();
 
