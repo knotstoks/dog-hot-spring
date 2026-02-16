@@ -15,19 +15,19 @@ MonoBehaviour:
   <Language>k__BackingField: 2
   <Data>k__BackingField:
   - <Key>k__BackingField: LOC_PLAY
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30B2\u30FC\u30E0\u3092\u30D7\u30EC\u30A4"
   - <Key>k__BackingField: LOC_SETTINGS
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u8A2D\u5B9A"
   - <Key>k__BackingField: LOC_CREDITS
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30AF\u30EC\u30B8\u30C3\u30C8"
   - <Key>k__BackingField: LOC_QUIT
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u3084\u3081\u308B"
   - <Key>k__BackingField: LOC_NEXT_STAGE
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u6B21\u306E\u6BB5\u968E"
   - <Key>k__BackingField: LOC_MAIN_MENU
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30E1\u30A4\u30F3\u30E1\u30CB\u30E5\u30FC\u3078"
   - <Key>k__BackingField: LOC_PLAY_CINE
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u7269\u8A9E\u3092\u7D9A\u3051\u308B"
   - <Key>k__BackingField: LOC_TUTORIAL_SLIDE
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_HEADER
@@ -43,24 +43,24 @@ MonoBehaviour:
   - <Key>k__BackingField: LOC_TUTORIAL_EMPTY_PROMPT
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_OKAY
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30AA\u30FC\u30B1\u30FC"
   - <Key>k__BackingField: LOC_YES
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u306F\u3044"
   - <Key>k__BackingField: LOC_NO
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u3044\u3044\u3048"
   - <Key>k__BackingField: LOC_RETURN_HOME
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30EC\u30D9\u30EB\u9078\u629E\u306B\u623B\u308B?"
   - <Key>k__BackingField: LOC_RETURN_MAINMENU
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30E1\u30A4\u30F3\u30E1\u30CB\u30E5\u30FC\u306B\u623B\u308B?"
   - <Key>k__BackingField: LOC_LEVELRESET
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30B2\u30FC\u30E0\u306E\u9032\u884C\u3092\u30EA\u30BB\u30C3\u30C8"
   - <Key>k__BackingField: LOC_RESETSAVE
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30BB\u30FC\u30D6\u3092\u30EA\u30BB\u30C3\u30C8\u3057\u3066\u3082\u3088\u308D\u3057\u3044\u3067\u3059\u304B\uFF1F"
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u97F3\u697D"
   - <Key>k__BackingField: LOC_PNLSETTINGS_SFX
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u52B9\u679C\u97F3"
   - <Key>k__BackingField: LOC_PNLSETTINGS_LANGUAGE
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u8A00\u8A9E\u3092\u5909\u66F4\u3059\u308B"
   - <Key>k__BackingField: LOC_PNLSETTINGS_RESETSAVE
-    <Value>k__BackingField: 
+    <Value>k__BackingField: "\u30BB\u30FC\u30D6\u30C7\u30FC\u30BF\u3092\u30EA\u30BB\u30C3\u30C8"
