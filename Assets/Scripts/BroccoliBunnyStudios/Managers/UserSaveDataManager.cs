@@ -122,6 +122,9 @@ namespace BroccoliBunnyStudios.Managers
 
         public void ClearAllData()
         {
+            this.ResetCurrentWorldProgress();
+            this.ResetAllTutorials();
+            this.ResetAllStories();
             SaveManager.Instance.DeleteSaveFile();
         }
 

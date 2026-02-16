@@ -11,7 +11,7 @@ public class EditorCheats : MonoBehaviour
         {
             Debug.Log("Deleted save file");
 
-            SaveManager.Instance.DeleteSaveFile();
+            UserSaveDataManager.Instance.ClearAllData();
         }
 
         if (Input.GetKeyDown(KeyCode.W))
