@@ -52,16 +52,11 @@ MonoBehaviour:
   - <Key>k__BackingField: LOC_NO
     <Value>k__BackingField: No
   - <Key>k__BackingField: LOC_RETURN_HOME
-    <Value>k__BackingField: 'Return to Level Select?
-
-      Your progress will NOT
-      be saved'
+    <Value>k__BackingField: Return to Level Select?
   - <Key>k__BackingField: LOC_RETURN_MAINMENU
     <Value>k__BackingField: Return to Main Menu?
   - <Key>k__BackingField: LOC_LEVELRESET
     <Value>k__BackingField: Reset Level?
-  - <Key>k__BackingField: LOC_PNLSETTINGS_SETTINGS
-    <Value>k__BackingField: Settings
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC
     <Value>k__BackingField: Music
   - <Key>k__BackingField: LOC_PNLSETTINGS_SFX
