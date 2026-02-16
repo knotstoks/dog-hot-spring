@@ -446,7 +446,7 @@ MonoBehaviour:
   <TutorialSteps>k__BackingField:
   - DesignComment: Show pointer sliding from 1 position to another
     StepType: 0
-    StepDurationType: 0
+    StepDurationType: 4
     NextStepAfterSeconds: 0
     IgnoreTimeScale: 0
     ShowGrayBackground: 0
@@ -471,7 +471,7 @@ MonoBehaviour:
     PointerStartStationaryTime: 0.2
     PointerMoveTime: 1
     PointerEndStationaryTime: 0.2
-    IsClickThrough: 0
+    IsClickThrough: 1
 --- !u!1 &815478180
 GameObject:
   m_ObjectHideFlags: 0
