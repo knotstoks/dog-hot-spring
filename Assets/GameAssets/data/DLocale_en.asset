@@ -59,9 +59,13 @@ MonoBehaviour:
     <Value>k__BackingField: Return to Main Menu?
   - <Key>k__BackingField: LOC_LEVELRESET
     <Value>k__BackingField: Reset Level?
+  - <Key>k__BackingField: LOC_RESETSAVE
+    <Value>k__BackingField: Are you sure you want to reset your save data?
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC
     <Value>k__BackingField: Music
   - <Key>k__BackingField: LOC_PNLSETTINGS_SFX
     <Value>k__BackingField: SFX
   - <Key>k__BackingField: LOC_PNLSETTINGS_LANGUAGE
     <Value>k__BackingField: Change Language
+  - <Key>k__BackingField: LOC_PNLSETTINGS_RESETSAVE
+    <Value>k__BackingField: Reset Save Data

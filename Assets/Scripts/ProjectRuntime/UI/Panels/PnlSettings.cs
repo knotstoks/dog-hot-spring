@@ -28,6 +28,9 @@ namespace ProjectRuntime.UI.Panels
         private Button BackToMainMenuButton { get; set; }
 
         [field: SerializeField]
+        private Button ResetSaveButton { get; set; }
+
+        [field: SerializeField]
         private Button CloseButton { get; set; }
 
         [field: SerializeField, Header("Localization")]
@@ -53,15 +56,14 @@ namespace ProjectRuntime.UI.Panels
         private const string PANEL_OUT_ANIMATION = "panel_out";
         private const string LOC_RETURN_HOME = "LOC_RETURN_HOME";
         private const string LOC_RETURN_MAINMENU = "LOC_RETURN_MAINMENU";
+        private const string LOC_RESETSAVE = "LOC_RESETSAVE";
         private bool _isTransitioning;
 
         private void Awake()
         {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "ScMain")
-            {
-                // Disable the go back to main menu button if on ScMain
-                this.BackToMainMenuButton.gameObject.SetActive(false);
-            }
+            var isOnMainMenu = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "ScMain";
+            this.BackToMainMenuButton.gameObject.SetActive(!isOnMainMenu);
+            this.ResetSaveButton.gameObject.SetActive(isOnMainMenu);
 
             var sm = SaveManager.Instance;
             this.MusicSlider.value = sm.MusicVolume;
@@ -73,6 +75,7 @@ namespace ProjectRuntime.UI.Panels
             this.BackToMainMenuButton.OnClick(this.OnBackToMainMenuButtonClick);
             this.CloseButton.OnClick(() => this.OnCloseButtonClick().Forget());
             this.LocalizationPanelCloseButton.OnClick(() => this.OnLocalizationPanelCloseButtonClick().Forget());
+            this.ResetSaveButton.OnClick(() => this.OnResetSaveButtonClick().Forget());
 
             this.InitChangeLanguagePanel();
         }
@@ -208,6 +211,24 @@ namespace ProjectRuntime.UI.Panels
             }
 
             this.LocalizationPanelContainer.SetActive(false);
+
+            this._isTransitioning = false;
+        }
+
+        private async UniTaskVoid OnResetSaveButtonClick()
+        {
+            if (this._isTransitioning)
+            {
+                return;
+            }
+            this._isTransitioning = true;
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
+            await PanelManager.Instance.ShowAsync<PnlYesNoPrompt>((pnl) =>
+            {
+                pnl.Init(LOC_RESETSAVE, () => UserSaveDataManager.Instance.ClearAllData(), null);
+            });
+            if (!this) return;
 
             this._isTransitioning = false;
         }

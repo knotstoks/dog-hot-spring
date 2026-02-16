@@ -54,9 +54,13 @@ MonoBehaviour:
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_LEVELRESET
     <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_RESETSAVE
+    <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_PNLSETTINGS_MUSIC
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_PNLSETTINGS_SFX
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_PNLSETTINGS_LANGUAGE
+    <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_PNLSETTINGS_RESETSAVE
     <Value>k__BackingField: 

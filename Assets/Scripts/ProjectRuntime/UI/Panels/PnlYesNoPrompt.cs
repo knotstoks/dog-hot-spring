@@ -87,6 +87,24 @@ namespace ProjectRuntime.UI.Panels
                 PanelManager.Instance.SwitchCanvasToCamera();
             }
 
+            this.PanelAnimator.Play(PANEL_OUT_ANIMATION);
+            var stateInfo = this.PanelAnimator.GetCurrentAnimatorStateInfo(0);
+            while (!stateInfo.IsName(PANEL_OUT_ANIMATION))
+            {
+                await UniTask.Yield();
+                if (!this) return;
+
+                stateInfo = this.PanelAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+
+            while (stateInfo.IsName(PANEL_OUT_ANIMATION) && stateInfo.normalizedTime < 1f)
+            {
+                await UniTask.Yield();
+                if (!this) return;
+
+                stateInfo = this.PanelAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+
             this._yesCallback?.Invoke();
             this.Close();
         }
