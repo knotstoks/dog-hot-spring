@@ -26,6 +26,8 @@ MonoBehaviour:
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_MAIN_MENU
     <Value>k__BackingField: 
+  - <Key>k__BackingField: LOC_PLAY_CINE
+    <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_TUTORIAL_SLIDE
     <Value>k__BackingField: 
   - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_HEADER

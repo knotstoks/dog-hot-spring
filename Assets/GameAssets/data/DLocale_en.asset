@@ -26,6 +26,8 @@ MonoBehaviour:
     <Value>k__BackingField: Next Stage
   - <Key>k__BackingField: LOC_MAIN_MENU
     <Value>k__BackingField: To Main Menu
+  - <Key>k__BackingField: LOC_PLAY_CINE
+    <Value>k__BackingField: The Story Unfolds!
   - <Key>k__BackingField: LOC_TUTORIAL_SLIDE
     <Value>k__BackingField: 'Swipe to Slide
 
