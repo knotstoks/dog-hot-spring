@@ -29,10 +29,10 @@ MonoBehaviour:
   - <Key>k__BackingField: LOC_PLAY_CINE
     <Value>k__BackingField: The Story Unfolds!
   - <Key>k__BackingField: LOC_TUTORIAL_SLIDE
-    <Value>k__BackingField: 'Swipe to Slide
+    <Value>k__BackingField: 'Click and Drag Bath Tiles on Animals
 
-      Animals only enter baths the same
-      colour as them!'
+      Animals
+      only enter baths the same colour as them!'
   - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_HEADER
     <Value>k__BackingField: Time to Queue
   - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_PROMPT
@@ -41,7 +41,7 @@ MonoBehaviour:
   - <Key>k__BackingField: LOC_TUTORIAL_ICE_HEADER
     <Value>k__BackingField: Winter is Here
   - <Key>k__BackingField: LOC_TUTORIAL_ICE_PROMPT
-    <Value>k__BackingField: Complete baths to unfreeze the ice!
+    <Value>k__BackingField: Complete baths to unfreeze the frozen ones!
   - <Key>k__BackingField: LOC_TUTORIAL_EMPTY_HEADER
     <Value>k__BackingField: Baths are Empty
   - <Key>k__BackingField: LOC_TUTORIAL_EMPTY_PROMPT
