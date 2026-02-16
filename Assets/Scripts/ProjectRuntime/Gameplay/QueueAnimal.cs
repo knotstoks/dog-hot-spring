@@ -46,10 +46,10 @@ namespace ProjectRuntime.Gameplay
             if (!this) return;
         }
 
-        public async UniTask DropAnimal(BathSlideTile bathSlideTile)
+        public async UniTask DropAnimal(BathSlideTile bathSlideTile, QueueTile queueTile)
         {
             // Move it to the location
-            this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
+            this.transform.parent = bathSlideTile.GetNearestDropTransform(queueTile.DropAnimalDetectionTransform.position);
             await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
             if (!this) return;
 

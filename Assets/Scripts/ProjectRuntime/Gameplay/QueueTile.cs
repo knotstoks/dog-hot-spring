@@ -33,6 +33,9 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         private Transform NextQueueAnimalTransform { get; set; }
 
+        [field: SerializeField]
+        public Transform DropAnimalDetectionTransform { get; private set; }
+
         [field: SerializeField, Header("Settings")]
         private float DropDelay { get; set; } = 0.5f;
 
@@ -251,7 +254,7 @@ namespace ProjectRuntime.Gameplay
 
                 bathSlideTile.HandleAnimalDropped();
 
-                await this._currentQueueAnimal.DropAnimal(bathSlideTile);
+                await this._currentQueueAnimal.DropAnimal(bathSlideTile, this);
                 if (!this) return;
 
                 this._currentQueueAnimal = null;

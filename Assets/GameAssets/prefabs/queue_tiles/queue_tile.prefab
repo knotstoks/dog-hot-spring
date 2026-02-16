@@ -613,6 +613,7 @@ MonoBehaviour:
   <RotationVisualParent>k__BackingField: {fileID: 6142529367848047051}
   <CurrentQueueAnimalTransform>k__BackingField: {fileID: 1988524731166624841}
   <NextQueueAnimalTransform>k__BackingField: {fileID: 7507211603227556958}
+  <DropAnimalDetectionTransform>k__BackingField: {fileID: 8550453830183545618}
   <DropDelay>k__BackingField: 0
   <QueueAnimalPrefab>k__BackingField: {fileID: 5550590127113308399, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
 --- !u!50 &6107394507616461880
