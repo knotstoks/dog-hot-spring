@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 10}
-  m_SizeDelta: {x: -60, y: -20}
+  m_AnchoredPosition: {x: 0, y: 15}
+  m_SizeDelta: {x: -60, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6008416275982975541
 CanvasRenderer:
@@ -198,6 +198,7 @@ MonoBehaviour:
   <ChooseLanguageTMP>k__BackingField: {fileID: 2327110862053009894}
   <ActiveButtonSprite>k__BackingField: {fileID: 21300000, guid: e2a62a7f05a6a4d5993eaee12a9086b2, type: 3}
   <InactiveButtonSprite>k__BackingField: {fileID: 21300000, guid: 54421e90a695e4bd990e0168f06680d7, type: 3}
+  <ButtonClickSfx>k__BackingField: {fileID: 11400000, guid: 85f1912fbd2dd42ada4b4c91fe10b27b, type: 2}
 --- !u!114 &8476901813970813288
 MonoBehaviour:
   m_ObjectHideFlags: 0

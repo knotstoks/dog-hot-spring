@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using BroccoliBunnyStudios.Extensions;
 using BroccoliBunnyStudios.Managers;
+using BroccoliBunnyStudios.Sound;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +23,9 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField]
         private Sprite InactiveButtonSprite { get; set; }
 
+        [field: SerializeField, Header("Sfxes")]
+        private AudioPlaybackInfo ButtonClickSfx { get; set; }
+
         private EnumLanguage _enumLanguage;
         private readonly static Dictionary<EnumLanguage, string> LanguageNames = new()
         {
@@ -31,7 +36,7 @@ namespace ProjectRuntime.UI.Panels
 
         private void Awake()
         {
-            this.Button.OnClick(this.OnButtonClick);
+            this.Button.OnClick(() => this.OnButtonClick().Forget());
             LocalizationManager.Instance.OnLocalizationChanged += this.OnLocalizationChanged;
         }
 
@@ -47,9 +52,13 @@ namespace ProjectRuntime.UI.Panels
             this.OnLocalizationChanged();
         }
 
-        private void OnButtonClick()
+        private async UniTaskVoid OnButtonClick()
         {
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
             LocalizationManager.Instance.SetLanguage(this._enumLanguage);
+
+            await UniTask.CompletedTask;
         }
 
         private void OnLocalizationChanged()
