@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using BroccoliBunnyStudios.Managers;
@@ -20,6 +21,9 @@ namespace ProjectRuntime.Managers
 
         [field: SerializeField, Header("Editor Cheats")]
         private int EditorIdToLoad { get; set; } = 1;
+
+        [field: SerializeField]
+        private PnlGame PnlGame { get; set; }
 
         [field: SerializeField, Header("Scene References")]
         public Transform PuzzleGridTransform { get; private set; }
@@ -108,9 +112,10 @@ namespace ProjectRuntime.Managers
 
             await UniTask.WaitUntil(() => GridManager.Instance != null);
             if (!this) return;
-
             await GridManager.Instance.Init(LevelIdToLoad);
             if (!this) return;
+
+            this.PnlGame.Init();
 
             foreach (var tutorialController in this.TutorialGameControllers)
             {
