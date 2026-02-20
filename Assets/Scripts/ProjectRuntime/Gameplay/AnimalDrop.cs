@@ -70,14 +70,15 @@ namespace ProjectRuntime.Gameplay
 
             if (bathSlideTile.DropsLeft == 0)
             {
+                this._isDropping = false;
                 return;
             }
 
-            // Remove immediately to prevent leaving and entering square bug
-            GridManager.Instance.DeregisterAnimalDrop(this);
-
             // Communicate with Tile that it has dropped instantly
             bathSlideTile.HandleAnimalDropped();
+
+            // Remove immediately to prevent leaving and entering square bug
+            GridManager.Instance.DeregisterAnimalDrop(this);
 
             // Move it to the location
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
