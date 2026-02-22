@@ -69,7 +69,7 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask DoSpawnAnimation()
         {
-            var spawnAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
+            var spawnAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Spawn);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             this.AnimalAnimator.Play(spawnAnim);
 
