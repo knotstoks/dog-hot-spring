@@ -5,6 +5,15 @@ namespace BroccoliBunnyStudios.Managers
     public partial class SaveManager
     {
         /// <summary>
+        /// This tracks what version number the player's save is
+        /// </summary>
+        public int VersionNumber
+        {
+            get => this.SaveConfig.GetInt(nameof(this.VersionNumber), 0);
+            set => this.SaveConfig.SetInt(nameof(this.VersionNumber), value);
+        }
+
+        /// <summary>
         /// This returns the latest world the player has completed
         /// </summary>
         public int CurrentLevelProgress

@@ -8,6 +8,8 @@ namespace BroccoliBunnyStudios.Managers
         private static readonly Lazy<UserSaveDataManager> s_lazy = new(() => new UserSaveDataManager());
         public static UserSaveDataManager Instance => s_lazy.Value;
 
+        public const int CURRENT_VERSION_NUMBER = 0;
+
         // Internal variables
         private readonly List<string> _completedStories;
         private readonly List<string> _completedTutorials;
@@ -30,7 +32,23 @@ namespace BroccoliBunnyStudios.Managers
             //this._readOnlyUserSnails = new(this._userSnails);
 
             //this.InitUserSnails();
+            var vn = sm.VersionNumber;
+            if (vn < CURRENT_VERSION_NUMBER)
+            {
+                // Template
+                //if (vn < 1)
+                //{
+                //    vn = this.UpdateSaveFrom0to1();
+                //}
+            }
         }
+
+        //private int UpdateSaveFrom0to1()
+        //{
+        //    // Nothing for now
+        //    SaveManager.Instance.VersionNumber = 1;
+        //    return 1;
+        //}
 
         /// <summary>
         /// This function is to trigger the constructor from GameManager
