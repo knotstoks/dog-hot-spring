@@ -4,6 +4,7 @@ using BroccoliBunnyStudios.Panel;
 using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,6 +49,13 @@ namespace ProjectRuntime.UI.Panels
 
         private void Awake()
         {
+#if UNITY_EDITOR && !DISABLESTEAMWORKS
+            if (SteamManager.Initialized)
+            {
+                Debug.Log($"Logged in as: {SteamFriends.GetPersonaName()}");
+            }
+#endif
+
             PanelManager.Instance.FadeToBlackAsync(0).Forget();
 
             this.PlayButton.OnClick(() => this.OnPlayButtonClick().Forget());

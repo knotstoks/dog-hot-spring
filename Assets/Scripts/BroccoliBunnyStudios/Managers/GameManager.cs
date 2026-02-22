@@ -2,6 +2,7 @@ using System;
 using BroccoliBunnyStudios.Extensions;
 using BroccoliBunnyStudios.Managers;
 using ProjectRuntime.Managers;
+using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -26,6 +27,7 @@ public class GameManager
         }
 
         this.Root = go.transform;
+        go.transform.AddComponent<SteamStatsManager>();
         UserSaveDataManager.Instance.InitUserSaveDataManager();
         AchievementManager.Instance.TriggerAnyAchievements();
 #if UNITY_EDITOR

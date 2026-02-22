@@ -1,5 +1,6 @@
 using BroccoliBunnyStudios.Managers;
 using Newtonsoft.Json;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -170,6 +171,9 @@ namespace ProjectRuntime.Managers
             }
 
             uAch.CurrentCount += count;
+
+            // TODO: Any Steam Achievements for this type add later
+
             if (uAch.CurrentCount >= uAch.Count)
             {
                 uAch.CurrentCount = uAch.Count;
@@ -177,10 +181,17 @@ namespace ProjectRuntime.Managers
                 {
                     uAch.Status = AchievementStatusEnum.Unlocked;
 
-                    // TODO: Hook up Steam Achievement
+#if !DISABLESTEAMWORKS
+                    // Credit Steam Achievement
+                    if (SteamManager.Initialized)
+                    {
+                        SteamUserStats.SetAchievement(dAch.AchievementId);
+                    }
+#endif
 
-                    // TODO: Show in game achievement
+#if UNITY_EDITOR
                     Debug.Log($"Achievement Unlocked: {dAch.AchievementId}");
+#endif
                 }
             }
             this._userAchievements[uAch.AchievementId] = uAch;
@@ -202,6 +213,20 @@ namespace ProjectRuntime.Managers
             }
 
             uAch.CurrentCount = count;
+#if !DISABLESTEAMWORKS
+            if (SteamManager.Initialized)
+            {
+                SteamStatsManager.Instance.RefreshUserStats();
+
+                if (dAch.AchievementType == AchievementType.LEVEL_COMPLETE)
+                {
+                    if (uAch.CurrentCount > SteamStatsManager.Instance.LevelProgress)
+                    {
+                        SteamUserStats.SetStat("LEVEL_COMPLETE", uAch.CurrentCount);
+                    }
+                }
+            }
+#endif
             if (uAch.CurrentCount >= uAch.Count)
             {
                 uAch.CurrentCount = uAch.Count;
@@ -209,10 +234,17 @@ namespace ProjectRuntime.Managers
                 {
                     uAch.Status = AchievementStatusEnum.Unlocked;
 
-                    // TODO: Hook up Steam Achievement
+#if !DISABLESTEAMWORKS
+                    // Credit Steam Achievement
+                    if (SteamManager.Initialized)
+                    {
+                        SteamUserStats.SetAchievement(dAch.AchievementId);
+                    }
+#endif
 
-                    // TODO: Show in game achievement
+#if UNITY_EDITOR
                     Debug.Log($"Achievement Unlocked: {dAch.AchievementId}");
+#endif
                 }
             }
             this._userAchievements[uAch.AchievementId] = uAch;

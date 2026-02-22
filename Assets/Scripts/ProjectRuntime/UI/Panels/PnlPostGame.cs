@@ -5,6 +5,7 @@ using BroccoliBunnyStudios.Sound;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Managers;
+using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,7 +76,7 @@ namespace ProjectRuntime.UI.Panels
                 AchievementManager.Instance.ReachLevelComplete(currentLevel);
             }
             this._willShowCinematic = currentLevel % 10 == 0
-                && !usdm.HasSeenStory($"STORY_{currentLevel / 10 + 1}");
+            && !usdm.HasSeenStory($"STORY_{currentLevel / 10 + 1}");
 
             this.NormalButtonParent.SetActive(false);
             this.CinematicNextButton.gameObject.SetActive(false);
