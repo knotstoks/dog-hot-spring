@@ -6,6 +6,13 @@ using UnityEngine;
 
 namespace ProjectRuntime.Gameplay
 {
+    /* 
+     * Animation Logic:
+     * spawn (not shown to player)
+     * {color}_idle
+     * 
+    */
+
     public class AnimalDrop : MonoBehaviour
 	{
         public static float MOVE_DELAY { get; private set; } = 0.3f; // This controls how fast the animals move to the tile
