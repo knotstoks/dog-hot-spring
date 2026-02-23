@@ -9,9 +9,10 @@
 #define DISABLESTEAMWORKS
 #endif
 
+#define DISABLESTEAMWORKS
+
 using UnityEngine;
 #if !DISABLESTEAMWORKS
-using System.Collections;
 using Steamworks;
 #endif
 
