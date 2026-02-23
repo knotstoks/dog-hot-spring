@@ -10,7 +10,9 @@ namespace ProjectRuntime.Gameplay
      * Animation Logic:
      * spawn (not shown to player)
      * {color}_idle
-     * 
+     * sometimes do {color}_active
+     * south_{color}_transition
+     * {color}_drop
     */
 
     public class AnimalDrop : MonoBehaviour
@@ -44,6 +46,8 @@ namespace ProjectRuntime.Gameplay
             if (!this) return;
 
             GridManager.Instance.RegisterAnimalDrop(this);
+
+            this.Animator.Play($"{TileColor.ToString().ToLowerInvariant()}_idle", 0, 0f);
         }
 
         public void ToggleTriggerCollider(bool isTrigger)
@@ -87,6 +91,9 @@ namespace ProjectRuntime.Gameplay
             // Remove immediately to prevent leaving and entering square bug
             GridManager.Instance.DeregisterAnimalDrop(this);
 
+            // Animate transition
+            this.Animator.Play($"south_{this.TileColor.ToString().ToLowerInvariant()}_transition", 0, 0f);
+
             // Move it to the location
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);
             await this.transform.DOLocalMove(Vector3.zero, MOVE_DELAY);
@@ -111,9 +118,9 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask PlayDropAnimation()
         {
-            this.Animator.Play("drop");
+            this.Animator.Play($"{this.TileColor.ToString().ToLowerInvariant()}_drop");
             var stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
-            while (!stateInfo.IsName("drop"))
+            while (!stateInfo.IsName($"{this.TileColor.ToString().ToLowerInvariant()}_drop"))
             {
                 await UniTask.Yield();
                 if (!this) return;
@@ -121,7 +128,7 @@ namespace ProjectRuntime.Gameplay
                 stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
             }
 
-            while (stateInfo.normalizedTime < 1f)
+            while (stateInfo.IsName($"{this.TileColor.ToString().ToLowerInvariant()}_drop") && stateInfo.normalizedTime < 1f)
             {
                 await UniTask.Yield();
                 if (!this) return;

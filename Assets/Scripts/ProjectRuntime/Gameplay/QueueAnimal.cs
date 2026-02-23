@@ -13,7 +13,9 @@ namespace ProjectRuntime.Gameplay
     public enum QueueAnimalAnimationEnum
     {
         Spawn = 1,
-        Drop = 2,
+        Idle = 2,
+        Transition = 3,
+        Drop = 4,
     }
 
     public class QueueAnimal : MonoBehaviour
@@ -33,8 +35,10 @@ namespace ProjectRuntime.Gameplay
         public TileColor TileColor { get; set; }
 
         // Internal Variables
-        private const string SPAWN_ANIM = "{0}_{1}_spawn"; // Direction then color
-        private const string DROP_ANIM = "{0}_{1}_drop";   // Direction then color
+        private const string SPAWN_ANIM = "{0}_{1}_spawn";           // Direction then color
+        private const string IDLE_ANIM = "{0}_{1}_idle";             // Direction then color
+        private const string TRANSITION_ANIM = "{0}_{1}_transition"; // Direction then color
+        private const string DROP_ANIM = "{0}_{1}_drop";             // Direction then color
         private QueueTileDirection _queueTileDirection;
 
         public async UniTask Init(QueueTileDirection queueTileDirection, TileColor tileColor)
@@ -44,10 +48,15 @@ namespace ProjectRuntime.Gameplay
 
             await this.DoSpawnAnimation();
             if (!this) return;
+
+            this.AnimalAnimator.Play(this.GetAnimationString(QueueAnimalAnimationEnum.Idle), 0, 0f);
         }
 
         public async UniTask DropAnimal(BathSlideTile bathSlideTile, QueueTile queueTile)
         {
+            // Play transition animation
+            this.AnimalAnimator.Play(string.Format(TRANSITION_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()), 0, 0f);
+
             // Move it to the location
             this.transform.parent = bathSlideTile.GetNearestDropTransform(queueTile.DropAnimalDetectionTransform.position);
             await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
@@ -71,7 +80,7 @@ namespace ProjectRuntime.Gameplay
         {
             var spawnAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Spawn);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
-            this.AnimalAnimator.Play(spawnAnim);
+            this.AnimalAnimator.Play(spawnAnim, 0, 0f);
 
             while (!stateInfo.IsName(spawnAnim))
             {
@@ -94,7 +103,7 @@ namespace ProjectRuntime.Gameplay
         {
             var dropAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Drop);
             var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
-            this.AnimalAnimator.Play(dropAnim);
+            this.AnimalAnimator.Play(dropAnim, 0, 0f);
 
             while (!stateInfo.IsName(dropAnim))
             {
@@ -118,6 +127,8 @@ namespace ProjectRuntime.Gameplay
             return qaae switch
             {
                 QueueAnimalAnimationEnum.Spawn => string.Format(SPAWN_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
+                QueueAnimalAnimationEnum.Idle => string.Format(IDLE_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
+                QueueAnimalAnimationEnum.Transition => string.Format(TRANSITION_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
                 QueueAnimalAnimationEnum.Drop => string.Format(DROP_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
                 _ => string.Empty,
             };
