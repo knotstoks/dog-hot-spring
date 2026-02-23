@@ -92,7 +92,7 @@ namespace ProjectRuntime.Gameplay
             GridManager.Instance.DeregisterAnimalDrop(this);
 
             // Animate transition
-            this.Animator.Play($"south_{this.TileColor.ToString().ToLowerInvariant()}_transition", 0, 0f);
+            this.Animator.Play($"{this.TileColor.ToString().ToLowerInvariant()}_transition", 0, 0f);
 
             // Move it to the location
             this.transform.parent = bathSlideTile.GetNearestDropTransform(this.transform.position);

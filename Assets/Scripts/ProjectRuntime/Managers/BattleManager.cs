@@ -147,7 +147,7 @@ namespace ProjectRuntime.Managers
             }
 
             // This is to wait for the last animals to drop
-            await UniTask.WaitForSeconds(0.5f);
+            await UniTask.WaitForSeconds(1f);
             if (!this) return;
 
             PanelManager.Instance.ShowAsync<PnlPostGame>().Forget();
