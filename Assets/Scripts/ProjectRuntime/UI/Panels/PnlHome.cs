@@ -203,6 +203,7 @@ namespace ProjectRuntime.UI.Panels
                     ? this.ActiveButtonSprite
                     : this.InactiveButtonSprite;
                 this.LevelSelectButtons[i].interactable = isActive;
+                this.LevelSelectTMPs[i].gameObject.SetActive(isActive);
                 this.LockIcons[i].SetActive(!isActive);
             }
             this.LevelSelectButtonParent.SetActive(true);
