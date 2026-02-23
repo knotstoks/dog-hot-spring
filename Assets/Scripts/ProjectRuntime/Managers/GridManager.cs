@@ -159,17 +159,17 @@ namespace ProjectRuntime.Managers
                 var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
                 tileObject.transform.localPosition = tilePos + offset;
 
-                tile.Init(bathSlideTile.TileId, bathSlideTile.TileColor, bathSlideTile.DropsLeft, 0, false, AxisAlignEnum.BOTH);
+                tile.Init(bathSlideTile.TileId, bathSlideTile.TileColor, bathSlideTile.DropsLeft, 0, false, AxisAlignEnum.BOTH, 0);
             }
 
             // Create Animals
-            foreach (var animalTile in levelData.AnimalSaveDatas)
+            foreach (var animalData in levelData.AnimalSaveDatas)
             {
-                var animalPrefabPath = string.Format("prefabs/animals/animal_{0}.prefab", animalTile.AnimalColor.ToString().ToLowerInvariant());
+                var animalPrefabPath = string.Format("prefabs/animals/animal_{0}.prefab", animalData.AnimalColor.ToString().ToLowerInvariant());
                 var animalObject = await ResourceLoader.InstantiateAsync(animalPrefabPath, this.TileContainer);
                 if (!this) return;
 
-                var animalTilePos = this.GetTilePosition(animalTile.TileYX.x, animalTile.TileYX.y);
+                var animalTilePos = this.GetTilePosition(animalData.TileYX.x, animalData.TileYX.y);
                 animalTilePos.z = 0.01f;
                 animalObject.transform.position = animalTilePos;
 
@@ -193,38 +193,38 @@ namespace ProjectRuntime.Managers
             }
 
             // Create Ice Tiles
-            foreach (var iceTile in levelData.IceTileSaveDatas)
+            foreach (var iceTileData in levelData.IceTileSaveDatas)
             {
-                var iceTilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", iceTile.TileId.ToString());
-                var tileObject = await ResourceLoader.InstantiateAsync(iceTilePrefabPath, this.TileContainer);
+                var iceTilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", iceTileData.TileId.ToString());
+                var iceTileObject = await ResourceLoader.InstantiateAsync(iceTilePrefabPath, this.TileContainer);
                 if (!this) return;
-                var tile = tileObject.GetComponent<BathSlideTile>();
+                var iceTile = iceTileObject.GetComponent<BathSlideTile>();
 
                 // Set position
-                var tilePos = this.GetTilePosition(iceTile.TileYX.x, iceTile.TileYX.y);
-                var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
-                tileObject.transform.localPosition = tilePos + offset;
+                var tilePos = this.GetTilePosition(iceTileData.TileYX.x, iceTileData.TileYX.y);
+                var offset = this.TileContainer.InverseTransformVector(iceTileObject.transform.position - iceTile.BottomLeftTransform.position);
+                iceTileObject.transform.localPosition = tilePos + offset;
 
-                tile.Init(iceTile.TileId, iceTile.TileColor, iceTile.DropsLeft, iceTile.IceCracksLeft, false, AxisAlignEnum.BOTH);
+                iceTile.Init(iceTileData.TileId, iceTileData.TileColor, iceTileData.DropsLeft, iceTileData.IceCracksLeft, false, AxisAlignEnum.BOTH, 0);
             }
 
             // Create Empty Tiles
-            foreach (var emptyTile in levelData.EmptyTileSaveDatas)
+            foreach (var emptyTileData in levelData.EmptyTileSaveDatas)
             {
-                var emptyTilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", emptyTile.TileId.ToString());
-                var tileObject = await ResourceLoader.InstantiateAsync(emptyTilePrefabPath, this.TileContainer);
+                var emptyTilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", emptyTileData.TileId.ToString());
+                var emptyTileObject = await ResourceLoader.InstantiateAsync(emptyTilePrefabPath, this.TileContainer);
                 if (!this) return;
-                var tile = tileObject.GetComponent<BathSlideTile>();
+                var emptyTile = emptyTileObject.GetComponent<BathSlideTile>();
 
                 // Set position
-                var tilePos = this.GetTilePosition(emptyTile.TileYX.x, emptyTile.TileYX.y);
-                var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
-                tileObject.transform.localPosition = tilePos + offset;
+                var tilePos = this.GetTilePosition(emptyTileData.TileYX.x, emptyTileData.TileYX.y);
+                var offset = this.TileContainer.InverseTransformVector(emptyTileObject.transform.position - emptyTile.BottomLeftTransform.position);
+                emptyTileObject.transform.localPosition = tilePos + offset;
 
                 // Add to the empty tile list
-                this.EmptySlideTileList.Add(tile);
+                this.EmptySlideTileList.Add(emptyTile);
 
-                tile.Init(emptyTile.TileId, TileColor.NONE, 0, 0, true, AxisAlignEnum.BOTH);
+                emptyTile.Init(emptyTileData.TileId, TileColor.NONE, 0, 0, true, AxisAlignEnum.BOTH, 0);
             }
 
             // Create Axis Align Tiles
@@ -240,7 +240,22 @@ namespace ProjectRuntime.Managers
                 var offset = this.TileContainer.InverseTransformVector(tileObject.transform.position - tile.BottomLeftTransform.position);
                 tileObject.transform.localPosition = tilePos + offset;
 
-                tile.Init(axisAlignTile.TileId, axisAlignTile.TileColor, axisAlignTile.DropsLeft, 0, false, axisAlignTile.AxisAlignEnum);
+                tile.Init(axisAlignTile.TileId, axisAlignTile.TileColor, axisAlignTile.DropsLeft, 0, false, axisAlignTile.AxisAlignEnum, 0);
+            }
+
+            foreach (var fogTileData in levelData.FogTileSaveDatas)
+            {
+                var fogTilePrefabPath = string.Format("prefabs/bath_tiles/tile_{0}.prefab", fogTileData.TileId.ToString());
+                var fogTileObject = await ResourceLoader.InstantiateAsync(fogTilePrefabPath, this.TileContainer);
+                if (!this) return;
+                var fogTile = fogTileObject.GetComponent<BathSlideTile>();
+
+                // Set position
+                var tilePos = this.GetTilePosition(fogTileData.TileYX.x, fogTileData.TileYX.y);
+                var offset = this.TileContainer.InverseTransformVector(fogTileObject.transform.position - fogTile.BottomLeftTransform.position);
+                fogTileObject.transform.localPosition = tilePos + offset;
+
+                fogTile.Init(fogTileData.TileId, fogTileData.TileColor, fogTileData.DropsLeft, 0, false, AxisAlignEnum.BOTH, fogTileData.FogDropsLeft);
             }
 
 			foreach (var wallTile in this._wallTileList)
@@ -367,7 +382,20 @@ namespace ProjectRuntime.Managers
                     this.ParseAxisAlignEnum(axisAlignTileSplit[5])));
             }
 
-            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles, iceTiles, emptyTiles, axisAlignTiles);
+            var fogTileLocations = Regex.Matches(stringSplit[9], @"\((.*?)\)")
+                .Select(m => m.Groups[1].Value)
+                .ToList();
+            var fogTiles = new List<FogTileSaveData>();
+            foreach (var fogTile in fogTileLocations)
+            {
+                var fogTileSplit = fogTile.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                fogTiles.Add(new FogTileSaveData(CommonUtil.ConvertToInt32(fogTileSplit[0]),
+                    Enum.TryParse(fogTileSplit[1], out TileColor slideTileColor) ? slideTileColor : TileColor.NONE,
+                    new Vector2Int(CommonUtil.ConvertToInt32(fogTileSplit[2]), CommonUtil.ConvertToInt32(fogTileSplit[3])),
+                    CommonUtil.ConvertToInt32(fogTileSplit[4]), CommonUtil.ConvertToInt32(fogTileSplit[5])));
+            }
+
+            return new LevelSaveData(gridHeight, gridWidth, lockedTiles, slideTiles, animals, queueTiles, iceTiles, emptyTiles, axisAlignTiles, fogTiles);
         }
 
         public QueueTileDirection ParseQueueTileDirectionString(string s)

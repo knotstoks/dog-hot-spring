@@ -11,6 +11,7 @@ namespace ProjectRuntime.Managers
 
         private const string VFX_SPLASH = "vfx/vfx_splash.prefab";
         private const string VFX_ICESHATTER = "vfx/vfx_iceshatter.prefab";
+        private const string VFX_FOGDISSOLVE = "vfx/vfx_iceshatter.prefab"; // TODO: "vfx/vfx_fogdissolve.prefab";
 
         private void Awake()
         {
@@ -45,6 +46,15 @@ namespace ProjectRuntime.Managers
             shatterVfx.transform.position = vfxPosition;
             shatterVfx.Init();
             shatterVfx.gameObject.SetActive(true);
+        }
+
+        public async UniTask SpawnFogDissolveVfx(Vector3 vfxPosition)
+        {
+            var fogDissolveVfx = await ResourcePool.FetchAsync<VisualFX>(VFX_FOGDISSOLVE);
+            fogDissolveVfx.transform.SetParent(BattleManager.Instance.VfxContainer);
+            fogDissolveVfx.transform.position = vfxPosition;
+            fogDissolveVfx.Init();
+            fogDissolveVfx.gameObject.SetActive(true);
         }
     }
 }

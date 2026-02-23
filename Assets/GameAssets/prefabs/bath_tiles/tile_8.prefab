@@ -848,13 +848,14 @@ MonoBehaviour:
   - {fileID: 8767141103391643165}
   - {fileID: 8568529260714460734}
   <SpriteRenderer>k__BackingField: {fileID: 6256076766738612268}
+  <OverlaidSpriteRenderer>k__BackingField: {fileID: 5302690253122799814}
   <IceCracksLeftTMP>k__BackingField: {fileID: 7963530779466900483}
-  <OverlayedSpriteRenderer>k__BackingField: {fileID: 5302690253122799814}
   <HoritzontalAxisAlignSpriteRenderer>k__BackingField: {fileID: 632604160079157468}
   <VerticalAxisAlignSpriteRenderer>k__BackingField: {fileID: 7376662840656354982}
   <DragSfx>k__BackingField: {fileID: 11400000, guid: 623f5b3d1453d4e68b0b77810acc4c8c, type: 2}
   <ReleaseSfx>k__BackingField: {fileID: 11400000, guid: 5f44220032fe34c45bd186aa24b70730, type: 2}
   <IceShatterSfx>k__BackingField: {fileID: 11400000, guid: 5809fa742c3ce427aaf583422959b86f, type: 2}
+  <FogDissolveSfx>k__BackingField: {fileID: 11400000, guid: 5809fa742c3ce427aaf583422959b86f, type: 2}
 --- !u!50 &7033645038258998254
 Rigidbody2D:
   serializedVersion: 4

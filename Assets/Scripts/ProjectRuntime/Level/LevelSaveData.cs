@@ -15,9 +15,11 @@ namespace ProjectRuntime.Level
         public List<IceTileSaveData> IceTileSaveDatas { get; set; }
         public List<EmptyTileSaveData> EmptyTileSaveDatas { get; set; }
         public List<AxisAlignSaveData> AxisAlignSaveDatas { get; set; }
+        public List<FogTileSaveData> FogTileSaveDatas { get; set; }
 
         public LevelSaveData(int gridHeight, int gridWidth, List<Vector2Int> lockedTiles, List<TileSaveData> tileSaveDatas, List<AnimalSaveData> animalSaveDatas,
-            List<QueueSaveData> queueSaveDatas, List<IceTileSaveData> iceSaveDatas, List<EmptyTileSaveData> emptyTileSaveDatas, List<AxisAlignSaveData> axisAlignSaveDatas)
+            List<QueueSaveData> queueSaveDatas, List<IceTileSaveData> iceSaveDatas, List<EmptyTileSaveData> emptyTileSaveDatas, List<AxisAlignSaveData> axisAlignSaveDatas,
+            List<FogTileSaveData> fogTileSaveDatas)
         {
             this.GridHeight = gridHeight;
             this.GridWidth = gridWidth;
@@ -28,6 +30,7 @@ namespace ProjectRuntime.Level
             this.IceTileSaveDatas = iceSaveDatas;
             this.EmptyTileSaveDatas = emptyTileSaveDatas;
             this.AxisAlignSaveDatas = axisAlignSaveDatas;
+            this.FogTileSaveDatas = fogTileSaveDatas;
         }
     }
 
@@ -118,6 +121,24 @@ namespace ProjectRuntime.Level
             this.TileYX = tileYX;
             this.DropsLeft = dropsLeft;
             this.AxisAlignEnum = axisAlignEnum;
+        }
+    }
+
+    public struct FogTileSaveData
+    {
+        public int TileId { get; set; }
+        public TileColor TileColor { get; set; }
+        public Vector2Int TileYX { get; set; }
+        public int DropsLeft { get; set; }
+        public int FogDropsLeft { get; set; }
+
+        public FogTileSaveData(int tileId, TileColor tileColor, Vector2Int tileYX, int dropsLeft, int fogDropsLeft)
+        {
+            this.TileId = tileId;
+            this.TileColor = tileColor;
+            this.TileYX = tileYX;
+            this.DropsLeft = dropsLeft;
+            this.FogDropsLeft = fogDropsLeft;
         }
     }
 }

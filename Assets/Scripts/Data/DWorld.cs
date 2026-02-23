@@ -107,8 +107,7 @@ public class DWorld : ScriptableObject, IDataImport
             var worldData = new WorldData
             {
                 WorldId = CommonUtil.ConvertToInt32(paramList[1]),
-                WorldName = paramList[2],
-                ParsedLevel = paramList[3],
+                ParsedLevel = paramList[2],
             };
             s_loadedData.Data.Add(worldData);
         }
@@ -123,9 +122,6 @@ public struct WorldData
 {
     [field: SerializeField]
     public int WorldId { get; set; }
-
-    [field: SerializeField]
-    public string WorldName { get; set; }
 
     [field: SerializeField]
     public string ParsedLevel { get; set; }

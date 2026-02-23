@@ -50,11 +50,11 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         private SpriteRenderer SpriteRenderer { get; set; }
 
+        [field: SerializeField]
+        private SpriteRenderer OverlaidSpriteRenderer { get; set; }
+
         [field: SerializeField, Header("Ice Block Logic")]
         private TextMeshProUGUI IceCracksLeftTMP { get; set; }
-
-        [field: SerializeField]
-        private SpriteRenderer OverlayedSpriteRenderer { get; set; }
 
         [field: SerializeField, Header("Axis Align Logic")]
         private SpriteRenderer HoritzontalAxisAlignSpriteRenderer { get; set; }
@@ -70,6 +70,9 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         private AudioPlaybackInfo IceShatterSfx { get; set; }
+
+        [field: SerializeField]
+        private AudioPlaybackInfo FogDissolveSfx { get; set; }
 
         public TileShape TileShape { get; private set; }
         public TileColor TileColor { get; private set; }
@@ -103,6 +106,9 @@ namespace ProjectRuntime.Gameplay
         // Axis Align Logic
         private AxisAlignEnum _axisAlignEnum;
 
+        // Fog Logic
+        private int _fogDropsLeft;
+
         // Juice Logic
         private bool _isPunching = false;
 
@@ -127,7 +133,7 @@ namespace ProjectRuntime.Gameplay
             }
         }
 
-        public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft, bool isEmptyTile, AxisAlignEnum axisAlignEnum)
+        public void Init(int tileId, TileColor tileColor, int dropsLeft, int iceCracksLeft, bool isEmptyTile, AxisAlignEnum axisAlignEnum, int fogDropsLeft)
         {
             this.TileShape = DTileShape.GetDataById(tileId).Value.Shape;
             this.TileColor = tileColor;
@@ -145,29 +151,43 @@ namespace ProjectRuntime.Gameplay
             this.HoritzontalAxisAlignSpriteRenderer.gameObject.SetActive(this._axisAlignEnum == AxisAlignEnum.HORIZONTAL);
             this.VerticalAxisAlignSpriteRenderer.gameObject.SetActive(this._axisAlignEnum == AxisAlignEnum.VERTICAL);
 
-            // Logic for ice blocks
+            // Logic for ice and fog blocks
+            // Fog blocks cannot contain ice blocks!!
             this._iceCracksLeft = iceCracksLeft;
+            this._fogDropsLeft = fogDropsLeft;
             if (isEmptyTile)
             {
-                this.OverlayedSpriteRenderer.gameObject.SetActive(true);
+                this.OverlaidSpriteRenderer.gameObject.SetActive(true);
                 this.IceCracksLeftTMP.gameObject.SetActive(false);
                 this.DropsLeftTMP.gameObject.SetActive(false);
-                CommonUtil.UpdateSprite(this.OverlayedSpriteRenderer, string.Format("images/tiles/tile_{0}_black.png", tileId.ToString())); //images/empty_tiles/empty_tile_{0}
+                CommonUtil.UpdateSprite(this.OverlaidSpriteRenderer, string.Format("images/tiles/tile_{0}_black.png", tileId.ToString())); // TODO: images/empty_tiles/empty_tile_{0}.png
             }
             else if (iceCracksLeft > 0)
             {
-                this.OverlayedSpriteRenderer.gameObject.SetActive(true);
+                this.OverlaidSpriteRenderer.gameObject.SetActive(true);
                 this.IceCracksLeftTMP.gameObject.SetActive(true);
                 this.RefreshIceCracksLeftText();
                 this.DropsLeftTMP.gameObject.SetActive(false);
-                CommonUtil.UpdateSprite(this.OverlayedSpriteRenderer, string.Format("images/ice_tiles/ice_tile_{0}.png", tileId.ToString()));
+                CommonUtil.UpdateSprite(this.OverlaidSpriteRenderer, string.Format("images/ice_tiles/ice_tile_{0}.png", tileId.ToString()));
 
                 GridManager.Instance.OnBathTileCompleted += this.OnBathTileCompleted;
+            }
+            else if (fogDropsLeft > 0)
+            {
+                this.OverlaidSpriteRenderer.gameObject.SetActive(true);
+                this.IceCracksLeftTMP.gameObject.SetActive(true);
+                this.RefreshFogDropsLeftText();
+                this.DropsLeftTMP.gameObject.SetActive(false);
+                CommonUtil.UpdateSprite(this.OverlaidSpriteRenderer, string.Format("images/tiles/tile_{0}_black.png", tileId.ToString())); // TODO: images/ice_tiles/fog_tile_{0}.png
+
+                GridManager.Instance.OnBathTileCompleted += this.OnBathTileCompleted;
+
+                Debug.Log("CUM");
             }
             else
             {
                 this.IceCracksLeftTMP.gameObject.SetActive(false);
-                this.OverlayedSpriteRenderer.gameObject.SetActive(false);
+                this.OverlaidSpriteRenderer.gameObject.SetActive(false);
             }
 
             this.RefreshDropsLeftText();
@@ -176,6 +196,11 @@ namespace ProjectRuntime.Gameplay
         private void RefreshIceCracksLeftText()
         {
             this.IceCracksLeftTMP.text = this._iceCracksLeft.ToString();
+        }
+
+        private void RefreshFogDropsLeftText()
+        {
+            this.IceCracksLeftTMP.text = this._fogDropsLeft.ToString();
         }
 
         private void RefreshDropsLeftText()
@@ -199,7 +224,10 @@ namespace ProjectRuntime.Gameplay
                 s_currentPointerId = eventData.pointerId;
                 CurrentDraggedTile = this;
 
-                GridManager.Instance.ToggleDropColor(this.TileColor, true);
+                if (this._fogDropsLeft == 0)
+                {
+                    GridManager.Instance.ToggleDropColor(this.TileColor, true);
+                }
             }
         }
 
@@ -478,25 +506,48 @@ namespace ProjectRuntime.Gameplay
 
         public void OnBathTileCompleted()
         {
-            if (this._iceCracksLeft == 0)
+            Debug.Log($"{this.TileColor} {this._fogDropsLeft}");
+
+            if (this._iceCracksLeft == 0 && this._fogDropsLeft == 0)
             {
                 return;
             }
-
-            this._iceCracksLeft--;
-            this.RefreshIceCracksLeftText();
-
-            SpawnManager.Instance.SpawnShatterVfx(this.transform.position).Forget();
-            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.IceShatterSfx, false, Vector3.zero).Forget();
-
-            if (this._iceCracksLeft == 0)
+            else if (this._iceCracksLeft > 0)
             {
-                GridManager.Instance.OnBathTileCompleted -= this.OnBathTileCompleted;
-                this.OverlayedSpriteRenderer.gameObject.SetActive(false);
-                this.IceCracksLeftTMP.gameObject.SetActive(false);
-                this.RefreshDropsLeftText();
-                this.DropsLeftTMP.gameObject.SetActive(true);
+                this._iceCracksLeft--;
+                this.RefreshIceCracksLeftText();
+
+                SpawnManager.Instance.SpawnShatterVfx(this.transform.position).Forget();
+                SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.IceShatterSfx, false, Vector3.zero).Forget();
+
+                if (this._iceCracksLeft == 0)
+                {
+                    GridManager.Instance.OnBathTileCompleted -= this.OnBathTileCompleted;
+                    this.OverlaidSpriteRenderer.gameObject.SetActive(false);
+                    this.IceCracksLeftTMP.gameObject.SetActive(false);
+                    this.RefreshDropsLeftText();
+                    this.DropsLeftTMP.gameObject.SetActive(true);
+                }
             }
+            else if (this._fogDropsLeft > 0)
+            {
+                this._fogDropsLeft--;
+                this.RefreshFogDropsLeftText();
+
+                SpawnManager.Instance.SpawnShatterVfx(this.transform.position).Forget();
+                SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.FogDissolveSfx, false, Vector3.zero).Forget();
+
+                if (this._fogDropsLeft == 0)
+                {
+                    GridManager.Instance.OnBathTileCompleted -= this.OnBathTileCompleted;
+                    this.OverlaidSpriteRenderer.gameObject.SetActive(false);
+                    this.IceCracksLeftTMP.gameObject.SetActive(false);
+                    this.RefreshDropsLeftText();
+                    this.DropsLeftTMP.gameObject.SetActive(true);
+                }
+            }
+
+            
         }
 
         private async UniTaskVoid HandleDestroyTile()
