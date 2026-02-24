@@ -36,9 +36,6 @@ namespace ProjectRuntime.Gameplay
         [field: SerializeField]
         public Transform DropAnimalDetectionTransform { get; private set; }
 
-        [field: SerializeField, Header("Settings")]
-        private float DropDelay { get; set; } = 0.5f;
-
         [field: SerializeField, Header("Prefabs")]
         private QueueAnimal QueueAnimalPrefab { get; set; }
 
@@ -46,6 +43,8 @@ namespace ProjectRuntime.Gameplay
         public Vector3 TileDetectionPosition { get; private set; }
 
         // Internal Variables
+        private float _dropDelay = 0.5f;
+
         private bool _isSetUp = false;
         private bool _isCurrentlyDropping = false;
         public Queue<TileColor> _tileQueueColours;
@@ -254,10 +253,11 @@ namespace ProjectRuntime.Gameplay
 
                 bathSlideTile.HandleAnimalDropped();
 
-                await this._currentQueueAnimal.DropAnimal(bathSlideTile, this);
-                if (!this) return;
-
+                this._currentQueueAnimal.DropAnimal(bathSlideTile, this).Forget();
                 this._currentQueueAnimal = null;
+
+                await UniTask.WaitForSeconds(this._dropDelay);
+                if (!this) return;
 
                 await this.UpdateColour();
                 if (!this) return;

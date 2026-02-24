@@ -38,7 +38,7 @@ namespace ProjectRuntime.Gameplay
         private const string SPAWN_ANIM = "{0}_{1}_spawn";           // Direction then color
         private const string IDLE_ANIM = "{0}_{1}_idle";             // Direction then color
         private const string TRANSITION_ANIM = "{0}_{1}_transition"; // Direction then color
-        private const string DROP_ANIM = "{0}_{1}_drop";             // Direction then color
+        private const string DROP_ANIM = "{0}_drop";                 // Just color
         private QueueTileDirection _queueTileDirection;
 
         public async UniTask Init(QueueTileDirection queueTileDirection, TileColor tileColor)
@@ -129,7 +129,7 @@ namespace ProjectRuntime.Gameplay
                 QueueAnimalAnimationEnum.Spawn => string.Format(SPAWN_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
                 QueueAnimalAnimationEnum.Idle => string.Format(IDLE_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
                 QueueAnimalAnimationEnum.Transition => string.Format(TRANSITION_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
-                QueueAnimalAnimationEnum.Drop => string.Format(DROP_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
+                QueueAnimalAnimationEnum.Drop => string.Format(DROP_ANIM, this.TileColor.ToString().ToLowerInvariant()),
                 _ => string.Empty,
             };
         }
