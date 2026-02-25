@@ -181,8 +181,6 @@ namespace ProjectRuntime.Gameplay
                 CommonUtil.UpdateSprite(this.OverlaidSpriteRenderer, string.Format("images/tiles/tile_{0}_black.png", tileId.ToString())); // TODO: images/ice_tiles/fog_tile_{0}.png
 
                 GridManager.Instance.OnBathTileCompleted += this.OnBathTileCompleted;
-
-                Debug.Log("CUM");
             }
             else
             {
@@ -506,8 +504,6 @@ namespace ProjectRuntime.Gameplay
 
         public void OnBathTileCompleted()
         {
-            Debug.Log($"{this.TileColor} {this._fogDropsLeft}");
-
             if (this._iceCracksLeft == 0 && this._fogDropsLeft == 0)
             {
                 return;

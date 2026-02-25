@@ -122,6 +122,90 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &95502145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 95502146}
+  - component: {fileID: 95502147}
+  m_Layer: 0
+  m_Name: FogTutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &95502146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95502145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1391366691}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &95502147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95502145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054047e5fca29044ba33e639509a8ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TutorialId>k__BackingField: TutorialFog
+  <WorldId>k__BackingField: 41
+  <ActivateIfNotCompleted>k__BackingField: 1
+  <TutorialIdsNotCompleted>k__BackingField:
+  - TutorialEmpty
+  <ActivateIfCompleted>k__BackingField: 0
+  <TutorialIdsCompleted>k__BackingField: []
+  <ActivateIfWorldNotCompleted>k__BackingField: 0
+  <WorldIdsNotCompleted>k__BackingField: 
+  <ActivateIfWorldCompleted>k__BackingField: 0
+  <WorldIdsCompleted>k__BackingField: 
+  <TutorialSteps>k__BackingField:
+  - DesignComment: Open PnlInfoPopup to explain what the Fog Bath Slide Tile does
+    StepType: 3
+    StepDurationType: 3
+    NextStepAfterSeconds: 0
+    IgnoreTimeScale: 0
+    ShowGrayBackground: 0
+    ShowTutorialTextbox: 0
+    ShowTutorialImage: 0
+    TutorialImagePath: 
+    TutorialTextPosition: {fileID: 952467930}
+    TutorialText: LOC_TUTORIAL_SLIDE
+    ShowNpc: 0
+    KeepPnlTutorialForNextStep: 0
+    HeaderText: LOC_TUTORIAL_FOG_HEADER
+    PromptText: LOC_TUTORIAL_FOG_PROMPT
+    InfoPopupImagePath: ui/images/onsen_ui_mask.png
+    ShowHandPointer: 1
+    RotateHandDegrees: 0
+    HandPointerType: 1
+    PointerPositionType: 0
+    PointerPosition: {fileID: 2028369977}
+    PointerPosition2: {fileID: 1411000941}
+    PointerPositionPath: 
+    PointerPositionPath2: 
+    PointerStartStationaryTime: 0.2
+    PointerMoveTime: 1
+    PointerEndStationaryTime: 0.2
+    IsClickThrough: 0
 --- !u!1 &199336452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,6 +1563,7 @@ Transform:
   - {fileID: 1211452604}
   - {fileID: 262239682}
   - {fileID: 1376919232}
+  - {fileID: 95502146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1411000940
@@ -1986,6 +2071,7 @@ MonoBehaviour:
   - {fileID: 1211452605}
   - {fileID: 262239683}
   - {fileID: 1376919233}
+  - {fileID: 95502147}
   <VfxContainer>k__BackingField: {fileID: 1971864058}
 --- !u!114 &2066283973
 MonoBehaviour:
