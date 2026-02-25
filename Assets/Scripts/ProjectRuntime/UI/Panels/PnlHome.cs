@@ -90,16 +90,16 @@ namespace ProjectRuntime.UI.Panels
             for (var i = 0; i < this.LevelSelectButtons.Count; i++)
             {
                 var temp = i + 1; // Neccessary to create temp variable for the closure function
-                this.LevelSelectButtons[i].OnClick(() => this.OnLevelSelectButtonClick(temp));
+                this.LevelSelectButtons[i].OnClick(() => this.OnLevelSelectButtonClick(temp).Forget());
             }
-            this.PreviousAreaButton.OnClick(this.OnPreviousAreaButtonClick);
-            this.NextAreaButton.OnClick(this.OnNextAreaButtonClick);
-            this.CinematicButton.OnClick(this.OnCinematicButtonClick);
+            this.PreviousAreaButton.OnClick(() => this.OnPreviousAreaButtonClick().Forget());
+            this.NextAreaButton.OnClick(() => this.OnNextAreaButtonClick().Forget());
+            this.CinematicButton.OnClick(() => this.OnCinematicButtonClick().Forget());
         }
 
         private void Start()
         {
-            this.Init();
+            this.Init().Forget();
         }
 
         private void OnDestroy()
@@ -107,7 +107,7 @@ namespace ProjectRuntime.UI.Panels
             Instance = null;
         }
 
-        private async void Init()
+        private async UniTaskVoid Init()
         {
             await this.ToggleAllButtonsShow(false);
             if (!this) return;
@@ -218,7 +218,7 @@ namespace ProjectRuntime.UI.Panels
         }
 
         #region Button Click
-        public async void OnLevelSelectButtonClick(int level)
+        public async UniTaskVoid OnLevelSelectButtonClick(int level)
         {
             if (this._isTransitioningScene)
             {
@@ -235,7 +235,7 @@ namespace ProjectRuntime.UI.Panels
             SceneManager.Instance.LoadSceneAsync("ScGame").Forget();
         }
 
-        private async void OnNextAreaButtonClick()
+        private async UniTaskVoid OnNextAreaButtonClick()
         {
             if (this._isTransitioningScene)
             {
@@ -256,7 +256,7 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = false;
         }
 
-        private async void OnPreviousAreaButtonClick()
+        private async UniTaskVoid OnPreviousAreaButtonClick()
         {
             if (this._isTransitioningScene)
             {
@@ -301,7 +301,7 @@ namespace ProjectRuntime.UI.Panels
             this._isTransitioningScene = false;
         }
 
-        private async void OnCinematicButtonClick()
+        private async UniTaskVoid OnCinematicButtonClick()
         {
             if (this._isTransitioningScene)
             {

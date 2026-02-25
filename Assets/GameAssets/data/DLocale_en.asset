@@ -22,6 +22,8 @@ MonoBehaviour:
     <Value>k__BackingField: Credits
   - <Key>k__BackingField: LOC_QUIT
     <Value>k__BackingField: Quit
+  - <Key>k__BackingField: LOC_WATCH_CINE
+    <Value>k__BackingField: Experience the Story!
   - <Key>k__BackingField: LOC_NEXT_STAGE
     <Value>k__BackingField: Next Stage
   - <Key>k__BackingField: LOC_MAIN_MENU
@@ -39,13 +41,18 @@ MonoBehaviour:
     <Value>k__BackingField: Animals will jump in the same coloured baths if placed
       in front of them!
   - <Key>k__BackingField: LOC_TUTORIAL_ICE_HEADER
-    <Value>k__BackingField: Winter is Here
+    <Value>k__BackingField: Winter sure is cold!
   - <Key>k__BackingField: LOC_TUTORIAL_ICE_PROMPT
     <Value>k__BackingField: Complete baths to unfreeze the frozen ones!
   - <Key>k__BackingField: LOC_TUTORIAL_EMPTY_HEADER
-    <Value>k__BackingField: Baths are Empty
+    <Value>k__BackingField: Bath's not ready yet!
   - <Key>k__BackingField: LOC_TUTORIAL_EMPTY_PROMPT
     <Value>k__BackingField: Animals can't drop in empty baths but they can still
+      slide around!
+  - <Key>k__BackingField: LOC_TUTORIAL_FOG_HEADER
+    <Value>k__BackingField: Can't see through the fog
+  - <Key>k__BackingField: LOC_TUTORIAL_FOG_PROMPT
+    <Value>k__BackingField: Complete baths to clear up the fog! Fog tiles can still
       slide around!
   - <Key>k__BackingField: LOC_OKAY
     <Value>k__BackingField: Okay
