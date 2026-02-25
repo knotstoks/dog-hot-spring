@@ -53,6 +53,9 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField]
         private Button CinematicButton { get; set; }
 
+        [field: SerializeField]
+        private GameObject WatchCinematicSignifier { get; set; }
+
         [field: SerializeField, Header("Button Sprites")]
         private Sprite ActiveButtonSprite { get; set; }
 
@@ -188,11 +191,12 @@ namespace ProjectRuntime.UI.Panels
                 return;
             }
 
+            var usdm = UserSaveDataManager.Instance;
+
             this.SettingsButton.gameObject.SetActive(true);
             this.CinematicButton.gameObject.SetActive(true);
-            // TODO: Make signifier to click cinematic if area is locked because haven't seen cinematic
-
-            var usdm = UserSaveDataManager.Instance;
+            this.WatchCinematicSignifier.SetActive(!usdm.HasSeenStory($"STORY_{this._currentAreaIdx + 1}"));
+            
             var currentWorldProgress = usdm.GetCurrentWorldProgress();
             var firstLevelShown = this._currentAreaIdx * 10 + 1;
             for (var i = 0; i < 10; i++)
