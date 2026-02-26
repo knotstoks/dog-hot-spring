@@ -76,7 +76,7 @@ namespace ProjectRuntime.Gameplay
 
         public TileShape TileShape { get; private set; }
         public TileColor TileColor { get; private set; }
-        public int DropsLeft => this._dropsLeft;
+        public bool CanDropIn => this._dropsLeft > 0 && this._iceCracksLeft == 0 && this._fogDropsLeft == 0;
 
         // Currently dragged tile, can be null
         public static BathSlideTile CurrentDraggedTile { get; private set; } = null;
@@ -613,7 +613,7 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            if (this.DropsLeft > 0 && this.CanMove)
+            if (this._dropsLeft > 0 && this.CanMove)
             {
                 this._isPunching = true;
 
@@ -628,7 +628,7 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask TryPunchDropsLeftText()
         {
-            if (this.DropsLeft > 0 && this.CanMove)
+            if (this._dropsLeft > 0 && this.CanMove)
             {
                 // Punch animation on move
                 await this.DropsLeftTMP.transform.DOPunchScale(Vector3.one * 0.5f, 0.1f);

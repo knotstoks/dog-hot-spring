@@ -245,7 +245,7 @@ namespace ProjectRuntime.Gameplay
             this._isCurrentlyDropping = true;
 
 			// Communicate with Tile that it has dropped instantly
-			if (this._currentTileColour == bathSlideTile.TileColor && bathSlideTile.DropsLeft > 0
+			if (this._currentTileColour == bathSlideTile.TileColor && bathSlideTile.CanDropIn
                 && this._currentQueueAnimal != null)
             {
                 this.UpdateDropsLeftText(this._dropsLeft - 1);

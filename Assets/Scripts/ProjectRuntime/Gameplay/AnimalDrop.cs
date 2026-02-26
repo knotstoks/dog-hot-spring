@@ -79,7 +79,7 @@ namespace ProjectRuntime.Gameplay
                 return;
             }
 
-            if (bathSlideTile.DropsLeft == 0)
+            if (!bathSlideTile.CanDropIn)
             {
                 this._isDropping = false;
                 return;
