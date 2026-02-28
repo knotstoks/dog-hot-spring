@@ -31,10 +31,10 @@ MonoBehaviour:
   - <Key>k__BackingField: LOC_PLAY_CINE
     <Value>k__BackingField: The Story Unfolds!
   - <Key>k__BackingField: LOC_TUTORIAL_SLIDE
-    <Value>k__BackingField: 'Click and Drag Bath Tiles on Animals
+    <Value>k__BackingField: 'Click and Drag Baths!
 
-      Animals
-      only enter baths the same colour as them!'
+      Animals only enter same
+      coloured Baths!'
   - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_HEADER
     <Value>k__BackingField: Time to Queue
   - <Key>k__BackingField: LOC_TUTORIAL_QUEUE_PROMPT
