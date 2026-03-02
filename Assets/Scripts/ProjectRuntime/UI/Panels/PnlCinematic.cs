@@ -43,9 +43,6 @@ namespace ProjectRuntime.UI.Panels
 
         private async UniTaskVoid Init()
         {
-            await PanelManager.Instance.FadeFromBlack();
-            if (!this) return;
-
             //await UniTask.WaitForSeconds(2f);
             //if (!this) return;
 
@@ -53,6 +50,7 @@ namespace ProjectRuntime.UI.Panels
             //return;
 
             var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_1.prefab", this.CanvasRT); // TODO: Hardcoded for now
+            cinematicObject.transform.SetAsFirstSibling();
 
             await PanelManager.Instance.FadeFromBlack();
             if (!this) return;
@@ -66,20 +64,18 @@ namespace ProjectRuntime.UI.Panels
 
         public async UniTask ShowNextSceneButton()
         {
-            this.NextSceneButton.interactable = false;
+            this.NextSceneButton.gameObject.SetActive(true);
 
             await this.NextSceneButton.image.DOFade(1f, 1f);
             if (!this) return;
-
-            this.NextSceneButton.interactable = true;
         }
 
         public async UniTask HideNextSceneButton()
         {
-            this.NextSceneButton.interactable = false;
-
             await this.NextSceneButton.image.DOFade(0f, 1f);
             if (!this) return;
+
+            this.NextSceneButton.gameObject.SetActive(false);
         }
 
         private void OnNextSceneButtonClick()
