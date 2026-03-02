@@ -2,7 +2,9 @@ using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectRuntime.UI.Panels
 {
@@ -10,8 +12,29 @@ namespace ProjectRuntime.UI.Panels
     {
         public static string StoryIdToLoad { get; set; } = string.Empty;
 
-        [field: SerializeField]
+        [field: SerializeField, Header("Scene References")]
         private RectTransform CanvasRT { get; set; }
+
+        [field: SerializeField]
+        public RectTransform LeftScreenRT { get; private set; }
+
+        [field: SerializeField]
+        public RectTransform MiddleScreenRT { get; private set; }
+
+        [field: SerializeField]
+        public RectTransform RightScreenRT { get; private set; }
+
+        [field: SerializeField]
+        private Button NextSceneButton { get; set; }
+
+        private UICinematic _uiCinematic;
+        private bool _isTransitioning;
+
+        private void Awake()
+        {
+            this.NextSceneButton.onClick.AddListener(this.OnNextSceneButtonClick);
+            this.NextSceneButton.gameObject.SetActive(false);
+        }
 
         private void Start()
         {
@@ -23,11 +46,11 @@ namespace ProjectRuntime.UI.Panels
             await PanelManager.Instance.FadeFromBlack();
             if (!this) return;
 
-            await UniTask.WaitForSeconds(2f);
-            if (!this) return;
+            //await UniTask.WaitForSeconds(2f);
+            //if (!this) return;
 
-            this.ReturnToScHome().Forget();
-            return;
+            //this.ReturnToScHome().Forget();
+            //return;
 
             var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_1.prefab", this.CanvasRT); // TODO: Hardcoded for now
 
@@ -37,15 +60,41 @@ namespace ProjectRuntime.UI.Panels
             await UniTask.WaitForSeconds(0.5f);
             if (!this) return;
 
-            await cinematicObject.GetComponent<UICinematic>().InitAndPlay();
-            if (!this) return;
-
-            // TEMP
-            this.ReturnToScHome().Forget();
+            this._uiCinematic = cinematicObject.GetComponent<UICinematic>();
+            this._uiCinematic.InitAndPlay(this);
         }
 
-        private async UniTaskVoid ReturnToScHome()
+        public async UniTask ShowNextSceneButton()
         {
+            this.NextSceneButton.interactable = false;
+
+            await this.NextSceneButton.image.DOFade(1f, 1f);
+            if (!this) return;
+
+            this.NextSceneButton.interactable = true;
+        }
+
+        public async UniTask HideNextSceneButton()
+        {
+            this.NextSceneButton.interactable = false;
+
+            await this.NextSceneButton.image.DOFade(0f, 1f);
+            if (!this) return;
+        }
+
+        private void OnNextSceneButtonClick()
+        {
+            this._uiCinematic.MoveNextScene();
+        }
+
+        public async UniTaskVoid ReturnToScHome()
+        {
+            if (this._isTransitioning)
+            {
+                return;
+            }
+            this._isTransitioning = true;
+
             var usdm = UserSaveDataManager.Instance;
             if (!usdm.HasSeenStory(StoryIdToLoad))
             {
