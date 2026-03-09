@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField:
   - <WorldId>k__BackingField: 0
-    <ParsedLevel>k__BackingField: 
+    <ParsedLevel>k__BackingField: 7,7,,(10:BLACK:1:1:4),(BLACK:4:4)(BLACK:5:4)(BLACK:4:3)(BLACK:5:3),,,,,,
   - <WorldId>k__BackingField: 1
     <ParsedLevel>k__BackingField: 4,4,,(10:RED:3:1:4)(10:GREEN:1:3:4),(RED:1:1)(RED:1:2)(RED:2:1)(RED:2:2)(GREEN:3:3)(GREEN:3:4)(GREEN:4:3)(GREEN:4:4),,,,,,
   - <WorldId>k__BackingField: 2
