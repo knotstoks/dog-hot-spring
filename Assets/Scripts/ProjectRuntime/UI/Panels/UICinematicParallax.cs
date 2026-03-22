@@ -6,12 +6,10 @@ public class UICinematicParallax : MonoBehaviour
     private RectTransform ParallaxRT { get; set; }
 
     [field: SerializeField, Tooltip("The smaller it is the closer it is")]
-    private int ParallaxDistance { get; set; }
+    private float ParallaxDistance { get; set; }
 
     [field: SerializeField]
     private float MaxOffset { get; set; }
-
-    private Vector2 _initialPosition;
 
     private void Update()
     {
