@@ -118,9 +118,10 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask PlayDropAnimation()
         {
-            this.Animator.Play($"{this.TileColor.ToString().ToLowerInvariant()}_drop");
+            var dropAnim = $"{this.TileColor.ToString().ToLowerInvariant()}_drop";
+            this.Animator.Play(dropAnim);
             var stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
-            while (!stateInfo.IsName($"{this.TileColor.ToString().ToLowerInvariant()}_drop"))
+            while (!stateInfo.IsName(dropAnim))
             {
                 await UniTask.Yield();
                 if (!this) return;
@@ -128,7 +129,9 @@ namespace ProjectRuntime.Gameplay
                 stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
             }
 
-            while (stateInfo.IsName($"{this.TileColor.ToString().ToLowerInvariant()}_drop") && stateInfo.normalizedTime < 1f)
+            _ = this.transform.DOScale(0.5f, 0.75f);
+
+            while (stateInfo.IsName(dropAnim) && stateInfo.normalizedTime < 1f)
             {
                 await UniTask.Yield();
                 if (!this) return;

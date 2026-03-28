@@ -434,10 +434,6 @@ PrefabInstance:
       propertyPath: <TileColor>k__BackingField
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7223836140223724267, guid: d343783a0e3ff534da612a9718e89c8e, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 54a5e4c147bd7477fa050e089f79128e, type: 2}
     - target: {fileID: 8519314845707740764, guid: d343783a0e3ff534da612a9718e89c8e, type: 3}
       propertyPath: m_Name
       value: animal_blue

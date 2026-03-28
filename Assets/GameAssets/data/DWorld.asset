@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField:
   - <WorldId>k__BackingField: 0
-    <ParsedLevel>k__BackingField: 7,7,,(10:BLACK:1:1:4),(BLACK:4:4)(BLACK:5:4)(BLACK:4:3)(BLACK:5:3),,,,,,
+    <ParsedLevel>k__BackingField: 10,10,,(1:BLACK:1:1:9)(1:RED:2:1:9)(1:BLUE:3:1:9)(1:GREEN:4:1:9)(1:PURPLE:5:1:9)(1:PINK:6:1:9)(1:YELLOW:7:1:9)(1:WHITE:8:1:9)(1:ORANGE:9:1:9),(BLACK:1:2)(BLACK:1:3)(RED:2:2)(RED:2:3)(BLUE:3:2)(BLUE:3:3)(GREEN:4:2)(GREEN:4:3)(PURPLE:5:2)(PURPLE:5:3)(PINK:6:2)(PINK:6:3)(YELLOW:7:2)(YELLOW:7:3)(WHITE:8:2)(WHITE:8:3)(ORANGE:9:2)(ORANGE:9:3),,,,,,
   - <WorldId>k__BackingField: 1
     <ParsedLevel>k__BackingField: 4,4,,(10:RED:3:1:4)(10:GREEN:1:3:4),(RED:1:1)(RED:1:2)(RED:2:1)(RED:2:2)(GREEN:3:3)(GREEN:3:4)(GREEN:4:3)(GREEN:4:4),,,,,,
   - <WorldId>k__BackingField: 2
