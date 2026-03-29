@@ -47,7 +47,7 @@ namespace ProjectRuntime.Gameplay
 
             GridManager.Instance.RegisterAnimalDrop(this);
 
-            this.Animator.Play($"{TileColor.ToString().ToLowerInvariant()}_idle", 0, 0f);
+            this.Animator.Play($"{this.TileColor.ToString().ToLowerInvariant()}_idle", 0, 0f);
         }
 
         public void ToggleTriggerCollider(bool isTrigger)
@@ -137,6 +137,44 @@ namespace ProjectRuntime.Gameplay
                 if (!this) return;
 
                 stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
+            }
+        }
+
+        public async UniTaskVoid DoActiveAnimation()
+        {
+            if (this._isDropping)
+            {
+                return;
+            }
+
+            var activeAnim = $"{this.TileColor.ToString().ToLowerInvariant()}_active";
+            this.Animator.Play(activeAnim, 0, 0f);
+            var stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
+            while (!stateInfo.IsName(activeAnim))
+            {
+                await UniTask.Yield();
+                if (!(this) || this._isDropping)
+                {
+                    return;
+                }
+
+                stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
+            }
+
+            while (stateInfo.IsName(activeAnim) && stateInfo.normalizedTime < 1f)
+            {
+                await UniTask.Yield();
+                if (!(this) || this._isDropping)
+                {
+                    return;
+                }
+
+                stateInfo = this.Animator.GetCurrentAnimatorStateInfo(0);
+            }
+
+            if (!this._isDropping)
+            {
+                this.Animator.Play($"{this.TileColor.ToString().ToLowerInvariant()}_idle");
             }
         }
     }

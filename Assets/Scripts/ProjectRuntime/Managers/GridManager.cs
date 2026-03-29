@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
 using ProjectRuntime.Level;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ProjectRuntime.Managers
 {
@@ -58,6 +59,10 @@ namespace ProjectRuntime.Managers
         private int _finalGridWidth;
         private int _finalGridHeight;
         private bool _alreadyPlayingVictory;
+        private float _animalActiveTImer = 0f;
+        private float _animalActiveCooldown = 3f;
+
+        private bool _isSetUp = false;
 
         // Animal Drop Tracking
         private Dictionary<TileColor, List<AnimalDrop>> _animalDropDict;
@@ -79,6 +84,25 @@ namespace ProjectRuntime.Managers
             else
             {
                 Debug.LogError("There are 2 or more GridManagers in the scene");
+            }
+        }
+
+        private void Update()
+        {
+            if (!this._isSetUp)
+            {
+                return;
+            }
+
+            if (this._animalActiveTImer > 0f)
+            {
+                this._animalActiveTImer -= Time.deltaTime;
+            }
+            else
+            {
+                this.AnimalDropPositionDict.ElementAt(Random.Range(0, this.AnimalDropPositionDict.Count)).Value.DoActiveAnimation().Forget();
+
+                this._animalActiveTImer = this._animalActiveCooldown;
             }
         }
 
@@ -262,7 +286,9 @@ namespace ProjectRuntime.Managers
 			{
 				wallTile.Init(this.Tiles);
 			}
-		}
+
+            this._isSetUp = true;
+        }
 
         private bool IsLockedTile(List<Vector2Int> lockedTiles, Vector2Int tileYX)
         {
