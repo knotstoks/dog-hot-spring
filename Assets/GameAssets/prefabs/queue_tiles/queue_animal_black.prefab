@@ -86,15 +86,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: e76333eff3e82af43a2d6af600f8214a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: e76333eff3e82af43a2d6af600f8214a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: e76333eff3e82af43a2d6af600f8214a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: e76333eff3e82af43a2d6af600f8214a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -414,7 +414,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8548558309343638012, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
-      insertIndex: -1
+      insertIndex: 0
       addedObject: {fileID: 302586763257447860}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3697026c74354d82ad9adf110e2c520, type: 3}

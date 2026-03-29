@@ -17,6 +17,18 @@ PrefabInstance:
       value: queue_animal_red
       objectReference: {fileID: 0}
     - target: {fileID: 8548558309343638012, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548558309343638012, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548558309343638012, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548558309343638012, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -60,7 +72,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8548558309343638012, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
-      insertIndex: -1
+      insertIndex: 0
       addedObject: {fileID: 5113227427571852149}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
@@ -159,15 +171,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4db3a51de7ade864c82c4b870001a710, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4db3a51de7ade864c82c4b870001a710, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4db3a51de7ade864c82c4b870001a710, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4db3a51de7ade864c82c4b870001a710, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

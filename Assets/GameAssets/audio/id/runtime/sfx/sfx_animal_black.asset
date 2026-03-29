@@ -42,6 +42,5 @@ MonoBehaviour:
   <PreventSimultaneousDuplicatePlayback>k__BackingField: 1
   <PauseWhenTimeScaleZero>k__BackingField: 0
   <SoundFiles>k__BackingField:
-  - {fileID: 8300000, guid: cdd99745f1a022843b5ddf86ddca0eec, type: 3}
-  - {fileID: 8300000, guid: c7b3ccf73444a0a4d95df8e940b68053, type: 3}
-  - {fileID: 8300000, guid: 0f262b2e7f081c749bd43a4fda6eb7e8, type: 3}
+  - {fileID: 8300000, guid: 10818f4864c110644a6ca7409f1381da, type: 3}
+  - {fileID: 8300000, guid: 44be580413c87c34eb6de343d55a60a5, type: 3}

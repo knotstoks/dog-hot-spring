@@ -62,11 +62,11 @@ namespace ProjectRuntime.Gameplay
             await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
             if (!this) return;
 
-            // Play Drop Sfx
-            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
-
             await this.PlayDropAnimation();
             if (!this) return;
+
+            // Play Drop Sfx
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
             await SpawnManager.Instance.SpawnSplashVfx(this.transform.position);
             if (!this) return;
@@ -78,25 +78,10 @@ namespace ProjectRuntime.Gameplay
 
         private async UniTask DoSpawnAnimation()
         {
-            var spawnAnim = this.GetAnimationString(QueueAnimalAnimationEnum.Spawn);
-            var stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
-            this.AnimalAnimator.Play(spawnAnim, 0, 0f);
+            await this.transform.DOScale(1f, 0.2f);
+            if (!this) return;
 
-            while (!stateInfo.IsName(spawnAnim))
-            {
-                await UniTask.Yield();
-                if (!this) return;
-
-                stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
-            }
-            stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
-            while (stateInfo.IsName(spawnAnim) && stateInfo.normalizedTime < 1f)
-            {
-                await UniTask.Yield();
-                if (!this) return;
-
-                stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
-            }
+            this.transform.localScale = Vector3.one;
         }
 
         private async UniTask PlayDropAnimation()
@@ -128,7 +113,7 @@ namespace ProjectRuntime.Gameplay
         {
             return qaae switch
             {
-                QueueAnimalAnimationEnum.Spawn => string.Format(SPAWN_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
+                QueueAnimalAnimationEnum.Spawn => "enter",
                 QueueAnimalAnimationEnum.Idle => string.Format(IDLE_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
                 QueueAnimalAnimationEnum.Transition => string.Format(TRANSITION_ANIM, this._queueTileDirection.ToString().ToLowerInvariant(), this.TileColor.ToString().ToLowerInvariant()),
                 QueueAnimalAnimationEnum.Drop => string.Format(DROP_ANIM, this.TileColor.ToString().ToLowerInvariant()),
