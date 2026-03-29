@@ -35,7 +35,7 @@ namespace ProjectRuntime.Gameplay
         public TileColor TileColor { get; set; }
 
         // Internal Variables
-        private const string SPAWN_ANIM = "{0}_{1}_spawn";           // Direction then color
+        private const string SPAWN_ANIM = "{0}_{1}_idle";            // Direction then color
         private const string IDLE_ANIM = "{0}_{1}_idle";             // Direction then color
         private const string TRANSITION_ANIM = "{0}_{1}_transition"; // Direction then color
         private const string DROP_ANIM = "{0}_drop";                 // Just color
@@ -62,8 +62,8 @@ namespace ProjectRuntime.Gameplay
             await this.transform.DOLocalMove(Vector3.zero, AnimalDrop.MOVE_DELAY);
             if (!this) return;
 
-            // TODO: Uncomment
-            //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
+            // Play Drop Sfx
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
             await this.PlayDropAnimation();
             if (!this) return;

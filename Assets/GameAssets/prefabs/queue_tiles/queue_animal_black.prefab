@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: animal_black
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: e76333eff3e82af43a2d6af600f8214a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8250169266279454816, guid: e76333eff3e82af43a2d6af600f8214a, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -358,6 +362,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5550590127113308399, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
+      propertyPath: <RandomAnimalDropSfx>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: efc4e2844bb338a4aa55014413002d0e, type: 2}
     - target: {fileID: 8519314845707740764, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
       propertyPath: m_Name
       value: queue_animal_black

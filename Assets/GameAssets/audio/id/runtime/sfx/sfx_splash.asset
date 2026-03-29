@@ -42,6 +42,6 @@ MonoBehaviour:
   <PreventSimultaneousDuplicatePlayback>k__BackingField: 1
   <PauseWhenTimeScaleZero>k__BackingField: 1
   <SoundFiles>k__BackingField:
-  - sfx/sfx_splash_1.wav
-  - sfx/sfx_splash_2.wav
-  - sfx/sfx_splash_3.wav
+  - {fileID: 8300000, guid: 1292c17c2579a407f8718a9b08f2b49b, type: 3}
+  - {fileID: 8300000, guid: be5df67f46e6c4fe2a35b5bd9aba7dfd, type: 3}
+  - {fileID: 8300000, guid: d3df25959511b47fe99e35c45daf09fc, type: 3}

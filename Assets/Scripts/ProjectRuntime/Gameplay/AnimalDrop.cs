@@ -100,7 +100,7 @@ namespace ProjectRuntime.Gameplay
             if (!this) return;
 
             // TODO: Uncomment
-            //SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.RandomAnimalDropSfx, false, Vector3.zero).Forget();
 
             // Animate it falling!
             await this.PlayDropAnimation();

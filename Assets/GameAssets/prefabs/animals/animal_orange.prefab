@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: <TileColor>k__BackingField
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6431261320004275882, guid: d343783a0e3ff534da612a9718e89c8e, type: 3}
+      propertyPath: <RandomAnimalDropSfx>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 545487d81c46f724981de3e8890a39a6, type: 2}
     - target: {fileID: 8519314845707740764, guid: d343783a0e3ff534da612a9718e89c8e, type: 3}
       propertyPath: m_Name
       value: animal_orange

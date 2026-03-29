@@ -173,7 +173,7 @@ namespace ProjectRuntime.Gameplay
                 if (!this) return;
             }
 
-            // Add new animal to next tile
+            // Add new animal to next position
             if (this._tileQueueColours.Count > 0)
             {
                 var nextTileColor = this._tileQueueColours.Dequeue();
@@ -181,8 +181,7 @@ namespace ProjectRuntime.Gameplay
                 var nextQueueAnimalObject = await ResourceLoader.InstantiateAsync($"queue_animal_{nextTileColor.ToString().ToLowerInvariant()}", this.NextQueueAnimalTransform);
                 nextQueueAnimalObject.transform.localPosition = Vector3.zero;
                 var nextQueueAnimal = nextQueueAnimalObject.GetComponent<QueueAnimal>();
-                await nextQueueAnimal.Init(this._tileDirection, nextTileColor);
-                if (!this) return;
+                nextQueueAnimal.Init(this._tileDirection, nextTileColor).Forget();
 
                 this._nextQueueAnimal = nextQueueAnimal;
             }

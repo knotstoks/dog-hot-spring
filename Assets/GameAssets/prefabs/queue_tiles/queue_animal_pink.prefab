@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5550590127113308399, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
+      propertyPath: <RandomAnimalDropSfx>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 29babf68903eb114c8f1d7c4ddd3bc13, type: 2}
     - target: {fileID: 8519314845707740764, guid: d3697026c74354d82ad9adf110e2c520, type: 3}
       propertyPath: m_Name
       value: queue_animal_pink

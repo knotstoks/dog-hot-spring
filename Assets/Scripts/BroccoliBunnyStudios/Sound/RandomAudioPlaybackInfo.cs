@@ -13,7 +13,7 @@ namespace BroccoliBunnyStudios.Sound
     [CreateAssetMenu(menuName = "Sound/AudioPlaybackInfo/RandomAudioPlaybackInfo", fileName = "RandomAudioPlaybackInfo")]
     public class RandomAudioPlaybackInfo : AudioPlaybackInfo
     {
-        [field: SerializeField] private List<string> SoundFiles { get; set; } = new();
+        [field: SerializeField] private List<AudioClip> SoundFiles { get; set; } = new();
 
         public override async UniTask<AudioClip> GetAudioClip()
         {
@@ -24,14 +24,7 @@ namespace BroccoliBunnyStudios.Sound
             }
 
             var randomIndex = Random.Range(0, this.SoundFiles.Count);
-            var audioClip = await ResourceLoader.LoadAsync<AudioClip>(this.SoundFiles[randomIndex]);
-            return audioClip;
-        }
-
-        public void SetSoundFilesList(IEnumerable<string> soundFiles)
-        {
-            this.SoundFiles.Clear();
-            this.SoundFiles.AddRange(soundFiles);
+            return this.SoundFiles[randomIndex];
         }
     }
 }
