@@ -1,3 +1,4 @@
+using BroccoliBunnyStudios.Pools;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using ProjectRuntime.Managers;
@@ -35,9 +36,6 @@ namespace ProjectRuntime.Gameplay
 
         [field: SerializeField]
         public Transform DropAnimalDetectionTransform { get; private set; }
-
-        [field: SerializeField, Header("Prefabs")]
-        private QueueAnimal QueueAnimalPrefab { get; set; }
 
         // Accessible Variables
         public Vector3 TileDetectionPosition { get; private set; }
@@ -123,8 +121,9 @@ namespace ProjectRuntime.Gameplay
             var initQueueColor = this._tileQueueColours.Dequeue();
             this._currentTileColour = initQueueColor;
 
-            var currentQueueAnimal = Instantiate(this.QueueAnimalPrefab, this.CurrentQueueAnimalTransform);
-            currentQueueAnimal.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            var currentQueueAnimalObject = await ResourceLoader.InstantiateAsync($"queue_animal_{initQueueColor.ToString().ToLowerInvariant()}", this.CurrentQueueAnimalTransform);
+            currentQueueAnimalObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            var currentQueueAnimal = currentQueueAnimalObject.GetComponent<QueueAnimal>();
             currentQueueAnimal.Init(this._tileDirection, initQueueColor).Forget();
 
             this._currentQueueAnimal = currentQueueAnimal;
@@ -133,8 +132,9 @@ namespace ProjectRuntime.Gameplay
             {
                 var nextTileColor = this._tileQueueColours.Dequeue();
 
-                var nextQueueAnimal = Instantiate(this.QueueAnimalPrefab, this.NextQueueAnimalTransform);
-                nextQueueAnimal.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                var nextQueueAnimalObject = await ResourceLoader.InstantiateAsync($"queue_animal_{nextTileColor.ToString().ToLowerInvariant()}", this.NextQueueAnimalTransform);
+                nextQueueAnimalObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                var nextQueueAnimal = nextQueueAnimalObject.GetComponent<QueueAnimal>();
                 nextQueueAnimal.Init(this._tileDirection, nextTileColor).Forget();
 
                 this._nextQueueAnimal = nextQueueAnimal;
@@ -178,8 +178,9 @@ namespace ProjectRuntime.Gameplay
             {
                 var nextTileColor = this._tileQueueColours.Dequeue();
 
-                var nextQueueAnimal = Instantiate(this.QueueAnimalPrefab, this.NextQueueAnimalTransform);
-                nextQueueAnimal.transform.localPosition = Vector3.zero;
+                var nextQueueAnimalObject = await ResourceLoader.InstantiateAsync($"queue_animal_{nextTileColor.ToString().ToLowerInvariant()}", this.NextQueueAnimalTransform);
+                nextQueueAnimalObject.transform.localPosition = Vector3.zero;
+                var nextQueueAnimal = nextQueueAnimalObject.GetComponent<QueueAnimal>();
                 await nextQueueAnimal.Init(this._tileDirection, nextTileColor);
                 if (!this) return;
 

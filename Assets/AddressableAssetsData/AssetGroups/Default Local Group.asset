@@ -17,6 +17,21 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 2e4e14ffdbf007c45806838fcfbf2b00
   m_SerializeEntries:
+  - m_GUID: 01e8f70bd70b7754eb2467ef368f319a
+    m_Address: queue_animal_blue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07c7a6995c02c164e815e703ebe41589
+    m_Address: queue_animal_yellow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08422dfb779af1f46b45062473e9eda8
+    m_Address: queue_animal_red
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 09494fb9d44554154a226222af5f0214
     m_Address: PnlSettings
     m_ReadOnly: 0
@@ -27,8 +42,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e6b60ab664b9f949817d639ae5ee009
+    m_Address: queue_animal_pink
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4513ee6d9398441bca6dddb9ae906b5d
     m_Address: sfx
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ed35e6112b012848b591998c058f1a5
+    m_Address: queue_animal_purple
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d236e0b46b37f642ac387fa439b8922
+    m_Address: queue_animal_black
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -62,6 +92,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c2b8ca73a805bb48953340412cf2525
+    m_Address: queue_animal_white
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f2099277b8fe994bb466f7e46e98052
+    m_Address: queue_animal_orange
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b30295fac0a2d436ab3be2b0e847c963
     m_Address: prefabs
     m_ReadOnly: 0
@@ -79,6 +119,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d96859f438187492ab1889b5fc3f5510
     m_Address: data
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ddee8b9e8162ed64ea1a111b799aebba
+    m_Address: prefabs/queue_tiles/queue_tile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f191e08280c78944cb485e695cc960bb
+    m_Address: queue_animal_green
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

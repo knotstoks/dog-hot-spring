@@ -112,7 +112,9 @@ namespace ProjectRuntime.Gameplay
 
                 stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
             }
-            stateInfo = this.AnimalAnimator.GetCurrentAnimatorStateInfo(0);
+
+            _ = this.transform.DOScale(0.25f, 0.75f);
+
             while (stateInfo.IsName(dropAnim) && stateInfo.normalizedTime < 1f)
             {
                 await UniTask.Yield();
