@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using BroccoliBunnyStudios.Panel;
 using BroccoliBunnyStudios.Pools;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using ProjectRuntime.Gameplay;
 using ProjectRuntime.Level;
+using ProjectRuntime.UI.Panels;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -100,7 +102,17 @@ namespace ProjectRuntime.Managers
             }
             else
             {
-                this.AnimalDropPositionDict.ElementAt(Random.Range(0, this.AnimalDropPositionDict.Count)).Value.DoActiveAnimation().Forget();
+                if (PanelManager.Instance.IsPanelOpen<PnlPostGame>())
+                {
+                    this._animalActiveTImer = this._animalActiveCooldown;
+                    return;
+                }
+
+                var animal = this.AnimalDropPositionDict.ElementAt(Random.Range(0, this.AnimalDropPositionDict.Count)).Value;
+                if (animal != null)
+                {
+                    animal.DoActiveAnimation().Forget();
+                }
 
                 this._animalActiveTImer = this._animalActiveCooldown;
             }
