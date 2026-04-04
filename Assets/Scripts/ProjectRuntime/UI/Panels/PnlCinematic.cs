@@ -117,6 +117,15 @@ namespace ProjectRuntime.UI.Panels
             }
             this._isTransitioning = true;
 
+            // TODO: Only for Demo
+            if (StoryIdToLoad == "STORY_2")
+            {
+                await PanelManager.Instance.FadeToBlackAsync();
+
+                SceneManager.Instance.LoadSceneAsync("ScEndDemo").Forget();
+                return;
+            }
+
             var usdm = UserSaveDataManager.Instance;
             if (!usdm.HasSeenStory(StoryIdToLoad))
             {
