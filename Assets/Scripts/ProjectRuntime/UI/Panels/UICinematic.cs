@@ -43,6 +43,7 @@ namespace ProjectRuntime.UI.Panels
         public void MoveNextScene()
         {
             this._pnlCinematic.HideNextSceneButton().Forget();
+            this._pnlCinematic.HidePreviousSceneButton().Forget();
             this._currentIdx++;
 
             if (this._currentIdx >= this.Panels.Count)
@@ -54,13 +55,22 @@ namespace ProjectRuntime.UI.Panels
             this.TriggerNextPanel().Forget();
         }
 
+        public void MovePreviousScene()
+        {
+            this._pnlCinematic.HideNextSceneButton().Forget();
+            this._pnlCinematic.HidePreviousSceneButton().Forget();
+            this._currentIdx--;
+
+            this.TriggerPreviousPanel().Forget();
+        }
+
         private async UniTaskVoid TriggerNextPanel()
         {
             var rt = this.Panels[this._currentIdx].transform as RectTransform;
             if (this._currentIdx > 0)
             {
                 var prevRT = this.Panels[this._currentIdx - 1].transform as RectTransform;
-                this.MovePreviousPanelOut(prevRT, this._currentIdx - 1).Forget();
+                this.MovePreviousPanelLeft(prevRT, this._currentIdx - 1).Forget();
             }
 
             this.Panels[this._currentIdx].SetActive(true);
@@ -81,12 +91,66 @@ namespace ProjectRuntime.UI.Panels
             rt.anchoredPosition = this._pnlCinematic.MiddleScreenRT.anchoredPosition;
             this._canvasGroups[this._currentIdx].alpha = 1f;
 
+            if (this._currentIdx > 0)
+            {
+                this._pnlCinematic.ShowPreviousSceneButton().Forget();
+            }
             this._pnlCinematic.ShowNextSceneButton().Forget();
         }
 
-        private async UniTaskVoid MovePreviousPanelOut(RectTransform rt, int idx)
+        private async UniTaskVoid TriggerPreviousPanel()
+        {
+            var rt = this.Panels[this._currentIdx].transform as RectTransform;
+            var prevRT = this.Panels[this._currentIdx + 1].transform as RectTransform;
+            this.MoveNextPanelRight(prevRT, this._currentIdx + 1).Forget();
+
+            this.Panels[this._currentIdx].SetActive(true);
+            rt.anchoredPosition = this._pnlCinematic.LeftScreenRT.anchoredPosition;
+            var timer = 0f;
+            var dist = this._pnlCinematic.LeftScreenRT.anchoredPosition - this._pnlCinematic.MiddleScreenRT.anchoredPosition;
+            while (timer < MOVE_TIME)
+            {
+                var v = timer / MOVE_TIME;
+                var t = DOVirtual.EasedValue(0f, 1f, v, Ease.OutQuad);
+                rt.anchoredPosition = this._pnlCinematic.LeftScreenRT.anchoredPosition - dist * t;
+                this._canvasGroups[this._currentIdx].alpha = t;
+
+                timer += Time.deltaTime;
+                await UniTask.Yield();
+                if (!this) return;
+            }
+            rt.anchoredPosition = this._pnlCinematic.MiddleScreenRT.anchoredPosition;
+            this._canvasGroups[this._currentIdx].alpha = 1f;
+
+            if (this._currentIdx > 0)
+            {
+                this._pnlCinematic.ShowPreviousSceneButton().Forget();
+            }
+            this._pnlCinematic.ShowNextSceneButton().Forget();
+        }
+
+        private async UniTaskVoid MovePreviousPanelLeft(RectTransform rt, int idx)
         {
             var dist = this._pnlCinematic.MiddleScreenRT.anchoredPosition - this._pnlCinematic.LeftScreenRT.anchoredPosition;
+            var timer = 0f;
+            while (timer < MOVE_TIME)
+            {
+                var v = timer / MOVE_TIME;
+                var t = DOVirtual.EasedValue(0f, 1f, v, Ease.InQuad);
+                rt.anchoredPosition = this._pnlCinematic.MiddleScreenRT.anchoredPosition - dist * t;
+                this._canvasGroups[idx].alpha = 1f - t;
+
+                timer += Time.deltaTime;
+                await UniTask.Yield();
+                if (!this) return;
+            }
+            rt.anchoredPosition = this._pnlCinematic.LeftScreenRT.anchoredPosition;
+            rt.gameObject.SetActive(false);
+        }
+
+        private async UniTaskVoid MoveNextPanelRight(RectTransform rt, int idx)
+        {
+            var dist = this._pnlCinematic.MiddleScreenRT.anchoredPosition - this._pnlCinematic.RightScreenRT.anchoredPosition;
             var timer = 0f;
             while (timer < MOVE_TIME)
             {

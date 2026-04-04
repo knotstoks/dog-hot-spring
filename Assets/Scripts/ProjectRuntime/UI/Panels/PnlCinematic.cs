@@ -27,13 +27,18 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField]
         private Button NextSceneButton { get; set; }
 
+        [field: SerializeField]
+        private Button PreviousSceneButton { get; set; }
+
         private UICinematic _uiCinematic;
         private bool _isTransitioning;
 
         private void Awake()
         {
             this.NextSceneButton.onClick.AddListener(this.OnNextSceneButtonClick);
+            this.PreviousSceneButton.onClick.AddListener(this.OnPreviousSceneButtonClick);
             this.NextSceneButton.gameObject.SetActive(false);
+            this.PreviousSceneButton.gameObject.SetActive(false);
         }
 
         private void Start()
@@ -70,6 +75,14 @@ namespace ProjectRuntime.UI.Panels
             if (!this) return;
         }
 
+        public async UniTask ShowPreviousSceneButton()
+        {
+            this.PreviousSceneButton.gameObject.SetActive(true);
+
+            await this.PreviousSceneButton.image.DOFade(1f, 1f);
+            if (!this) return;
+        }
+
         public async UniTask HideNextSceneButton()
         {
             await this.NextSceneButton.image.DOFade(0f, 1f);
@@ -78,9 +91,22 @@ namespace ProjectRuntime.UI.Panels
             this.NextSceneButton.gameObject.SetActive(false);
         }
 
+        public async UniTask HidePreviousSceneButton()
+        {
+            await this.PreviousSceneButton.image.DOFade(0f, 1f);
+            if (!this) return;
+
+            this.PreviousSceneButton.gameObject.SetActive(false);
+        }
+
         private void OnNextSceneButtonClick()
         {
             this._uiCinematic.MoveNextScene();
+        }
+
+        private void OnPreviousSceneButtonClick()
+        {
+            this._uiCinematic.MovePreviousScene();
         }
 
         public async UniTaskVoid ReturnToScHome()

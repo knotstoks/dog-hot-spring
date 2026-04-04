@@ -61,7 +61,7 @@ namespace ProjectRuntime.Managers
         private int _finalGridWidth;
         private int _finalGridHeight;
         private bool _alreadyPlayingVictory;
-        private float _animalActiveTImer = 0f;
+        private float _animalActiveTimer = 0f;
         private float _animalActiveCooldown = 3f;
 
         private bool _isSetUp = false;
@@ -96,25 +96,31 @@ namespace ProjectRuntime.Managers
                 return;
             }
 
-            if (this._animalActiveTImer > 0f)
+            if (this._animalActiveTimer > 0f)
             {
-                this._animalActiveTImer -= Time.deltaTime;
+                this._animalActiveTimer -= Time.deltaTime;
             }
             else
             {
                 if (PanelManager.Instance.IsPanelOpen<PnlPostGame>())
                 {
-                    this._animalActiveTImer = this._animalActiveCooldown;
+                    this._animalActiveTimer = this._animalActiveCooldown;
                     return;
                 }
 
-                var animal = this.AnimalDropPositionDict.ElementAt(Random.Range(0, this.AnimalDropPositionDict.Count)).Value;
-                if (animal != null)
+                var randIdx = Random.Range(0, this.AnimalDropPositionDict.Count);
+                if (randIdx > this.AnimalDropPositionDict.Count - 1)
                 {
-                    animal.DoActiveAnimation().Forget();
+                    this._animalActiveTimer = this._animalActiveCooldown;
+                    return;
+                }
+                var animal = this.AnimalDropPositionDict.ElementAt(randIdx);
+                if (animal.Value != null)
+                {
+                    animal.Value.DoActiveAnimation().Forget();
                 }
 
-                this._animalActiveTImer = this._animalActiveCooldown;
+                this._animalActiveTimer = this._animalActiveCooldown;
             }
         }
 
