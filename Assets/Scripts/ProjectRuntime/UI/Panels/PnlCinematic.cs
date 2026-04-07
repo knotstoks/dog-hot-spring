@@ -54,7 +54,7 @@ namespace ProjectRuntime.UI.Panels
             //this.ReturnToScHome().Forget();
             //return;
 
-            var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_1.prefab", this.CanvasRT); // TODO: Hardcoded for now
+            var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_2.prefab", this.CanvasRT); // TODO: Hardcoded for now
             cinematicObject.transform.SetAsFirstSibling();
 
             await PanelManager.Instance.FadeFromBlack();
