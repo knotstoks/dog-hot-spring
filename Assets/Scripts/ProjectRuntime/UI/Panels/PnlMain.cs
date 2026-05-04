@@ -16,7 +16,7 @@ namespace ProjectRuntime.UI.Panels
         private int CheatWorldProgress { get; set; }
 
         [field: SerializeField]
-        private string CheatStoryProgress { get; set; }
+        private int CheatStoryProgress { get; set; }
 
         [Button]
         private void SetUserProgress()
@@ -77,10 +77,10 @@ namespace ProjectRuntime.UI.Panels
 
             await PanelManager.Instance.FadeToBlackAsync();
 
-            if (!UserSaveDataManager.Instance.HasSeenStory("STORY_1"))
+            if (!UserSaveDataManager.Instance.HasSeenStory(1))
             {
                 // Go to cinematic instead
-                PnlCinematic.StoryIdToLoad = "STORY_1";
+                PnlCinematic.StoryIdToLoad = 1;
                 SceneManager.Instance.LoadSceneAsync("ScCinematic").Forget();
             }
             else

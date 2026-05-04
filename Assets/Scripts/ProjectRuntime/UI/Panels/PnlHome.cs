@@ -195,13 +195,13 @@ namespace ProjectRuntime.UI.Panels
 
             this.SettingsButton.gameObject.SetActive(true);
             this.CinematicButton.gameObject.SetActive(true);
-            this.WatchCinematicSignifier.SetActive(!usdm.HasSeenStory($"STORY_{this._currentAreaIdx + 1}"));
+            this.WatchCinematicSignifier.SetActive(!usdm.HasSeenStory(this._currentAreaIdx + 1));
             
             var currentWorldProgress = usdm.GetCurrentWorldProgress();
             var firstLevelShown = this._currentAreaIdx * 10 + 1;
             for (var i = 0; i < 10; i++)
             {
-                var isActive = usdm.HasSeenStory($"STORY_{this._currentAreaIdx + 1}")
+                var isActive = usdm.HasSeenStory(this._currentAreaIdx + 1)
                     && currentWorldProgress >= firstLevelShown + i - 1;
                 this.LevelSelectButtons[i].image.sprite = isActive
                     ? this.ActiveButtonSprite
@@ -315,7 +315,7 @@ namespace ProjectRuntime.UI.Panels
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
 
             // Change scene and load the correct cinematic
-            PnlCinematic.StoryIdToLoad = $"STORY_{this._currentAreaIdx + 1}";
+            PnlCinematic.StoryIdToLoad = this._currentAreaIdx + 1;
 
             await PanelManager.Instance.FadeToBlackAsync();
             if (!this) return;

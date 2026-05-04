@@ -1,5 +1,6 @@
 using BroccoliBunnyStudios.Managers;
 using BroccoliBunnyStudios.Panel;
+using BroccoliBunnyStudios.Sound;
 using BroccoliBunnyStudios.Utils;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -10,7 +11,7 @@ namespace ProjectRuntime.UI.Panels
 {
     public class PnlCinematic : MonoBehaviour
     {
-        public static string StoryIdToLoad { get; set; } = string.Empty;
+        public static int StoryIdToLoad { get; set; } = 0;
 
         [field: SerializeField, Header("Scene References")]
         private RectTransform CanvasRT { get; set; }
@@ -30,6 +31,9 @@ namespace ProjectRuntime.UI.Panels
         [field: SerializeField]
         private Button PreviousSceneButton { get; set; }
 
+        [field: SerializeField, Header("Sfxes")]
+        private AudioPlaybackInfo ButtonClickSfx { get; set; }
+
         private UICinematic _uiCinematic;
         private bool _isTransitioning;
 
@@ -48,13 +52,16 @@ namespace ProjectRuntime.UI.Panels
 
         private async UniTaskVoid Init()
         {
-            //await UniTask.WaitForSeconds(2f);
-            //if (!this) return;
+            // TODO: Only for Demo
+            if (StoryIdToLoad == 3)
+            {
+                await PanelManager.Instance.FadeToBlackAsync();
 
-            //this.ReturnToScHome().Forget();
-            //return;
+                SceneManager.Instance.LoadSceneAsync("ScEndDemo").Forget();
+                return;
+            }
 
-            var cinematicObject = CommonUtil.InstantiatePrefab("prefabs/cinematics/cinematic_2.prefab", this.CanvasRT); // TODO: Hardcoded for now
+            var cinematicObject = CommonUtil.InstantiatePrefab(DStory.GetDataById(StoryIdToLoad).Value.StoryPrefabPath, this.CanvasRT); // TODO: Hardcoded for now
             cinematicObject.transform.SetAsFirstSibling();
 
             await PanelManager.Instance.FadeFromBlack();
@@ -85,27 +92,37 @@ namespace ProjectRuntime.UI.Panels
 
         public async UniTask HideNextSceneButton()
         {
+            this.NextSceneButton.interactable = false;
+
             await this.NextSceneButton.image.DOFade(0f, 1f);
             if (!this) return;
 
             this.NextSceneButton.gameObject.SetActive(false);
+            this.NextSceneButton.interactable = true;
         }
 
         public async UniTask HidePreviousSceneButton()
         {
+            this.PreviousSceneButton.interactable = false;
+
             await this.PreviousSceneButton.image.DOFade(0f, 1f);
             if (!this) return;
 
             this.PreviousSceneButton.gameObject.SetActive(false);
+            this.PreviousSceneButton.interactable = true;
         }
 
         private void OnNextSceneButtonClick()
         {
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
             this._uiCinematic.MoveNextScene();
         }
 
         private void OnPreviousSceneButtonClick()
         {
+            SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonClickSfx, false, Vector3.zero).Forget();
+
             this._uiCinematic.MovePreviousScene();
         }
 
@@ -117,21 +134,12 @@ namespace ProjectRuntime.UI.Panels
             }
             this._isTransitioning = true;
 
-            // TODO: Only for Demo
-            if (StoryIdToLoad == "STORY_2")
-            {
-                await PanelManager.Instance.FadeToBlackAsync();
-
-                SceneManager.Instance.LoadSceneAsync("ScEndDemo").Forget();
-                return;
-            }
-
             var usdm = UserSaveDataManager.Instance;
             if (!usdm.HasSeenStory(StoryIdToLoad))
             {
                 var dStory = DStory.GetDataById(StoryIdToLoad).Value;
                 var numberOfAreas = DWorld.GetAllData().Data.Count / 10;
-                if (dStory.StoryNumber == 1 || dStory.StoryNumber > numberOfAreas)
+                if (dStory.StoryId == 1 || dStory.StoryId > numberOfAreas)
                 {
                     // Edge case where Player just started game so no transition
                     // OR
@@ -141,7 +149,7 @@ namespace ProjectRuntime.UI.Panels
                 else
                 {
                     // This is 0 indexed so transition to next area
-                    PnlHome.AreaToTransition = dStory.StoryNumber - 1;
+                    PnlHome.AreaToTransition = dStory.StoryId - 1;
                 }
                 
                 UserSaveDataManager.Instance.RegisterStory(StoryIdToLoad);

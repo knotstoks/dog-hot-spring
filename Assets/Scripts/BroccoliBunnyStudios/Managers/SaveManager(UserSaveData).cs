@@ -22,10 +22,10 @@ namespace BroccoliBunnyStudios.Managers
             set => this.SaveConfig.SetInt(nameof(this.CurrentLevelProgress), value);
         }
 
-        public List<string> CompletedStories
+        public List<int> CompletedStories
         {
-            get => this.SaveConfig.GetCollection<List<string>, string>(nameof(this.CompletedStories), new());
-            set => this.SaveConfig.SetCollection<List<string>, string>(nameof(this.CompletedStories), value);
+            get => this.SaveConfig.GetCollection<List<int>, int>(nameof(this.CompletedStories), new());
+            set => this.SaveConfig.SetCollection<List<int>, int>(nameof(this.CompletedStories), value);
         }
 
         public List<string> CompletedTutorials

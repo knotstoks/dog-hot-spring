@@ -76,7 +76,7 @@ namespace ProjectRuntime.UI.Panels
                 AchievementManager.Instance.ReachLevelComplete(currentLevel);
             }
             this._willShowCinematic = currentLevel % 10 == 0
-            && !usdm.HasSeenStory($"STORY_{currentLevel / 10 + 1}");
+            && !usdm.HasSeenStory(currentLevel / 10 + 1);
 
             this.NormalButtonParent.SetActive(false);
             this.CinematicNextButton.gameObject.SetActive(false);
@@ -179,7 +179,7 @@ namespace ProjectRuntime.UI.Panels
             SoundManager.Instance.PlayAudioPlaybackInfoAsync(this.ButtonSfx, false, Vector3.zero).Forget();
 
             // Change scene and load the correct cinematic
-            PnlCinematic.StoryIdToLoad = $"STORY_{BattleManager.LevelIdToLoad / 10 + 1}";
+            PnlCinematic.StoryIdToLoad = BattleManager.LevelIdToLoad / 10 + 1;
             await PanelManager.Instance.FadeToBlackAsync();
             if (!this) return;
             SceneManager.Instance.LoadSceneAsync("ScCinematic").Forget();

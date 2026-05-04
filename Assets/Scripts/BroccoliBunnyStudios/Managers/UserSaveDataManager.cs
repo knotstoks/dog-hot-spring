@@ -11,7 +11,7 @@ namespace BroccoliBunnyStudios.Managers
         public const int CURRENT_VERSION_NUMBER = 0;
 
         // Internal variables
-        private readonly List<string> _completedStories;
+        private readonly List<int> _completedStories;
         private readonly List<string> _completedTutorials;
 
         // Callbacks
@@ -83,7 +83,7 @@ namespace BroccoliBunnyStudios.Managers
         #endregion
 
         #region Stories
-        public void RegisterStory(string storyId)
+        public void RegisterStory(int storyId)
         {
             if (this._completedStories.Contains(storyId))
             {
@@ -93,7 +93,7 @@ namespace BroccoliBunnyStudios.Managers
             this.SaveStories();
         }
 
-        public bool HasSeenStory(string storyId)
+        public bool HasSeenStory(int storyId)
         {
             return this._completedStories.Contains(storyId);
         }

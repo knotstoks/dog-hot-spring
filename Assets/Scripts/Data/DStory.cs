@@ -9,7 +9,7 @@ using UnityEngine;
 public class DStory : ScriptableObject, IDataImport
 {
     private static DStory s_loadedData;
-    private static Dictionary<string, StoryData> s_cachedDataDict;
+    private static Dictionary<int, StoryData> s_cachedDataDict;
 
     [field: SerializeField]
     public List<StoryData> Data { get; private set; }
@@ -38,7 +38,7 @@ public class DStory : ScriptableObject, IDataImport
         return s_loadedData;
     }
 
-    public static StoryData? GetDataById(string id)
+    public static StoryData? GetDataById(int id)
     {
         if (s_cachedDataDict == null)
         {
@@ -106,9 +106,8 @@ public class DStory : ScriptableObject, IDataImport
             // New item
             var worldData = new StoryData
             {
-                StoryId = paramList[1],
-                StoryNumber = CommonUtil.ConvertToInt32(paramList[2]),
-                StoryPrefabPath = paramList[3],
+                StoryId = CommonUtil.ConvertToInt32(paramList[1]),
+                StoryPrefabPath = paramList[2],
             };
             s_loadedData.Data.Add(worldData);
         }
@@ -122,10 +121,7 @@ public class DStory : ScriptableObject, IDataImport
 public struct StoryData
 {
     [field: SerializeField]
-    public string StoryId { get; set; }
-
-    [field: SerializeField]
-    public int StoryNumber { get; set; }
+    public int StoryId { get; set; }
 
     [field: SerializeField]
     public string StoryPrefabPath { get; set; }

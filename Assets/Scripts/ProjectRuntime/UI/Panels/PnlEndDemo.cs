@@ -40,6 +40,8 @@ namespace ProjectRuntime.UI.Panels
             if (!this) return;
 
             SceneManager.Instance.LoadSceneAsync("ScMain").Forget();
+
+            UserSaveDataManager.Instance.ClearAllData();
         }
     }
 }

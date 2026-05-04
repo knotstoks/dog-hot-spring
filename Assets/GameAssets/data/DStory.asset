@@ -13,33 +13,7 @@ MonoBehaviour:
   m_Name: DStory
   m_EditorClassIdentifier: 
   <Data>k__BackingField:
-  - <StoryId>k__BackingField: STORY_1
-    <StoryNumber>k__BackingField: 1
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_2
-    <StoryNumber>k__BackingField: 2
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_3
-    <StoryNumber>k__BackingField: 3
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_4
-    <StoryNumber>k__BackingField: 4
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_5
-    <StoryNumber>k__BackingField: 5
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_6
-    <StoryNumber>k__BackingField: 6
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_7
-    <StoryNumber>k__BackingField: 7
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_8
-    <StoryNumber>k__BackingField: 8
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_9
-    <StoryNumber>k__BackingField: 9
-    <StoryPrefabPath>k__BackingField: 
-  - <StoryId>k__BackingField: STORY_10
-    <StoryNumber>k__BackingField: 10
-    <StoryPrefabPath>k__BackingField: 
+  - <StoryId>k__BackingField: 1
+    <StoryPrefabPath>k__BackingField: prefabs/cinematics/cinematic_1.prefab
+  - <StoryId>k__BackingField: 2
+    <StoryPrefabPath>k__BackingField: prefabs/cinematics/cinematic_2.prefab
