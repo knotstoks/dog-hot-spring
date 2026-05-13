@@ -17,3 +17,5 @@ MonoBehaviour:
     <StoryPrefabPath>k__BackingField: prefabs/cinematics/cinematic_1.prefab
   - <StoryId>k__BackingField: 2
     <StoryPrefabPath>k__BackingField: prefabs/cinematics/cinematic_2.prefab
+  - <StoryId>k__BackingField: 3
+    <StoryPrefabPath>k__BackingField: prefabs/cinematics/cinematic_3.prefab
