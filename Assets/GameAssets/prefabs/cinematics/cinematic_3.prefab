@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6053897261122313551
 RectTransform:
   m_ObjectHideFlags: 0
@@ -264,6 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Panels>k__BackingField:
   - {fileID: 5104840400276387881}
+  - {fileID: 6566800619055318879}
+  - {fileID: 892476372959907703}
 --- !u!114 &8783966793792531500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,9 +311,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5952293429271006579}
-  - {fileID: 4315951997803191645}
-  - {fileID: 2801808539946512871}
   - {fileID: 5047584412517142769}
+  - {fileID: 2801808539946512871}
   m_Father: {fileID: 9023274363556560888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -656,7 +657,7 @@ GameObject:
   - component: {fileID: 1947682190501736940}
   - component: {fileID: 5304820523684994657}
   m_Layer: 5
-  m_Name: door
+  m_Name: snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -709,7 +710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5f916279297ee424b9a14d4431e662fe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6927c02813d95964aa1772d246118a81, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -732,7 +733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ParallaxRT>k__BackingField: {fileID: 2801808539946512871}
-  <ParallaxDistance>k__BackingField: 1.5
+  <ParallaxDistance>k__BackingField: 2
   <MaxOffset>k__BackingField: 10
 --- !u!1 &5101386967087805528
 GameObject:
@@ -1308,7 +1309,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5bdf2bac833f8b842b36700ddbcb3256, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c9f8500b05de3814db5e881feaccc0af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1349,7 +1350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &9023274363556560888
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1473,97 +1474,6 @@ MonoBehaviour:
   <ParallaxRT>k__BackingField: {fileID: 3454068280855445816}
   <ParallaxDistance>k__BackingField: 1
   <MaxOffset>k__BackingField: 10
---- !u!1 &7723246137952189492
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4315951997803191645}
-  - component: {fileID: 4062053116776196458}
-  - component: {fileID: 3312818682363877213}
-  - component: {fileID: 6769106371037379916}
-  m_Layer: 5
-  m_Name: floor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4315951997803191645
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7723246137952189492}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6516939405452681972}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 700}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &4062053116776196458
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7723246137952189492}
-  m_CullTransparentMesh: 1
---- !u!114 &3312818682363877213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7723246137952189492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8bb7d7675b48baf4bb279047a0b8670c, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &6769106371037379916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7723246137952189492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4efa760d573714a9eb9c0d5d720b1f65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <ParallaxRT>k__BackingField: {fileID: 4315951997803191645}
-  <ParallaxDistance>k__BackingField: 1
-  <MaxOffset>k__BackingField: 10
 --- !u!1 &8171527644690551996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,7 +1578,7 @@ GameObject:
   - component: {fileID: 2278008333296428695}
   - component: {fileID: 2174180229617407347}
   m_Layer: 5
-  m_Name: wall
+  m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1721,7 +1631,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8acef6d126b5fa845873b3340780e622, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f34c9b9b852fcf942966160e12d42879, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
