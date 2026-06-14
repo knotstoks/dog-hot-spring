@@ -437,7 +437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f3550209ff5090c4eacdc519ba2623da, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5123cd6e7879fe24f978859764413fb0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 8397821258978575310}
   - component: {fileID: 8387132481680816583}
   m_Layer: 5
-  m_Name: animals
+  m_Name: capybara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 60de41ccbd70fa44db094b099762f216, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5dba8f8becc8fca418f07fc700798117, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ParallaxRT>k__BackingField: {fileID: 4137810417263478561}
-  <ParallaxDistance>k__BackingField: 2
+  <ParallaxDistance>k__BackingField: 2.5
   <MaxOffset>k__BackingField: 10
 --- !u!1 &4118767027223819016
 GameObject:
@@ -566,7 +566,7 @@ GameObject:
   - component: {fileID: 2723989992056790737}
   - component: {fileID: 6083408393639667648}
   m_Layer: 5
-  m_Name: girl
+  m_Name: bath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 418d39e100f70aa43ac66919ab13bcf6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: db734ae815c5ff74488652772c5b340b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ParallaxRT>k__BackingField: {fileID: 4501022384785971080}
-  <ParallaxDistance>k__BackingField: 1.5
+  <ParallaxDistance>k__BackingField: 2
   <MaxOffset>k__BackingField: 10
 --- !u!1 &4542911554732607317
 GameObject:
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 8138667864060047112}
   - component: {fileID: 3522270002732518600}
   m_Layer: 5
-  m_Name: door
+  m_Name: snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,7 +943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 020b9daf881e1374da5c289a9315b8c0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2c6e0c55eecbe034fa16d60d922e25f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
