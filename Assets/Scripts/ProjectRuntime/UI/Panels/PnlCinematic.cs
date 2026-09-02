@@ -52,7 +52,7 @@ namespace ProjectRuntime.UI.Panels
 
         private async UniTaskVoid Init()
         {
-            var cinematicObject = CommonUtil.InstantiatePrefab(DStory.GetDataById(3).Value.StoryPrefabPath, this.CanvasRT); // TODO: Hardcoded for now
+            var cinematicObject = CommonUtil.InstantiatePrefab(DStory.GetDataById(4).Value.StoryPrefabPath, this.CanvasRT); // TODO: Hardcoded for now
             cinematicObject.transform.SetAsFirstSibling();
 
             await PanelManager.Instance.FadeFromBlack();
